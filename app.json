@@ -4,18 +4,20 @@
     "slug": "OtherSide",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/appstore.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cuongphan2.OtherSide"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/playstore-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.cuongphan2.OtherSide"
     },
     "web": {
       "bundler": "metro",

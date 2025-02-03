@@ -7,7 +7,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 
-export default function TabTwoScreen() {
+export default function TabThreeScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
@@ -15,7 +15,7 @@ export default function TabTwoScreen() {
         <IconSymbol
           size={310}
           color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
+          name="chevron.left.circle.fill"
           style={styles.headerImage}
         />
       }
@@ -38,7 +38,7 @@ export default function TabTwoScreen() {
           <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{" "}
           sets up the tab navigator.
         </ThemedText>
-        <ExternalLink href="https://www.iconikai.com/generate-icon">
+        <ExternalLink href="https://docs.expo.dev/router/introduction">
           <ThemedText type="link">Learn more</ThemedText>
         </ExternalLink>
       </Collapsible>
