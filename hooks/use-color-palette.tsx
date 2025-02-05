@@ -10,7 +10,7 @@ type GetColorOptions = {
  * Not able to use feature flag in burndown-chart somehow
  */
 export function useColorPalette() {
-  const { colorScheme } = useColorScheme();
+  // const { colorScheme } = useColorScheme();
   // const isDynamicColorPaletteEnabled = useFeatureFlag(
   //   FeatureFlag.DynamicColorPalette,
   // )

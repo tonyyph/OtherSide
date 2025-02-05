@@ -1,124 +1,131 @@
-import { cn } from '@/lib/utils'
-import type { BottomTabBarProps } from '@react-navigation/bottom-tabs'
-import * as Haptics from 'expo-haptics'
-import { Link } from 'expo-router'
+import { cn } from "@/lib/utils";
+import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import * as Haptics from "expo-haptics";
+import { Link } from "expo-router";
 import {
+  BookmarkIcon,
   CogIcon,
+  CompassIcon,
+  HouseIcon,
   LandPlotIcon,
   type LucideIcon,
   PlusIcon,
-  WalletIcon,
-} from 'lucide-react-native'
-import { rem } from 'nativewind'
-import { Pressable, type PressableProps, View } from 'react-native'
+  UserCircle,
+  WalletIcon
+} from "lucide-react-native";
+import { rem } from "nativewind";
+import { Pressable, type PressableProps, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
-import { Button } from '../ui/button'
-import { Separator } from '../ui/separator'
+  withTiming
+} from "react-native-reanimated";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import { IconSymbol } from "../ui/IconSymbol";
 
 type TabBarItemProps = {
-  focused: boolean
-  icon: LucideIcon
-  descriptor: BottomTabBarProps['descriptors'][string]
-}
+  focused: boolean;
+  icon: LucideIcon;
+  descriptor: BottomTabBarProps["descriptors"][string];
+};
 function TabBarItem({
   icon: Icon,
   focused,
   descriptor,
   ...props
 }: TabBarItemProps & PressableProps) {
-  const { options } = descriptor
+  const { options } = descriptor;
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityState={focused ? { selected: true } : {}}
       accessibilityLabel={options.tabBarAccessibilityLabel}
-      className={'h-12 w-12 items-center justify-center'}
+      className={"h-14 w-14 items-center justify-center"}
       hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
       {...props}
     >
       <Icon
         className={cn(
-          'size-6',
-          focused ? 'text-primary-foreground' : 'text-muted-foreground',
+          "size-6",
+          focused ? "text-primary-foreground" : "text-muted-foreground"
         )}
       />
     </Pressable>
-  )
+  );
 }
 
 function NewRecordButton() {
   return (
     <Link
-      href="/transaction/new-record"
+      // href="/transaction/new-record"
+      href="/"
       asChild
       onPress={Haptics.selectionAsync}
     >
       <Button
         size="icon"
         className={cn(
-          'h-12 w-12 items-center justify-center rounded-xl border border-primary/10 bg-muted active:bg-muted/75',
+          "h-14 w-14 items-center justify-center rounded-xl border border-primary/10 bg-muted active:bg-muted/75"
         )}
         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
       >
         <PlusIcon className="size-6 text-foreground" />
       </Button>
     </Link>
-  )
+  );
 }
 
 const TAB_BAR_ICONS = {
-  index: WalletIcon,
-  budgets: LandPlotIcon,
-  settings: CogIcon,
-}
+  index: HouseIcon,
+  explore: CompassIcon,
+  bookmarks: BookmarkIcon,
+  profile: UserCircle
+};
 
-const TAB_BAR_ITEM_WIDTH = (3 + 1) * rem.get()
+const TAB_BAR_ITEM_WIDTH = (3.5 + 1) * rem.get();
 
 export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
-  const tabIndicatorPosition = useSharedValue(state.index * TAB_BAR_ITEM_WIDTH)
+  const tabIndicatorPosition = useSharedValue(state.index * TAB_BAR_ITEM_WIDTH);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: tabIndicatorPosition.value }],
-  }))
+    transform: [{ translateX: tabIndicatorPosition.value }]
+  }));
 
   return (
     <View className="absolute bottom-9 flex-row items-center justify-center gap-3 self-center rounded-2xl border border-border bg-background p-2">
       <Animated.View
         style={[animatedStyle]}
-        className="absolute left-2 h-12 w-12 rounded-xl bg-primary"
+        className="absolute left-2 h-14 w-14 rounded-xl bg-primary"
       />
       <View className="flex-row items-center gap-4">
         {state.routes.map((route, index) => {
           function onPress() {
-            Haptics.selectionAsync()
+            Haptics.selectionAsync();
 
             tabIndicatorPosition.value = withTiming(
               index * TAB_BAR_ITEM_WIDTH,
               {
-                duration: 300,
-              },
-            )
+                duration: 300
+              }
+            );
 
             const event = navigation.emit({
-              type: 'tabPress',
+              type: "tabPress",
               target: route.key,
-              canPreventDefault: true,
-            })
+              canPreventDefault: true
+            });
 
             if (state.index !== index && !event.defaultPrevented) {
-              navigation.navigate(route.name, route.params)
+              navigation.navigate(route.name, route.params);
             }
           }
 
           function onLongPress() {
             navigation.emit({
-              type: 'tabLongPress',
-              target: route.key,
-            })
+              type: "tabLongPress",
+              target: route.key
+            });
           }
 
           return (
@@ -130,11 +137,11 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
               onPress={onPress}
               onLongPress={onLongPress}
             />
-          )
+          );
         })}
       </View>
-      <Separator orientation="vertical" className="h-8" />
-      <NewRecordButton />
+      {/* <Separator orientation="vertical" className="h-8" />
+      <NewRecordButton /> */}
     </View>
-  )
+  );
 }
