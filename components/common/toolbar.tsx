@@ -1,36 +1,36 @@
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
-import * as Haptics from 'expo-haptics'
-import { Link } from 'expo-router'
-import { PlusIcon, Sparkles } from 'lucide-react-native'
-import { TouchableOpacity, View } from 'react-native'
-import { Button } from '../ui/button'
-import { Input } from '../ui/input'
+import { t } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
+import * as Haptics from "expo-haptics";
+import { Link } from "expo-router";
+import { BellIcon, Search } from "lucide-react-native";
+import { TouchableOpacity, View } from "react-native";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 export function Toolbar() {
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
   return (
-    <View className="absolute right-6 bottom-4 left-6 flex-row items-center gap-3">
+    <View className="flex flex-row items-center justify-between gap-4 bg-background px-6 py-3">
       <TouchableOpacity activeOpacity={0.8} className="flex-1">
         <Input
-          placeholder={t(i18n)`Ask AI anything...`}
-          className="flex-1 pl-10"
-          // editable={false}
+          placeholder={t(i18n)`Search news, topics and more`}
+          className=" pl-10 rounded-full bg-background h-12"
+          editable={true}
           pointerEvents="none"
         />
-        <View className="absolute top-3 left-3">
-          <Sparkles className="h-5 w-5 text-muted-foreground" />
+        <View className="absolute top-3.5 left-3">
+          <Search className="size-5 text-muted-foreground" />
         </View>
       </TouchableOpacity>
       <Link
-        href="/transaction/new-record"
+        href="/(app)/notifications"
         asChild
         onPress={Haptics.selectionAsync}
       >
-        <Button size="icon" className="h-11 w-11">
-          <PlusIcon className="size-6 text-primary-foreground" />
+        <Button size="icon" className="h-10 w-10 rounded-full">
+          <BellIcon className="size-5 text-primary-foreground" />
         </Button>
       </Link>
     </View>
-  )
+  );
 }

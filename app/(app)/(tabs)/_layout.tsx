@@ -18,27 +18,27 @@ export default function TabLayout() {
       tabBar={(props) => <TabBar {...props} />}
       screenOptions={{
         headerShadowVisible: false,
-        // tabBarActiveTintColor: getColor("--background"),
+        tabBarActiveTintColor: getColor("--background"),
         tabBarShowLabel: false,
-        // tabBarStyle: {
-        //   position: "absolute",
-        //   borderWidth: 1,
-        //   borderTopWidth: 1,
-        //   backgroundColor: getColor("--background"),
-        //   borderColor: getColor("--border"),
-        //   borderTopColor: getColor("--border"),
-        //   bottom: bottom ? 36 : 16,
-        //   marginHorizontal: (width - (8 * 5 + 48 * 4 + 16)) / 2,
-        //   paddingVertical: 0,
-        //   paddingBottom: 0,
-        //   height: 64,
-        //   borderRadius: 16
-        // },
-        // headerTitleStyle: {
-        //   fontFamily: "Haskoy-SemiBold",
-        //   fontSize: 16,
-        //   color: getColor("--foreground")
-        // },
+        tabBarStyle: {
+          position: "absolute",
+          borderWidth: 1,
+          borderTopWidth: 1,
+          backgroundColor: getColor("--background"),
+          borderColor: getColor("--border"),
+          borderTopColor: getColor("--border"),
+          bottom: bottom ? 36 : 16,
+          marginHorizontal: (width - (8 * 5 + 48 * 4 + 16)) / 2,
+          paddingVertical: 0,
+          paddingBottom: 0,
+          height: 64,
+          borderRadius: 16
+        },
+        headerTitleStyle: {
+          fontFamily: "Haskoy-SemiBold",
+          fontSize: 16,
+          color: getColor("--foreground")
+        },
         headerStyle: {
           backgroundColor: getColor("--background")
         }
@@ -47,7 +47,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          headerShown: true,
+          headerShown: false,
           headerTitle: t(i18n)`Home`,
           headerTitleStyle: {
             marginLeft: 5
@@ -62,19 +62,27 @@ export default function TabLayout() {
           headerTitleStyle: {
             marginLeft: 5
           },
-          headerTitleAlign: "left"
+          headerTitleAlign: "center"
         }}
       />
 
       <Tabs.Screen
         name="bookmarks"
         options={{
-          headerTitle: t(i18n)`Bookmarks`
+          headerTitle: t(i18n)`Bookmarks`,
+          headerTitleStyle: {
+            marginLeft: 5
+          },
+          headerTitleAlign: "center"
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
+          headerTitleStyle: {
+            marginLeft: 5
+          },
+          headerTitleAlign: "center",
           headerTitle: t(i18n)`Profile`,
           tabBarShowLabel: false,
           tabBarIcon: ({ color }) => <BarChartBigIcon color={color} />

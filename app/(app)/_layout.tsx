@@ -8,15 +8,21 @@ import { View } from "react-native";
 export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
   const { i18n } = useLingui();
+  const isSignedIn = true;
+  const isOnBoarding = false;
+  if (!isSignedIn) {
+    return <Redirect href={"/login"} />;
+  }
 
-  //   return <Redirect href={'/onboarding/step-one'} />
+  if (isOnBoarding) {
+    return <Redirect href={"/onboarding/step-one"} />;
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff223" }} className="flex-1">
       <Stack
         screenOptions={{
           headerShown: true,
-          headerBackTitleVisible: false,
           headerTintColor: getColor("--foreground"),
           headerShadowVisible: false,
           headerTitleStyle: {
@@ -35,6 +41,18 @@ export default function AuthenticatedLayout() {
           options={{
             headerShown: false
           }}
+        />
+        <Stack.Screen
+          name="breaking-news"
+          options={{ headerTitle: t(i18n)`Breaking News` }}
+        />
+        <Stack.Screen
+          name="explore-categories"
+          options={{ headerTitle: t(i18n)`Explore Categories` }}
+        />
+        <Stack.Screen
+          name="notifications"
+          options={{ headerTitle: t(i18n)`Notifications` }}
         />
       </Stack>
     </View>

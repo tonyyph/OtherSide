@@ -4,14 +4,11 @@ import * as Haptics from "expo-haptics";
 import { Link } from "expo-router";
 import {
   BookmarkIcon,
-  CogIcon,
   CompassIcon,
   HouseIcon,
-  LandPlotIcon,
   type LucideIcon,
   PlusIcon,
-  UserCircle,
-  WalletIcon
+  UserCircle
 } from "lucide-react-native";
 import { rem } from "nativewind";
 import { Pressable, type PressableProps, View } from "react-native";
@@ -21,8 +18,6 @@ import Animated, {
   withTiming
 } from "react-native-reanimated";
 import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import { IconSymbol } from "../ui/IconSymbol";
 
 type TabBarItemProps = {
   focused: boolean;
