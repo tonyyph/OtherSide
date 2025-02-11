@@ -1,13 +1,11 @@
 import { cn } from "@/lib/utils";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import * as Haptics from "expo-haptics";
-import { Link } from "expo-router";
 import {
   BookmarkIcon,
   CompassIcon,
   HouseIcon,
   type LucideIcon,
-  PlusIcon,
   UserCircle
 } from "lucide-react-native";
 import { rem } from "nativewind";
@@ -17,7 +15,6 @@ import Animated, {
   useSharedValue,
   withTiming
 } from "react-native-reanimated";
-import { Button } from "../ui/button";
 
 type TabBarItemProps = {
   focused: boolean;
@@ -47,27 +44,6 @@ function TabBarItem({
         )}
       />
     </Pressable>
-  );
-}
-
-function NewRecordButton() {
-  return (
-    <Link
-      // href="/transaction/new-record"
-      href="/"
-      asChild
-      onPress={Haptics.selectionAsync}
-    >
-      <Button
-        size="icon"
-        className={cn(
-          "h-14 w-14 items-center justify-center rounded-xl border border-primary/10 bg-muted active:bg-muted/75"
-        )}
-        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-      >
-        <PlusIcon className="size-6 text-foreground" />
-      </Button>
-    </Link>
   );
 }
 
@@ -135,8 +111,6 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
           );
         })}
       </View>
-      {/* <Separator orientation="vertical" className="h-8" />
-      <NewRecordButton /> */}
     </View>
   );
 }
