@@ -1,36 +1,37 @@
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
-import * as Haptics from 'expo-haptics'
-import { Link } from 'expo-router'
-import { PlusIcon, Sparkles } from 'lucide-react-native'
-import { TouchableOpacity, View } from 'react-native'
-import { Button } from '../ui/button'
-import { Input } from '../ui/input'
+import { t } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
+import * as Haptics from "expo-haptics";
+import { Link } from "expo-router";
+import { BellIcon, Search } from "lucide-react-native";
+import { Text, View } from "react-native";
+import { Button } from "../ui/button";
 
 export function Toolbar() {
-  const { i18n } = useLingui()
+  const { i18n } = useLingui();
   return (
-    <View className="absolute right-6 bottom-4 left-6 flex-row items-center gap-3">
-      <TouchableOpacity activeOpacity={0.8} className="flex-1">
-        <Input
-          placeholder={t(i18n)`Ask AI anything...`}
-          className="flex-1 pl-10"
-          // editable={false}
-          pointerEvents="none"
-        />
-        <View className="absolute top-3 left-3">
-          <Sparkles className="h-5 w-5 text-muted-foreground" />
-        </View>
-      </TouchableOpacity>
+    <View className="flex flex-row items-center justify-between gap-4 bg-background px-6 py-3">
+      <Link href="/(app)/search" asChild onPress={Haptics.selectionAsync}>
+        <Button
+          size="default"
+          className="pl-10 rounded-full bg-background h-12 border border-border flex-1"
+        >
+          <View className="absolute left-3 flex-row items-center gap-x-2">
+            <Search className="size-5 text-muted-foreground" />
+            <Text className="text-muted-foreground text-base font-medium">
+              {t(i18n)`Search news, topics and more`}
+            </Text>
+          </View>
+        </Button>
+      </Link>
       <Link
-        href="/transaction/new-record"
+        href="/(app)/notifications"
         asChild
         onPress={Haptics.selectionAsync}
       >
-        <Button size="icon" className="h-11 w-11">
-          <PlusIcon className="size-6 text-primary-foreground" />
+        <Button size="icon" className="h-10 w-10 rounded-full">
+          <BellIcon className="size-5 text-primary-foreground" />
         </Button>
       </Link>
     </View>
-  )
+  );
 }
