@@ -54,6 +54,10 @@ export default function AuthenticatedLayout() {
           name="notifications"
           options={{ headerTitle: t(i18n)`Notifications` }}
         />
+        <Stack.Screen
+          name="search"
+          options={{ headerTitle: t(i18n)`Search`, headerShown: false }}
+        />
       </Stack>
     </View>
   );
