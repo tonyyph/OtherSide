@@ -12,6 +12,8 @@ interface UserSettingsStore {
   setEnabledLocalAuth: (enabledLocalAuth: boolean) => void;
   preferredPalette: Palette;
   setPreferredPalette: (preferredPalette: Palette) => void;
+  hideTabBarStatus: boolean;
+  setHideTabBarStatus: (hideTabBarStatus: boolean) => void;
 }
 
 export const useUserSettingsStore = create<UserSettingsStore>()(
@@ -25,7 +27,9 @@ export const useUserSettingsStore = create<UserSettingsStore>()(
       enabledLocalAuth: false,
       setEnabledLocalAuth: (enabledLocalAuth) => set({ enabledLocalAuth }),
       preferredPalette: Palette.Default,
-      setPreferredPalette: (preferredPalette) => set({ preferredPalette })
+      setPreferredPalette: (preferredPalette) => set({ preferredPalette }),
+      hideTabBarStatus: false,
+      setHideTabBarStatus: (hideTabBarStatus) => set({ hideTabBarStatus })
     }),
     {
       name: "user-settings-storage",

@@ -19,7 +19,7 @@ export default function AuthenticatedLayout() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff223" }} className="flex-1">
+    <View className="flex-1">
       <Stack
         screenOptions={{
           headerShown: true,

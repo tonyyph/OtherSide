@@ -49,9 +49,7 @@ export default function TabLayout() {
         options={{
           headerShown: false,
           headerTitle: t(i18n)`Home`,
-          headerTitleStyle: {
-            marginLeft: 5
-          },
+          headerTitleStyle: { marginLeft: 5 },
           headerTitleAlign: "center"
         }}
       />
@@ -59,9 +57,7 @@ export default function TabLayout() {
         name="explore"
         options={{
           headerTitle: t(i18n)`Explore`,
-          headerTitleStyle: {
-            marginLeft: 5
-          },
+          headerTitleStyle: { marginLeft: 5 },
           headerTitleAlign: "center"
         }}
       />
@@ -70,18 +66,14 @@ export default function TabLayout() {
         name="bookmarks"
         options={{
           headerTitle: t(i18n)`Bookmarks`,
-          headerTitleStyle: {
-            marginLeft: 5
-          },
+          headerTitleStyle: { marginLeft: 5 },
           headerTitleAlign: "center"
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          headerTitleStyle: {
-            marginLeft: 5
-          },
+          headerTitleStyle: { marginLeft: 5 },
           headerTitleAlign: "center",
           headerTitle: t(i18n)`Profile`,
           tabBarShowLabel: false,

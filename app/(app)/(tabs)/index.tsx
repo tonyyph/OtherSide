@@ -1,10 +1,18 @@
-import { FlatList, Image, Text, useWindowDimensions, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  Pressable,
+  Text,
+  useWindowDimensions,
+  View
+} from "react-native";
 
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { CalendarClock } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useUserSettingsStore } from "@/stores/user-settings/store";
 
 const dummyPosts = [
   {
@@ -115,6 +123,7 @@ export default function HomeScreen() {
   const { height } = useWindowDimensions();
   const { i18n } = useLingui();
   const { top, bottom } = useSafeAreaInsets();
+  const { setHideTabBarStatus } = useUserSettingsStore();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -142,35 +151,39 @@ export default function HomeScreen() {
 
   const renderItem = ({ item }: { item: any }) => {
     return (
-      <View className=" flex-1 gap-3 justify-between" style={{ height }}>
-        <View
-          className="flex-1"
-          style={{ paddingTop: top, paddingBottom: bottom }}
-        >
-          <Image
-            source={{ uri: item.imgUrl }}
-            className="h-[290px]"
-            resizeMode="cover"
-          />
-          <View className="flex-1 gap-4 px-4">
-            <Text className="text-foreground font-bold text-lg mt-4">
-              {t(i18n)`${item.title}`}
-            </Text>
-            <Text className="text-foreground text-medium font-medium">
-              {t(i18n)`${item.description}`}
-            </Text>
-            <View className="flex flex-row justify-between items-center gap-2">
-              <View className="flex flex-row items-center gap-2">
-                <CalendarClock className="size-5 text-muted-foreground" />
-                <Text className="text-foreground text-xs">{"3 hours ago"}</Text>
-                <Text className="text-muted-foreground text-xs">
-                  {`/  ${item?.id} of ${posts.length} Pages`}
-                </Text>
+      <Pressable onPress={() => setHideTabBarStatus(false)}>
+        <View className=" flex-1 gap-3 justify-between" style={{ height }}>
+          <View
+            className="flex-1"
+            style={{ paddingTop: top, paddingBottom: bottom }}
+          >
+            <Image
+              source={{ uri: item.imgUrl }}
+              className="h-[290px]"
+              resizeMode="cover"
+            />
+            <View className="flex-1 gap-4 px-4">
+              <Text className="text-foreground font-bold text-lg mt-4">
+                {t(i18n)`${item.title}`}
+              </Text>
+              <Text className="text-foreground text-medium font-medium">
+                {t(i18n)`${item.description}`}
+              </Text>
+              <View className="flex flex-row justify-between items-center gap-2">
+                <View className="flex flex-row items-center gap-2">
+                  <CalendarClock className="size-5 text-muted-foreground" />
+                  <Text className="text-foreground text-xs">
+                    {"3 hours ago"}
+                  </Text>
+                  <Text className="text-muted-foreground text-xs">
+                    {`/  ${item?.id} of ${posts.length} Pages`}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
-      </View>
+      </Pressable>
     );
   };
 
