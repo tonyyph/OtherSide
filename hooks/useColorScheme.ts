@@ -5,7 +5,7 @@ export function useColorScheme() {
     useNativewindColorScheme();
 
   return {
-    colorScheme: colorScheme ?? "dark",
+    colorScheme: "dark",
     isDarkColorScheme: colorScheme === "dark",
     setColorScheme,
     toggleColorScheme

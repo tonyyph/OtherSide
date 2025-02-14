@@ -9,8 +9,9 @@ export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
   const { i18n } = useLingui();
   const isSignedIn = true;
+
   const isOnBoarding = false;
-  if (!isSignedIn) {
+  if (isSignedIn) {
     return <Redirect href={"/login"} />;
   }
 
@@ -26,7 +27,7 @@ export default function AuthenticatedLayout() {
           headerTintColor: getColor("--foreground"),
           headerShadowVisible: false,
           headerTitleStyle: {
-            fontFamily: "Haskoy-SemiBold",
+            fontFamily: "Poppins-SemiBold",
             fontSize: 16,
             color: getColor("--foreground")
           },
@@ -47,6 +48,26 @@ export default function AuthenticatedLayout() {
           options={{ headerTitle: t(i18n)`Breaking News` }}
         />
         <Stack.Screen
+          name="appearance"
+          options={{
+            presentation: "modal",
+            headerTitle: t(i18n)`Appearance`
+          }}
+        />
+        <Stack.Screen
+          name="profile-edit"
+          options={{
+            presentation: "modal",
+            headerTitle: t(i18n)`Fill your profile`
+          }}
+        />
+        <Stack.Screen
+          name="category/index"
+          options={{
+            headerTitle: t(i18n)`Categories`
+          }}
+        />
+        <Stack.Screen
           name="explore-categories"
           options={{ headerTitle: t(i18n)`Explore Categories` }}
         />
@@ -57,6 +78,20 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="search"
           options={{ headerTitle: t(i18n)`Search`, headerShown: false }}
+        />
+        <Stack.Screen
+          name="feedback"
+          options={{
+            presentation: "modal",
+            headerTitle: t(i18n)`Feedback`
+          }}
+        />
+        <Stack.Screen
+          name="language"
+          options={{
+            presentation: "modal",
+            headerTitle: t(i18n)`Language`
+          }}
         />
       </Stack>
     </View>

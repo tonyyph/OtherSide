@@ -11,17 +11,12 @@ type GetColorOptions = {
  */
 export function useColorPalette() {
   const preferredPalette = useUserSettingsStore().preferredPalette;
-
-  // console.log("useColorPalette 💯 preferredPalette:", preferredPalette);
-
   const { colorScheme } = useColorScheme();
 
-  const colorPalette = themeVariables[preferredPalette][colorScheme ?? "light"];
+  const colorPalette = themeVariables[preferredPalette]["dark"];
 
   const getColor = (colorKey: ColorKey, options?: GetColorOptions) => {
     const { alpha = 1 } = options ?? {};
-
-    // console.log("useColorPalette 💯 colorPalette:", colorPalette);
 
     return `hsla(${colorPalette[colorKey]?.replaceAll(" ", ", ")}, ${alpha})`;
   };

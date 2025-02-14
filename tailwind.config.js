@@ -27,10 +27,10 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        regular: ['Haskoy-Regular'],
-        medium: ['Haskoy-Medium'],
-        semiBold: ['Haskoy-SemiBold'],
-        bold: ['Haskoy-Bold'],
+        regular: ['Poppins-Regular'],
+        medium: ['Poppins-Medium'],
+        semiBold: ['Poppins-SemiBold'],
+        bold: ['Poppins-Bold'],
       },
       colors: {
         border: 'hsl(var(--border))',

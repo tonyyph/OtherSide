@@ -46,10 +46,14 @@ export const unstable_settings = {
 export default function RootLayout() {
   const { colorScheme } = useColorScheme();
   const [fontsLoaded] = useFonts({
-    "Haskoy-Regular": require("../assets/fonts/Haskoy-Regular.ttf"),
-    "Haskoy-Medium": require("../assets/fonts/Haskoy-Medium.ttf"),
-    "Haskoy-SemiBold": require("../assets/fonts/Haskoy-SemiBold.ttf"),
-    "Haskoy-Bold": require("../assets/fonts/Haskoy-Bold.ttf")
+    "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
+    "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
+    "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
+    "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+    "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
+    "Poppins-ExtraLight": require("../assets/fonts/Poppins-ExtraLight.ttf"),
+    "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
+    "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf")
   });
 
   useEffect(() => {
@@ -65,18 +69,14 @@ export default function RootLayout() {
   return (
     <PostHogProvider
       autocapture
-      // apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
-      apiKey={"phx_8s4eOA8xjkEGpx8ntRsdHK6CJXGxFm9qcjMFFucu9cjJeI3"}
+      apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
       options={{
-        // host: process.env.EXPO_PUBLIC_POSTHOG_HOST!,
-        host: "https://us.i.posthog.com",
+        host: process.env.EXPO_PUBLIC_POSTHOG_HOST!,
         disabled: false
       }}
     >
       <LocaleProvider>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
+        <ThemeProvider value={DarkTheme}>
           <CustomPaletteWrapper>
             <SafeAreaProvider>
               <GestureHandlerRootView>
@@ -95,7 +95,6 @@ export default function RootLayout() {
               </GestureHandlerRootView>
             </SafeAreaProvider>
           </CustomPaletteWrapper>
-          <StatusBar style="auto" />
         </ThemeProvider>
       </LocaleProvider>
     </PostHogProvider>

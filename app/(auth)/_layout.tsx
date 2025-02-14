@@ -6,6 +6,8 @@ export default function UnAuthenticatedLayout() {
   // const { isSignedIn } = useAuth()
   const isSignedIn = false;
 
+  console.log("UnAuthenticatedLayout 💯 isSignedIn:", isSignedIn);
+
   if (isSignedIn) {
     return <Redirect href={"/"} />;
   }

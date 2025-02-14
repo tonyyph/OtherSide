@@ -1,115 +1,165 @@
-import { AuthEmail } from "@/components/auth/auth-email";
-import {
-  AppleAuthButton,
-  GoogleAuthButton
-} from "@/components/auth/auth-social";
+import { LoginInButton } from "@/components/auth/auth-social";
+import { CheckBox, UnCheckBox } from "@/components/common/icons";
 import { AuthIllustration } from "@/components/svg-assets/auth-illustration";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Text } from "@/components/ui/text";
 import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Link } from "expo-router";
-import { MailIcon } from "lucide-react-native";
-import { usePostHog } from "posthog-react-native";
-import { useCallback, useState } from "react";
-import { Linking, ScrollView, View } from "react-native";
+import { KeyIcon, User } from "lucide-react-native";
+import { useCallback, useRef, useState } from "react";
+import {
+  Linking,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 
 type Strategy = "email_code" | "oauth_google" | "oauth_apple";
 
 export default function LoginScreen() {
   const [withEmail, setWithEmail] = useState(false);
+  const [isRemember, setIsRemember] = useState(false);
+
   const { i18n } = useLingui();
-  const posthog = usePostHog();
+  const usernameRef = useRef<TextInput>(null);
+  const passwordRef = useRef<TextInput>(null);
 
-  const handleSignedUp = useCallback(
-    (
-      strategy: Strategy,
-      userData: {
-        id?: string;
-        email?: string;
-        name?: string;
-      }
-    ) => {
-      posthog.identify(userData.id);
-      posthog.capture("user_signed_up", { strategy });
-    },
-    [posthog]
-  );
+  const handleSignedUp = useCallback(() => {
+    console.log("1", 1);
+  }, []);
 
-  const handleSignedIn = useCallback(
-    (
-      strategy: Strategy,
-      userData: {
-        id?: string;
-        email?: string;
-        name?: string;
-      }
-    ) => {
-      posthog.identify(userData.id);
-      posthog.capture("user_signed_in", { strategy });
-    },
-    [posthog]
-  );
+  const handleSignedIn = useCallback(() => {
+    console.log("2", 2);
+  }, []);
 
   return (
     <ScrollView
       className="bg-background"
-      contentContainerClassName="gap-4 p-8"
+      contentContainerClassName="gap-4 p-8 justify-center flex-1"
       automaticallyAdjustKeyboardInsets
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
     >
-      <Trans>
-        <View className="gap-4">
-          <Text className="font-semiBold text-3xl text-primary">
-            Welcome to OtherSide
-          </Text>
-          <Text className="text-muted-foreground">
-            Stay informed with the latest news, updates, and insights tailored
-            just for you.
-          </Text>
-        </View>
-      </Trans>
-      <AuthIllustration className="my-16 h-[326px] items-center text-primary" />
-      <View className="flex flex-col gap-3">
-        <AppleAuthButton
-          onSignedUp={handleSignedUp}
-          onSignedIn={handleSignedIn}
-        />
-        <GoogleAuthButton
-          onSignedUp={handleSignedUp}
-          onSignedIn={handleSignedIn}
-        />
-        <Button variant="outline" onPress={() => setWithEmail(true)}>
-          <MailIcon className="h-5 w-5 text-primary" />
-          <Text>{t(i18n)`Continue with Email`}</Text>
-        </Button>
-        <Separator className="mx-auto my-3 w-[70%]" />
-        {withEmail && (
-          <AuthEmail onSignedUp={handleSignedUp} onSignedIn={handleSignedIn} />
-        )}
-      </View>
-      <View className="px-4">
+      {/* Welcome */}
+      <View className="z-10">
         <Trans>
-          <Text className="mx-auto text-center text-muted-foreground text-xs">
-            By continuing, you acknowledge that you understand and agree to our{" "}
-            <Link href="/">
-              <Text className="text-primary text-xs">Privacy Policy</Text>
-            </Link>{" "}
-            and{" "}
-            <Text
-              className="text-primary text-xs"
-              onPress={() =>
-                Linking.openURL(
-                  "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-                )
-              }
-            >
-              Terms of Use
+          <View className="gap-2">
+            <Text className="font-bold text-[44px] text-white">Welcome to</Text>
+            <Text className="font-bold text-[44px] text-primary">
+              OtherSide
             </Text>
-          </Text>
+            <Text className="text-muted-foreground text-[19px]">
+              Keep up with the newest news, updates, and announcements from us
+            </Text>
+          </View>
         </Trans>
+      </View>
+      {/* Illustration */}
+      <AuthIllustration className="h-[350px] opacity-35 absolute top-12 items-center text-primary" />
+      {/* Input Field */}
+      <View className="flex-1">
+        <View className="flex-1 flex-col gap-3">
+          {/* Username Field */}
+          <View className="mt-36">
+            <Text className="text-sm font-medium text-foreground mb-1">
+              Username{" "}
+              <Text className="font-regular text-red-400 group-active:text-red-400">
+                *
+              </Text>
+            </Text>
+            <View className="border border-border rounded-lg relative">
+              <TextInput
+                ref={usernameRef}
+                className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
+                placeholder={t(i18n)`Enter your username`}
+                placeholderTextColor={"gray"}
+                onChangeText={() => {}}
+              />
+              <View className="absolute top-3.5 left-3">
+                <User className="size-5 text-muted-foreground" />
+              </View>
+            </View>
+          </View>
+
+          {/* Password Field */}
+          <View className="">
+            <Text className="text-sm font-medium text-foreground mb-1">
+              Password{" "}
+              <Text className="font-regular text-red-400 group-active:text-red-400">
+                *
+              </Text>
+            </Text>
+            <View className=" border border-border rounded-lg relative">
+              <TextInput
+                ref={passwordRef}
+                className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
+                placeholder={t(i18n)`Enter your password`}
+                placeholderTextColor={"gray"}
+                secureTextEntry
+                onChangeText={() => {}}
+              />
+              <View className="absolute top-3.5 left-3">
+                <KeyIcon className="size-5 text-muted-foreground" />
+              </View>
+            </View>
+          </View>
+          {/* Remember and Forget password */}
+          <View className=" flex flex-row justify-between mb-4">
+            <View className="flex-row items-center gap-x-1">
+              <TouchableOpacity onPress={() => setIsRemember((prev) => !prev)}>
+                {isRemember ? <CheckBox /> : <UnCheckBox />}
+              </TouchableOpacity>
+              <Text className="text-sm text-foreground">{t(
+                i18n
+              )`Remember me`}</Text>
+            </View>
+            <Link href="/(aux)/privacy-policy">
+              <Text className="text-primary text-sm">Forgot password?</Text>
+            </Link>
+          </View>
+          {/* Login Button */}
+          <LoginInButton onSignedIn={handleSignedIn} />
+          {/* Don’t have an account yet? Sign up */}
+          <View className="px-4 mt-4 flex-1">
+            <Trans>
+              <Text className="mx-auto text-center text-muted-foreground text-sm">
+                Don’t have an account yet?{" "}
+                <Link href="/(aux)/privacy-policy">
+                  <Text className="text-primary text-sm font-semiBold">
+                    Sign up
+                  </Text>
+                </Link>{" "}
+                now and start your journey with us!{" "}
+              </Text>
+            </Trans>
+          </View>
+        </View>
+      </View>
+      {/* Private policy and term of use */}
+      <View className="px-4 justify-end">
+        <View className="justify-end">
+          <Trans>
+            <Text className="mx-auto text-center text-muted-foreground text-xs">
+              By continuing, you acknowledge that you understand and agree to
+              our{" "}
+              <Link href="/(aux)/privacy-policy">
+                <Text className="text-primary text-xs">Privacy Policy</Text>
+              </Link>{" "}
+              and{" "}
+              <Text
+                className="text-primary text-xs"
+                onPress={() =>
+                  Linking.openURL(
+                    "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+                  )
+                }
+              >
+                Terms of Use
+              </Text>
+            </Text>
+          </Trans>
+        </View>
       </View>
     </ScrollView>
   );

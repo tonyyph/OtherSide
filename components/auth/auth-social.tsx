@@ -15,7 +15,7 @@ type AuthSocialProps = {
   label: string;
   icon: React.ComponentType<SvgProps>;
   strategy: Strategy;
-  onSignedUp: (
+  onSignedUp?: (
     strategy: Strategy,
     userData: {
       id?: string;
@@ -33,7 +33,7 @@ type AuthSocialProps = {
   ) => void;
 };
 
-export function AuthSocial({
+export function AuthButton({
   label,
   icon: Icon,
   strategy,
@@ -77,14 +77,13 @@ export function AuthSocial({
   };
 
   return (
-    <Button variant="outline" onPress={onPress}>
-      <Icon className="h-5 w-5 text-primary" />
-      <Text>{label}</Text>
+    <Button variant="default" onPress={onPress}>
+      <Text className="text-black text-base font-medium">{label}</Text>
     </Button>
   );
 }
 
-export function GoogleAuthButton({
+export function SignUpButton({
   onSignedUp,
   onSignedIn
 }: {
@@ -107,7 +106,7 @@ export function GoogleAuthButton({
 }) {
   const { i18n } = useLingui();
   return (
-    <AuthSocial
+    <AuthButton
       label={t(i18n)`Sign in with Google`}
       icon={GoogleLogo}
       strategy="oauth_google"
@@ -117,18 +116,9 @@ export function GoogleAuthButton({
   );
 }
 
-export function AppleAuthButton({
-  onSignedUp,
+export function LoginInButton({
   onSignedIn
 }: {
-  onSignedUp: (
-    strategy: Strategy,
-    userData: {
-      id?: string;
-      email?: string;
-      name?: string;
-    }
-  ) => void;
   onSignedIn: (
     strategy: Strategy,
     userData: {
@@ -140,12 +130,11 @@ export function AppleAuthButton({
 }) {
   const { i18n } = useLingui();
   return (
-    <AuthSocial
-      label={t(i18n)`Sign in with Apple`}
+    <AuthButton
+      label={t(i18n)`Login`}
       icon={AppleLogo}
       strategy="oauth_apple"
       onSignedIn={onSignedIn}
-      onSignedUp={onSignedUp}
     />
   );
 }

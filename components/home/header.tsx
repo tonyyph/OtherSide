@@ -1,23 +1,15 @@
-import { useUser } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { TouchableOpacity, View } from "react-native";
 import { UserAvatar } from "../common/user-avatar";
 import { Text } from "../ui/text";
 import { Bell } from "lucide-react-native";
-// import { type HomeFilter, SelectFilter } from './select-filter'
-// import { SelectWalletAccount } from './select-wallet-account'
 
 type HomeHeaderProps = {
   walletAccountId?: string;
   onWalletAccountChange?: (walletAccountId?: string) => void;
-  //   filter?: HomeFilter
-  //   onFilterChange?: (filter: HomeFilter) => void
 };
 
-export function HomeHeader({
-  walletAccountId,
-  onWalletAccountChange
-}: HomeHeaderProps) {
+export function HomeHeader({}: HomeHeaderProps) {
   //   const { user } = useUser()
   const router = useRouter();
   const user = {

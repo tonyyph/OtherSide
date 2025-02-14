@@ -2,6 +2,7 @@ import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Bookmark, BookmarkCheckIcon, ClockIcon } from "lucide-react-native";
 import { Image, Text, View } from "react-native";
+import { BookmarkFilled } from "../common/icons";
 
 type VerticalNewsProps = {
   title?: string;
@@ -43,19 +44,11 @@ export function VerticalNews({
           </Text>
           <View className="flex flex-row justify-between items-center gap-2">
             <View className="flex flex-row items-center gap-2">
-              <Image
-                source={{ uri: authorAvatar }}
-                className="h-8 w-8 rounded-full border border-border"
-                resizeMode="cover"
-              />
-              <Text className="text-muted-foreground font-bold text-xs">
-                {t(i18n)`${authorName}`}
-              </Text>
               <ClockIcon className="size-5 text-muted-foreground" />
               <Text className="text-muted-foreground text-xs">{timestamp}</Text>
             </View>
             {isBookmarked ? (
-              <BookmarkCheckIcon className="size-5 text-blue-700" />
+              <BookmarkFilled className="size-5 text-blue-600" />
             ) : (
               <Bookmark className="size-5 text-foreground" />
             )}

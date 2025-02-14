@@ -69,14 +69,14 @@ export default function PrivacyScreen() {
         Email:{" "}
         <Text
           className="text-blue-600"
-          onPress={() => Linking.openURL("mailto:support@getOtherSide.com")}
+          onPress={() => Linking.openURL("mailto:support@otherside.com")}
         >
-          support@getOtherSide.com
+          support@otherside.com
         </Text>
       </Text>
       <Separator className="mx-auto my-3 w-[70%]" />
       <Text className="text-center text-muted-foreground">
-        Last updated: 7/8/2024
+        Last updated: 10/02/2025
       </Text>
     </ScrollView>
   );

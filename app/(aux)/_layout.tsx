@@ -9,6 +9,7 @@ export default function AuxiliaryLayout() {
   const { getColor } = useColorPalette();
 
   const { i18n } = useLingui();
+
   return (
     <SafeAreaView className="flex-1 bg-background">
       <Stack
@@ -17,7 +18,7 @@ export default function AuxiliaryLayout() {
           headerTintColor: getColor("--foreground"),
           headerShadowVisible: false,
           headerTitleStyle: {
-            fontFamily: "Haskoy-SemiBold",
+            fontFamily: "Poppins-SemiBold",
             fontSize: 16,
             color: getColor("--foreground")
           },
