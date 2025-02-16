@@ -1,19 +1,26 @@
 import { BackButton } from "@/components/common/back-button";
 import { useColorPalette } from "@/hooks/use-color-palette";
+import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Redirect, Stack } from "expo-router";
+import { useEffect } from "react";
 import { View } from "react-native";
 
 export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
   const { i18n } = useLingui();
-  const isSignedIn = true;
+  const { isLoggedIn, setIsLoggedIn } = useUserAuthenticateStore();
 
-  const isOnBoarding = false;
-  if (isSignedIn) {
+  // useEffect(() => {
+  //   setIsLoggedIn(false);
+  // }, []);
+
+  if (!isLoggedIn) {
     return <Redirect href={"/login"} />;
   }
+
+  const isOnBoarding = false;
 
   if (isOnBoarding) {
     return <Redirect href={"/onboarding/step-one"} />;
@@ -58,7 +65,7 @@ export default function AuthenticatedLayout() {
           name="profile-edit"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Fill your profile`
+            headerTitle: t(i18n)`Fill Your Profile`
           }}
         />
         <Stack.Screen

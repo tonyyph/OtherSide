@@ -36,6 +36,20 @@ export default function AuxiliaryLayout() {
           }}
         />
         <Stack.Screen
+          name="sign-up"
+          options={{
+            presentation: "modal",
+            headerTitle: t(i18n)`Sign Up`
+          }}
+        />
+        <Stack.Screen
+          name="forgot-password"
+          options={{
+            presentation: "modal",
+            headerTitle: t(i18n)`Forgot Password`
+          }}
+        />
+        <Stack.Screen
           name="terms-of-service"
           options={{
             presentation: "modal",

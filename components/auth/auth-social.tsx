@@ -8,12 +8,14 @@ import { AppleLogo } from "../svg-assets/apple-logo";
 import { GoogleLogo } from "../svg-assets/google-logo";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
+import { useNavigation } from "expo-router";
+import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 
 type Strategy = "oauth_google" | "oauth_apple";
 
 type AuthSocialProps = {
   label: string;
-  icon: React.ComponentType<SvgProps>;
+  icon?: React.ComponentType<SvgProps>;
   strategy: Strategy;
   onSignedUp?: (
     strategy: Strategy,
@@ -40,35 +42,10 @@ export function AuthButton({
   onSignedIn,
   onSignedUp
 }: AuthSocialProps) {
-  // const { startOAuthFlow } = useOAuth({ strategy })
-
+  const { setIsLoggedIn } = useUserAuthenticateStore();
   const onPress = async () => {
     try {
-      // const { createdSessionId, setActive, signUp, signIn } =
-      //   await startOAuthFlow()
-      // if (createdSessionId) {
-      //   setActive?.({ session: createdSessionId })
-      //   if (signUp?.createdUserId) {
-      //     setTimeout(async () => {
-      //       await createUser({
-      //         email: signUp.emailAddress!,
-      //         name: signUp.firstName ?? '',
-      //       })
-      //       onSignedUp(strategy, {
-      //         id: signUp.id,
-      //         email: signUp.emailAddress ?? undefined,
-      //         name: signUp.firstName ?? undefined,
-      //       })
-      //     }, 1000)
-      //   }
-      // } else {
-      //   // Use signIn or signUp for next steps such as MFA
-      //   onSignedIn(strategy, {
-      //     id: signIn?.id,
-      //     name: signIn?.userData.firstName,
-      //   })
-      // }
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      setIsLoggedIn(true);
     } catch (err: any) {
       toast.error(
         err?.errors?.[0]?.longMessage ?? err.message ?? "Unknown error"
@@ -132,7 +109,6 @@ export function LoginInButton({
   return (
     <AuthButton
       label={t(i18n)`Login`}
-      icon={AppleLogo}
       strategy="oauth_apple"
       onSignedIn={onSignedIn}
     />

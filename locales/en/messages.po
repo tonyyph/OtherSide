@@ -763,7 +763,7 @@ msgid "Sign out"
 msgstr ""
 
 #: apps/mobile/components/auth/auth-email.tsx:220
-msgid "Sign up"
+msgid "Sign Up"
 msgstr ""
 
 #: apps/mobile/components/transaction/draft-transaction-item.tsx:55
