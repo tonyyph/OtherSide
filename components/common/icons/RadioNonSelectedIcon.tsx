@@ -3,12 +3,11 @@ import Svg, { Path, SvgProps } from "react-native-svg";
 import { memoFC } from "@/utils";
 import { useColorPalette } from "@/hooks/use-color-palette";
 
-export const UnCheckBox = memoFC(
-  ({ size = 28, style, ...props }: SvgProps & IconProps = {}) => {
+export const RadioNonSelectedIcon = memoFC(
+  ({ size = 24, style, ...props }: SvgProps & IconProps = {}) => {
     const { getColor } = useColorPalette();
 
     const iconFill = getColor("--primary");
-
     return (
       <View style={[{ width: size, height: size }, style]}>
         <Svg
@@ -19,12 +18,10 @@ export const UnCheckBox = memoFC(
           viewBox="0 0 24 24"
         >
           <Path
+            fill={"black"}
             stroke={iconFill}
-            fill={"transparent"}
             strokeWidth={1.5}
-            fillRule="evenodd"
-            d="M4.75 8A3.25 3.25 0 0 1 8 4.75h8A3.25 3.25 0 0 1 19.25 8v8A3.25 3.25 0 0 1 16 19.25H8A3.25 3.25 0 0 1 4.75 16V8Z"
-            clipRule="evenodd"
+            d="M4.75 12a7.25 7.25 0 1 1 14.5 0 7.25 7.25 0 0 1-14.5 0Z"
           />
         </Svg>
       </View>

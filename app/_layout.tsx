@@ -23,6 +23,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { ToastRoot } from "@/components/common/toast";
 import { PortalHost } from "@rn-primitives/portal";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -80,18 +81,20 @@ export default function RootLayout() {
           <CustomPaletteWrapper>
             <SafeAreaProvider>
               <GestureHandlerRootView>
-                <BottomSheetModalProvider>
-                  <Stack screenOptions={{ headerShown: false }}>
-                    <Stack.Screen
-                      name="(aux)"
-                      options={{
-                        presentation: "modal"
-                      }}
-                    />
-                  </Stack>
-                  <ToastRoot />
-                  <PortalHost />
-                </BottomSheetModalProvider>
+                <KeyboardProvider>
+                  <BottomSheetModalProvider>
+                    <Stack screenOptions={{ headerShown: false }}>
+                      <Stack.Screen
+                        name="(aux)"
+                        options={{
+                          presentation: "modal"
+                        }}
+                      />
+                    </Stack>
+                    <ToastRoot />
+                    <PortalHost />
+                  </BottomSheetModalProvider>
+                </KeyboardProvider>
               </GestureHandlerRootView>
             </SafeAreaProvider>
           </CustomPaletteWrapper>

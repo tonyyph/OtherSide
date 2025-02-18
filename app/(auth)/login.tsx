@@ -2,15 +2,22 @@ import { CheckBox, UnCheckBox } from "@/components/common/icons";
 import { AuthIllustration } from "@/components/svg-assets/auth-illustration";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
+import { useLogin } from "@/hooks/auth/useLogin";
 import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import { Link, router } from "expo-router";
-import { KeyIcon, User } from "lucide-react-native";
+import { Link } from "expo-router";
+import {
+  CircleAlertIcon,
+  EyeClosedIcon,
+  EyeIcon,
+  EyeOffIcon,
+  KeyIcon,
+  User,
+  UserRoundIcon
+} from "lucide-react-native";
 import { useCallback, useRef, useState } from "react";
 import {
-  Alert,
-  Keyboard,
   Linking,
   ScrollView,
   TextInput,
@@ -19,37 +26,18 @@ import {
 } from "react-native";
 
 export default function LoginScreen() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [isRemember, setIsRemember] = useState(false);
+  const [securePassword, setSecurePassword] = useState(true);
+  const { setIsLoggedIn } = useUserAuthenticateStore();
   const { i18n } = useLingui();
-  const usernameRef = useRef<TextInput>(null);
-  const passwordRef = useRef<TextInput>(null);
-  const { isLoggedIn, setIsLoggedIn } = useUserAuthenticateStore();
-
-  const handleSignedUp = useCallback(() => {
-    console.log("1", 1);
+  const { onLogin, usernameState, passwordState } = useLogin();
+  const handleSignedIn = useCallback(() => {
+    setIsLoggedIn(true);
   }, []);
 
-  const handleSignedIn = useCallback(() => {
-    if (username === "admin" && password === "admin") {
-      setIsLoggedIn(true);
-      router.push("/(app)/(tabs)");
-    } else {
-      Alert.alert(
-        "Login Failed",
-        "Your username or password is incorrect. Please check and try again.",
-        [
-          {
-            text: "OK",
-            onPress: () => {
-              Keyboard.dismiss();
-            }
-          }
-        ]
-      );
-    }
-  }, [username, password]);
+  const onPressSecurePassword = () => {
+    setSecurePassword((prev) => !prev);
+  };
 
   return (
     <ScrollView
@@ -81,30 +69,35 @@ export default function LoginScreen() {
           {/* Username Field */}
           <View className="mt-36">
             <Text className="text-sm font-medium text-foreground mb-1">
-              Username{" "}
+              Email or Phone Number{" "}
               <Text className="font-regular text-red-400 group-active:text-red-400">
                 *
               </Text>
             </Text>
             <View className="border-2 border-border rounded-lg relative">
               <TextInput
-                ref={usernameRef}
                 className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
                 placeholder={t(i18n)`Enter your username`}
                 placeholderTextColor={"gray"}
-                // error="invalid username"
                 autoCapitalize="none"
-                value={username}
-                onChangeText={(text) => {
-                  setUsername(text);
-                }}
+                value={usernameState.value}
+                onChangeText={usernameState.onChangeText}
               />
               <View className="absolute top-3.5 left-3">
-                <User className="size-5 text-muted-foreground" />
+                <UserRoundIcon className="size-5 text-muted-foreground" />
               </View>
             </View>
+            {!!usernameState.error && (
+              <View className=" flex flex-row items-center gap-x-2 mt-1">
+                <CircleAlertIcon className="size-4 text-red-400" />
+                <Text className="text-red-400 text-sm font-medium">
+                  {usernameState.error?.charAt(0).toUpperCase() +
+                    usernameState.error?.slice(1)}
+                </Text>
+              </View>
+            )}
           </View>
-
+          {/* Password Field */}
           <View className="">
             <Text className="text-sm font-medium text-foreground mb-1">
               Password{" "}
@@ -114,20 +107,36 @@ export default function LoginScreen() {
             </Text>
             <View className="border-2 border-border rounded-lg relative">
               <TextInput
-                ref={passwordRef}
-                className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
+                className="px-10 rounded-lg bg-background h-12 text-white"
                 placeholder={t(i18n)`Enter your password`}
                 placeholderTextColor={"gray"}
-                secureTextEntry
-                value={password}
-                onChangeText={(text) => {
-                  setPassword(text);
-                }}
+                secureTextEntry={securePassword}
+                value={passwordState.value}
+                onChangeText={passwordState.onChangeText}
               />
               <View className="absolute top-3.5 left-3">
                 <KeyIcon className="size-5 text-muted-foreground" />
               </View>
+              <TouchableOpacity
+                onPress={onPressSecurePassword}
+                className="absolute top-3.5 right-3"
+              >
+                {securePassword ? (
+                  <EyeOffIcon className="size-5 text-muted-foreground" />
+                ) : (
+                  <EyeIcon className="size-5 text-muted-foreground" />
+                )}
+              </TouchableOpacity>
             </View>
+            {!!passwordState.error && (
+              <View className=" flex flex-row items-center gap-x-2 mt-1">
+                <CircleAlertIcon className="size-4 text-red-400" />
+                <Text className="text-red-400 text-sm font-medium">
+                  {passwordState.error?.charAt(0).toUpperCase() +
+                    passwordState.error?.slice(1)}
+                </Text>
+              </View>
+            )}
           </View>
           {/* Remember and Forget password */}
           <View className=" flex flex-row justify-between mb-4">
@@ -135,9 +144,9 @@ export default function LoginScreen() {
               <TouchableOpacity onPress={() => setIsRemember((prev) => !prev)}>
                 {isRemember ? <CheckBox /> : <UnCheckBox />}
               </TouchableOpacity>
-              <Text className="text-sm text-foreground">{t(
-                i18n
-              )`Remember me`}</Text>
+              <Text className="text-sm text-foreground">
+                {t(i18n)`Remember me`}
+              </Text>
             </View>
             <Link href="/(aux)/forgot-password">
               <Text className="text-primary text-sm font-semiBold">
@@ -146,17 +155,17 @@ export default function LoginScreen() {
             </Link>
           </View>
           {/* Login Button */}
-          {/* <LoginInButton onSignedIn={handleSignedIn} /> */}
           <Button
             variant="default"
-            disabled={!username || !password}
+            disabled={!usernameState.value || !passwordState.value}
+            // onPress={onLogin}
             onPress={handleSignedIn}
           >
-            <Text className="text-black text-base font-medium">{t(
-              i18n
-            )`Login`}</Text>
+            <Text className="text-black text-base font-medium">
+              {t(i18n)`Login`}
+            </Text>
           </Button>
-          {/* Don’t have an account yet? Sign up */}
+          {/* Don’t have an account yet? Sign Up */}
           <View className="px-4 mt-4 flex-1">
             <Trans>
               <Text className="mx-auto text-center text-muted-foreground text-sm">

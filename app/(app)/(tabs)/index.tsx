@@ -22,7 +22,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
 import { Icon } from "@/components/common/icon";
-import { useMemoFunc } from "@/hooks/useMemoFunc";
+import { useMemoFunc } from "@/hooks/commons/useMemoFunc";
 import { CategoriesBar } from "@/components/common/categories-bar";
 import Animated, {
   useAnimatedStyle,

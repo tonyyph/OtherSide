@@ -50,6 +50,20 @@ export default function AuxiliaryLayout() {
           }}
         />
         <Stack.Screen
+          name="reset-password"
+          options={{
+            presentation: "modal",
+            headerTitle: t(i18n)`Reset Password`
+          }}
+        />
+        <Stack.Screen
+          name="login-error"
+          options={{
+            presentation: "modal",
+            headerTitle: t(i18n)`Login Error`
+          }}
+        />
+        <Stack.Screen
           name="terms-of-service"
           options={{
             presentation: "modal",

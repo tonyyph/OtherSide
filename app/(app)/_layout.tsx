@@ -1,5 +1,6 @@
 import { BackButton } from "@/components/common/back-button";
 import { useColorPalette } from "@/hooks/use-color-palette";
+import { authenStore } from "@/stores/authenStore";
 import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
@@ -11,6 +12,10 @@ export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
   const { i18n } = useLingui();
   const { isLoggedIn, setIsLoggedIn } = useUserAuthenticateStore();
+
+  // const isAuthenticated = authenStore((store) => !!store.cookie);
+
+  // console.log("AuthenticatedLayout 💯 isAuthenticated:", isAuthenticated);
 
   // useEffect(() => {
   //   setIsLoggedIn(false);
