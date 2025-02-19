@@ -1,12 +1,12 @@
-import type { Category } from '@6pm/validation'
-import { Link } from 'expo-router'
-import type { FC } from 'react'
-import GenericIcon from '../common/generic-icon'
-import { MenuItem } from '../common/menu-item'
+import type { Category } from "@OtherSide/validation";
+import { Link } from "expo-router";
+import type { FC } from "react";
+import GenericIcon from "../common/generic-icon";
+import { MenuItem } from "../common/menu-item";
 
 type CategoryItemProps = {
-  category: Category
-}
+  category: Category;
+};
 
 export const CategoryItem: FC<CategoryItemProps> = ({ category }) => {
   return (
@@ -14,8 +14,8 @@ export const CategoryItem: FC<CategoryItemProps> = ({ category }) => {
       asChild
       push
       href={{
-        pathname: '/category/[categoryId]',
-        params: { categoryId: category.id },
+        pathname: "/category/[categoryId]",
+        params: { categoryId: category.id }
       }}
     >
       <MenuItem
@@ -29,5 +29,5 @@ export const CategoryItem: FC<CategoryItemProps> = ({ category }) => {
         )}
       />
     </Link>
-  )
-}
+  );
+};

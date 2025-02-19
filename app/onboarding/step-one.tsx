@@ -22,7 +22,7 @@ export default function StepOneScreen() {
     >
       <View className="gap-4">
         <Text className="font-semiBold text-3xl">
-          {t(i18n)`Welcome to 6pm!`}
+          {t(i18n)`Welcome to OtherSide!`}
         </Text>
         <Text className="text-muted-foreground">
           {t(i18n)`Get started by setting your monthly budget.`}

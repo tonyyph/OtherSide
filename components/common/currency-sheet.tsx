@@ -1,29 +1,32 @@
-import { currencies } from '@6pm/currency'
-import { BottomSheetFlatList, BottomSheetTextInput } from '@gorhom/bottom-sheet'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
-import { SearchIcon } from 'lucide-react-native'
-import { useState } from 'react'
-import { View } from 'react-native'
-import { Text } from '../ui/text'
-import { MenuItem } from './menu-item'
+import { currencies } from "@OtherSide/currency";
+import {
+  BottomSheetFlatList,
+  BottomSheetTextInput
+} from "@gorhom/bottom-sheet";
+import { t } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
+import { SearchIcon } from "lucide-react-native";
+import { useState } from "react";
+import { View } from "react-native";
+import { Text } from "../ui/text";
+import { MenuItem } from "./menu-item";
 
 type CurrencySheetListProps = {
-  onSelect: (currency: (typeof currencies)[number]) => void
-  value: string
-}
+  onSelect: (currency: (typeof currencies)[number]) => void;
+  value: string;
+};
 
 export function CurrencySheetList({ onSelect, value }: CurrencySheetListProps) {
-  const { i18n } = useLingui()
-  const [searchValue, setSearchValue] = useState('')
+  const { i18n } = useLingui();
+  const [searchValue, setSearchValue] = useState("");
 
   const filteredCurrencies = currencies.filter((currency) => {
-    const search = searchValue.toLowerCase()
+    const search = searchValue.toLowerCase();
     return (
       currency.name.toLowerCase().includes(search) ||
       currency.code.toLowerCase().includes(search)
-    )
-  })
+    );
+  });
 
   return (
     <BottomSheetFlatList
@@ -49,10 +52,10 @@ export function CurrencySheetList({ onSelect, value }: CurrencySheetListProps) {
         <MenuItem
           label={item.name}
           onPress={() => onSelect(item)}
-          className={item.code === value ? 'bg-muted' : ''}
+          className={item.code === value ? "bg-muted" : ""}
           rightSection={<Text>{item.code}</Text>}
         />
       )}
     />
-  )
+  );
 }

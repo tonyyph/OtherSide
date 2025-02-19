@@ -1,4 +1,4 @@
-import { nFormatter } from "@6pm/currency";
+import { nFormatter } from "@OtherSide/currency";
 import { t } from "@lingui/macro";
 import { RoundedRect, Text, useFont } from "@shopify/react-native-skia";
 import { useMemo } from "react";

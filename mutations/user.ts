@@ -1,5 +1,5 @@
 // import { getHonoClient } from '@/lib/client'
-// import type { CreateUser } from '@6pm/validation'
+// import type { CreateUser } from '@OtherSide/validation'
 
 // export async function createUser(data: CreateUser) {
 //   const hc = await getHonoClient()

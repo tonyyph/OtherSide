@@ -43,21 +43,21 @@ msgid "* you can always change this later."
 msgstr "* bạn có thể cập nhật lại sau."
 
 #: apps/mobile/app/(auth)/login.tsx:63
-msgid "<0><1>Manage your expense seamlessly</1><2>Let <3>6pm</3> a good time to spend</2></0>"
-msgstr "<0><1>Quản lý chi tiêu hiệu quả</1><2>Không lo cháy túi mỗi <3>6pm</3></2></0>"
+msgid "<0><1>Manage your expense seamlessly</1><2>Let <3>OtherSide</3> a good time to spend</2></0>"
+msgstr "<0><1>Quản lý chi tiêu hiệu quả</1><2>Không lo cháy túi mỗi <3>OtherSide</3></2></0>"
 
 #: apps/mobile/app/(app)/paywall.tsx:301
 #: apps/mobile/app/(auth)/login.tsx:93
 msgid "<0>By continuing, you acknowledge that you understand and agree to our <1><2>Privacy Policy</2></1> and <3>Terms of Use</3></0>"
-msgstr "<0>Bằng cách tiếp tục, bạn đã hiểu và đồng ý với <1><2>Chính sách bảo mật</2></1> và <3>Điều khoản sử dụng</3> của 6pm</0>"
+msgstr "<0>Bằng cách tiếp tục, bạn đã hiểu và đồng ý với <1><2>Chính sách bảo mật</2></1> và <3>Điều khoản sử dụng</3> của OtherSide</0>"
 
 #: apps/mobile/app/(auth)/login.tsx:49
 #~ msgid "<0>By continuing, you acknowledge that you understand and agree to our <1><2>Privacy Policy</2></1></0>"
-#~ msgstr "<0>Bằng cách tiếp tục, bạn đã hiểu và đồng ý với <1><2>Chính sách bảo mật</2></1> của 6pm.</0>"
+#~ msgstr "<0>Bằng cách tiếp tục, bạn đã hiểu và đồng ý với <1><2>Chính sách bảo mật</2></1> của OtherSide.</0>"
 
 #: apps/mobile/app/(auth)/login.tsx:48
 #~ msgid "<0>By continuing, you acknowledge that you understand and agree to the <1><2>Terms & Conditions</2></1> and <3><4>Privacy Policy</4></3></0>"
-#~ msgstr "<0>Bằng cách tiếp tục, bạn đã hiểu và đồng ý với <1><2>Điều khoản sử dụng</2></1> và <3><4>Chính sách bảo mật</4></3> của 6pm.</0>"
+#~ msgstr "<0>Bằng cách tiếp tục, bạn đã hiểu và đồng ý với <1><2>Điều khoản sử dụng</2></1> và <3><4>Chính sách bảo mật</4></3> của OtherSide.</0>"
 
 #: apps/mobile/components/budget/budget-form.tsx:121
 #: apps/mobile/components/wallet/account-form.tsx:86
@@ -69,12 +69,12 @@ msgid "6 budgets & 6 accounts"
 msgstr "6 ngân sách & 6 tài khoản"
 
 #: apps/mobile/components/common/update-loader.tsx:12
-msgid "6pm is updating, please wait..."
-msgstr "6pm đang được cập nhật, vui lòng chờ..."
+msgid "OtherSide is updating, please wait..."
+msgstr "OtherSide đang được cập nhật, vui lòng chờ..."
 
 #: apps/mobile/components/transaction/scanner.tsx:182
-msgid "6pm needs camera permissions to scan your transactions"
-msgstr "6pm cần quyền truy cập camera để quét giao dịch của bạn"
+msgid "OtherSide needs camera permissions to scan your transactions"
+msgstr "OtherSide cần quyền truy cập camera để quét giao dịch của bạn"
 
 #: apps/mobile/app/(app)/profile.tsx:58
 msgid "Account deleted successfully"
@@ -254,16 +254,16 @@ msgid "Catppuccin"
 msgstr "Catppuccin"
 
 #: apps/mobile/app/(app)/appearance.tsx:100
-msgid "Choose a preferred color palette for 6pm"
-msgstr "Chọn màu sắc ưa thích cho 6pm"
+msgid "Choose a preferred color palette for OtherSide"
+msgstr "Chọn màu sắc ưa thích cho OtherSide"
 
 #: apps/mobile/app/(app)/appearance.tsx:19
-#~ msgid "Choose a preferred theme for the 6pm"
-#~ msgstr "Chọn chủ đề giao diện cho 6pm"
+#~ msgid "Choose a preferred theme for the OtherSide"
+#~ msgstr "Chọn chủ đề giao diện cho OtherSide"
 
 #: apps/mobile/app/(app)/app-icon.tsx:88
 msgid "Choose your preferred app icon"
-msgstr "Chọn app icon cho 6pm"
+msgstr "Chọn app icon cho OtherSide"
 
 #: apps/mobile/app/(app)/appearance.tsx:97
 msgid "Color palette"
@@ -275,7 +275,7 @@ msgstr "Sắp xong"
 
 #: apps/mobile/app/(app)/paywall.tsx:230
 msgid "Complete control over your finances"
-msgstr "Toàn quyền quản lý tài chính với 6pm Pro"
+msgstr "Toàn quyền quản lý tài chính với OtherSide Pro"
 
 #: apps/mobile/components/auth/auth-email.tsx:201
 #: apps/mobile/components/transaction/scanner.tsx:187
@@ -334,8 +334,8 @@ msgid "Delete"
 msgstr "Xóa"
 
 #: apps/mobile/app/(app)/profile.tsx:203
-msgid "Delete 6pm account"
-msgstr "Xóa tài khoản 6pm"
+msgid "Delete OtherSide account"
+msgstr "Xóa tài khoản OtherSide"
 
 #: apps/mobile/app/(app)/wallet/[walletId].tsx:70
 msgid "Delete wallet account will also delete all related transactions!"
@@ -407,8 +407,8 @@ msgid "General"
 msgstr "Chung"
 
 #: apps/mobile/app/(app)/(tabs)/settings.tsx:103
-msgid "Get 6pm Pro"
-msgstr "Nâng Cấp 6pm Pro"
+msgid "Get OtherSide Pro"
+msgstr "Nâng Cấp OtherSide Pro"
 
 #: apps/mobile/app/onboarding/step-one.tsx:28
 msgid "Get started by setting your monthly budget."
@@ -424,8 +424,8 @@ msgid "Growth"
 msgstr "Phát triển"
 
 #: apps/mobile/app/(app)/(tabs)/settings.tsx:80
-msgid "Hi there! I'm using 6pm to manage my expenses and budgets. Feel free to give it a try and let me know what you think. https://get6pm.com"
-msgstr "Tôi đang dùng 6pm để quản lý chi tiêu và ngân sách của mình. Hãy dùng thử và cho tôi biết bạn thấy thế nào nhé: https://get6pm.com"
+msgid "Hi there! I'm using OtherSide to manage my expenses and budgets. Feel free to give it a try and let me know what you think. https://getOtherSide.com"
+msgstr "Tôi đang dùng OtherSide để quản lý chi tiêu và ngân sách của mình. Hãy dùng thử và cho tôi biết bạn thấy thế nào nhé: https://getOtherSide.com"
 
 #: apps/mobile/app/onboarding/step-two.tsx:116
 msgid "If you're not sure, start with how much you usually spend per month."
@@ -630,8 +630,8 @@ msgid "Quarterly"
 msgstr "Hàng quý"
 
 #: apps/mobile/app/(app)/(tabs)/settings.tsx:235
-#~ msgid "Rate 6pm on App Store"
-#~ msgstr "Đánh giá 6pm trên App Store"
+#~ msgid "Rate OtherSide on App Store"
+#~ msgstr "Đánh giá OtherSide trên App Store"
 
 #: apps/mobile/app/(app)/feedback.tsx:56
 msgid "Report a bug, request a feature, or just say hi!"
@@ -824,8 +824,8 @@ msgid "Thank you for your feedback!"
 msgstr "Cảm ơn phản hồi của bạn!"
 
 #: apps/mobile/app/(app)/paywall.tsx:142
-msgid "Thank you! You have unlocked 6pm Pro!"
-msgstr "Cảm ơn! Bạn đã mở khóa 6pm Pro!"
+msgid "Thank you! You have unlocked OtherSide Pro!"
+msgstr "Cảm ơn! Bạn đã mở khóa OtherSide Pro!"
 
 #: apps/mobile/app/(app)/transaction/[transactionId].tsx:68
 msgid "This will delete the transaction. Are you sure you want to continue?"
@@ -913,8 +913,8 @@ msgid "Unlock"
 msgstr "Mở khóa"
 
 #: apps/mobile/app/(app)/paywall.tsx:291
-msgid "Unlock 6pm Pro"
-msgstr "Mở khóa 6pm Pro"
+msgid "Unlock OtherSide Pro"
+msgstr "Mở khóa OtherSide Pro"
 
 #: apps/mobile/app/(app)/(tabs)/settings.tsx:106
 msgid "Unlocks full AI power and more!"
@@ -971,8 +971,8 @@ msgid "Weekly"
 msgstr "Hàng tuần"
 
 #: apps/mobile/app/onboarding/step-one.tsx:25
-msgid "Welcome to 6pm!"
-msgstr "Chào mừng đến 6pm!"
+msgid "Welcome to OtherSide!"
+msgstr "Chào mừng đến OtherSide!"
 
 #: apps/mobile/app/(app)/appearance.tsx:45
 msgid "Winter is coming"

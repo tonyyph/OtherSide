@@ -94,7 +94,7 @@ export default function AppearanceScreen() {
             {t(i18n)`Color palette`}
           </Text>
           <Text className="mb-4 text-muted-foreground text-sm">
-            {t(i18n)`Choose a preferred color palette for 6pm`}
+            {t(i18n)`Choose a preferred color palette for OtherSide`}
           </Text>
           <View className="flex-row flex-wrap gap-4">
             {palettes.map((palette) => (
