@@ -13,18 +13,12 @@ import {
   CaseSensitiveIcon,
   KeyIcon,
   MailIcon,
-  NewspaperIcon
+  NewspaperIcon,
+  UserRoundPlusIcon
 } from "lucide-react-native";
 import { useCallback, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import {
-  Alert,
-  Keyboard,
-  Linking,
-  ScrollView,
-  TextInput,
-  View
-} from "react-native";
+import { Linking, ScrollView, TextInput, View } from "react-native";
 
 export default function SignUpScreen() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -38,6 +32,11 @@ export default function SignUpScreen() {
     birthDayState,
     emailAddressState
   } = useSignUp();
+
+  const handleSignUp = useCallback(() => {
+    setIsSubmitted(true);
+  }, []);
+  //TODO: remove this when all done.
 
   const { i18n } = useLingui();
   const form = useForm({
@@ -62,15 +61,13 @@ export default function SignUpScreen() {
             router.dismiss();
           }}
         >
-          <Text className="text-black text-base font-medium">{t(
-            i18n
-          )`Login`}</Text>
+          <Text className="text-black text-base font-medium">
+            {t(i18n)`Login`}
+          </Text>
         </Button>
       </View>
     );
   }
-
-  console.log("birthDayState.value", birthDayState.value);
 
   return (
     <FormProvider {...form}>
@@ -96,7 +93,7 @@ export default function SignUpScreen() {
           </Trans>
         </View>
         {/* Illustration */}
-        <NewspaperIcon className="absolute top-16 right-0 size-80 text-muted-foreground opacity-30" />
+        <UserRoundPlusIcon className="absolute top-0 right-0 size-80 text-muted-foreground opacity-30" />
         {/* Input Field */}
         <View className="flex-1">
           <View className="flex-1 flex-col gap-3">
@@ -173,9 +170,9 @@ export default function SignUpScreen() {
               <View className="flex-1 justify-center">
                 <Text className="text-sm font-medium text-foreground mb-1">
                   Gender{" "}
-                  <Text className="font-regular text-red-400 group-active:text-red-400">
+                  {/* <Text className="font-regular text-red-400 group-active:text-red-400">
                     *
-                  </Text>
+                  </Text> */}
                 </Text>
                 <View className="flex flex-row items-center gap-2 h-12">
                   <View className="flex flex-row items-center gap-2 justify-center">
@@ -206,9 +203,10 @@ export default function SignUpScreen() {
               <View className="flex-1">
                 <Text className="text-sm font-medium text-foreground mb-1">
                   Birthday{" "}
-                  <Text className="font-regular text-red-400 group-active:text-red-400">
+                  {/* <Text className="font-regular text-red-400 group-active:text-red-400">
                     *
-                  </Text>
+                  </Text> */}
+                  {/* TODO: remove this */}
                 </Text>
                 <View className="rounded-lg">
                   <Controller
@@ -291,9 +289,9 @@ export default function SignUpScreen() {
                 !passwordState.value ||
                 !confirmPasswordState.value ||
                 !firstNameState.value ||
-                !lastNameState.value ||
-                !genderState.value ||
-                !birthDayState.value
+                !lastNameState.value
+                // !genderState.value || //TODO: remove this
+                // !birthDayState.value
               }
               // onPress={handleSignUp}
               onPress={onSignUp}

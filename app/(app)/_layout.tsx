@@ -5,13 +5,16 @@ import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Redirect, Stack } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
+import LottieView from "lottie-react-native";
 
 export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
   const { i18n } = useLingui();
   const { isLoggedIn, setIsLoggedIn } = useUserAuthenticateStore();
+  const [loading, setLoading] = useState(false);
+  const hideTimer = useRef<NodeJS.Timeout | null>(null);
 
   // const isAuthenticated = authenStore((store) => !!store.cookie);
 
@@ -23,6 +26,32 @@ export default function AuthenticatedLayout() {
 
   if (!isLoggedIn) {
     return <Redirect href={"/login"} />;
+  }
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setLoading(true);
+      hideTimer.current = setTimeout(() => {
+        setLoading(false);
+      }, 1500);
+
+      return () => {
+        if (hideTimer.current) clearTimeout(hideTimer.current);
+      };
+    }
+  }, [isLoggedIn]);
+
+  if (loading) {
+    return (
+      <View className="flex-1 items-center">
+        <LottieView
+          style={{ width: "60%", height: "100%" }}
+          source={require("@/assets/json/loading.json")}
+          autoPlay
+          loop
+        />
+      </View>
+    );
   }
 
   const isOnBoarding = false;

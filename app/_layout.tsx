@@ -15,6 +15,7 @@ import { LocaleProvider } from "@/locales/provider";
 import { cssInterop } from "nativewind";
 import { LinearGradient } from "expo-linear-gradient";
 import Svg from "react-native-svg";
+import LottieView from "lottie-react-native";
 
 import "../global.css";
 import { CustomPaletteWrapper } from "@/components/common/custom-palette-wrapper";
@@ -40,12 +41,17 @@ cssInterop(LinearGradient, {
   }
 });
 
+cssInterop(LottieView, {
+  className: {
+    target: "style"
+  }
+});
+
 export const unstable_settings = {
   initialRouteName: "(app)"
 };
 
 export default function RootLayout() {
-  const { colorScheme } = useColorScheme();
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
     "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
@@ -69,7 +75,6 @@ export default function RootLayout() {
 
   return (
     <PostHogProvider
-      autocapture
       apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
       options={{
         host: process.env.EXPO_PUBLIC_POSTHOG_HOST!,

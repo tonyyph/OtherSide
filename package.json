@@ -72,6 +72,7 @@
     "expo-web-browser": "~14.0.2",
     "https": "^1.0.0",
     "lodash-es": "^4.17.21",
+    "lottie-react-native": "^7.2.2",
     "lucide-react-native": "^0.474.0",
     "nativewind": "^4.1.23",
     "posthog-react-native": "^3.7.0",
