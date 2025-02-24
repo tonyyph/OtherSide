@@ -26,14 +26,26 @@ export default function LanguageScreen() {
         }}
       />
       <MenuItem
-        label={t(i18n)`Vietnamese`}
+        label={t(i18n)`Hindi`}
         rightSection={
-          language === "vi" && (
+          language === "hi" && (
             <CheckIcon className="size-6 text-amount-positive" />
           )
         }
         onPress={() => {
-          setLanguage("vi");
+          setLanguage("hi");
+          router.back();
+        }}
+      />
+      <MenuItem
+        label={t(i18n)`Telugu`}
+        rightSection={
+          language === "te" && (
+            <CheckIcon className="size-6 text-amount-positive" />
+          )
+        }
+        onPress={() => {
+          setLanguage("te");
           router.back();
         }}
       />

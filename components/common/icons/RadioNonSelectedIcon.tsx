@@ -18,7 +18,7 @@ export const RadioNonSelectedIcon = memoFC(
           viewBox="0 0 24 24"
         >
           <Path
-            fill={"black"}
+            fill={"none"}
             stroke={iconFill}
             strokeWidth={1.5}
             d="M4.75 12a7.25 7.25 0 1 1 14.5 0 7.25 7.25 0 0 1-14.5 0Z"

@@ -28,7 +28,7 @@ export const useUserSettingsStore = create<UserSettingsStore>()(
       setEnabledLocalAuth: (enabledLocalAuth) => set({ enabledLocalAuth }),
       preferredPalette: Palette.Default,
       setPreferredPalette: (preferredPalette) => set({ preferredPalette }),
-      hideTabBarStatus: false,
+      hideTabBarStatus: true,
       setHideTabBarStatus: (hideTabBarStatus) => set({ hideTabBarStatus })
     }),
     {

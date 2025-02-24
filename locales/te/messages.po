@@ -1,0 +1,215 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2024-06-10 04:34+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: te\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: apps/mobile/components/budget/budget-item.tsx:67
+msgid "{0} left"
+msgstr "{0} మిగిలినవి"
+
+#: apps/mobile/components/common/burndown-chart/diff-badge.tsx:22
+msgid "{0} less"
+msgstr "{0} తక్కువ"
+
+#: apps/mobile/components/common/burndown-chart/diff-badge.tsx:24
+msgid "{0} over"
+msgstr "{0} మించి"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:189
+msgid "{language}"
+msgstr "{భాష}"
+
+#: apps/mobile/components/budget/budget-item.tsx:100
+msgid "{remainingDays} days left"
+msgstr "{remainingDays} రోజులు మిగిలినవి"
+
+#: apps/mobile/app/onboarding/step-two.tsx:124
+msgid "* you can always change this later."
+msgstr "* మీరు దీన్ని ఎప్పుడైనా మార్చవచ్చు."
+
+#: apps/mobile/app/(auth)/login.tsx:63
+msgid "<0><1>Manage your expense seamlessly</1><2>Let <3>OtherSide</3> a good time to spend</2></0>"
+msgstr "<0><1>మీ ఖర్చులను సులభంగా నిర్వహించండి</1><2><3>OtherSide</3> తో సరైన సమయంలో ఖర్చు చేయండి</2></0>"
+
+#: apps/mobile/app/(app)/language.tsx:17
+msgid "English"
+msgstr "English"
+
+#: apps/mobile/app/(app)/language.tsx:29
+msgid "Vietnamese"
+msgstr "వియత్నామీస్"
+
+#: apps/mobile/app/(app)/language.tsx:31
+msgid "Hindi"
+msgstr "హిందీ"
+
+#: apps/mobile/app/(app)/language.tsx:33
+msgid "Telugu"
+msgstr "తెలుగు"
+
+#: apps/mobile/components/category/category-form.tsx:104
+msgid "Income"
+msgstr "ఆదాయం"
+
+#: apps/mobile/app/(app)/category/index.tsx:39
+msgid "Incomes"
+msgstr "ఆదాయాలు"
+
+#: apps/mobile/components/category/category-form.tsx:98
+msgid "Expense"
+msgstr "ఖర్చు"
+
+#: apps/mobile/app/(app)/category/index.tsx:40
+msgid "Expenses"
+msgstr "ఖర్చులు"
+
+#: apps/mobile/components/auth/auth-email.tsx:173
+msgid "Email"
+msgstr "ఈమెయిల్"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:184
+msgid "Language"
+msgstr "భాష"
+
+#: apps/mobile/app/(app)/paywall.tsx:208
+msgid "Unlimited budgets & accounts"
+msgstr "అపరిమిత బడ్జెట్లు & ఖాతాలు"
+
+#: apps/mobile/components/home/wallet-statistics.tsx:109
+msgid "Current balance"
+msgstr "ప్రస్తుత బ్యాలెన్స్"
+
+#: apps/mobile/components/wallet/account-form.tsx:85
+msgid "Balance"
+msgstr "బ్యాలెన్స్"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:103
+msgid "Get OtherSide Pro"
+msgstr "OtherSide Pro పొందండి"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:245
+msgid "Privacy policy"
+msgstr "గోప్యతా విధానం"
+
+#: apps/mobile/app/(aux)/_layout.tsx:35
+msgid "Privacy Policy"
+msgstr "గోప్యతా విధానం"
+
+#: apps/mobile/app/(aux)/_layout.tsx:42
+msgid "Terms & Conditions"
+msgstr "నిబంధనలు & షరతులు"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:253
+msgid "Terms of use"
+msgstr "ఉపయోగ నిబంధనలు"
+
+#: apps/mobile/components/wallet/account-form.tsx:70
+msgid "Wallet account name"
+msgstr "వాలెట్ ఖాతా పేరు"
+
+#: apps/mobile/components/budget/select-budget-type-field.tsx:47
+msgid "Saving"
+msgstr "మొత్తం ఆదా"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:199
+msgid "Push notifications"
+msgstr "పుష్ నోటిఫికేషన్లు"
+
+#: apps/mobile/components/setting/profile-card.tsx:183
+msgid "Saver"
+msgstr "సేవర్"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:219
+msgid "Push notifications are enabled"
+msgstr "పుష్ నోటిఫికేషన్లు ప్రారంభించబడ్డాయి"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:221
+msgid "Push notifications are disabled"
+msgstr "పుష్ నోటిఫికేషన్లు నిలిపివేయబడ్డాయి"
+
+#: apps/mobile/app/(app)/profile.tsx:46
+msgid "Profile updated successfully"
+msgstr "ప్రొఫైల్ విజయవంతంగా నవీకరించబడింది"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:290
+msgid "Proudly open source"
+msgstr "గర్వంతో ఓపెన్ సోర్స్"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:302
+msgid "Cancel"
+msgstr "రద్దు చేయండి"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:306
+msgid "Sign out"
+msgstr "సైన్ అవుట్"
+
+#: apps/mobile/components/auth/auth-email.tsx:220
+msgid "Sign in"
+msgstr "సైన్ ఇన్"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:282
+msgid "Share with friends"
+msgstr "మిత్రులతో పంచుకోండి"
+
+#: apps/mobile/components/transaction/scanner.tsx:209
+msgid "Processing transaction..."
+msgstr "లావాదేవీ ప్రాసెసింగ్..."
+
+#: apps/mobile/components/transaction/draft-transaction-item.tsx:94
+msgid "Transaction is processing..."
+msgstr "లావాదేవీ ప్రాసెస్ అవుతోంది..."
+
+#: apps/mobile/lib/date.tsx:29
+msgid "Today"
+msgstr "ఈ రోజు"
+
+#: apps/mobile/lib/date.tsx:33
+msgid "Yesterday"
+msgstr "నిన్న"
+
+#: apps/mobile/lib/date.tsx:37
+msgid "Tomorrow"
+msgstr "రేపు"
+
+#: apps/mobile/components/transaction/select-account-field.tsx:73
+msgid "Wallet Accounts"
+msgstr "వాలెట్ ఖాతాలు"
+
+#: apps/mobile/components/transaction/select-budget-field.tsx:70
+msgid "No budget selected"
+msgstr "ఎటువంటి బడ్జెట్ ఎంపిక చేయబడలేదు"
+
+#: apps/mobile/components/transaction/draft-transaction-item.tsx:147
+msgid "Cannot process image"
+msgstr "చిత్రాన్ని ప్రాసెస్ చేయలేరు"
+
+#: apps/mobile/app/(app)/(tabs)/settings.tsx:266
+msgid "Send feedback"
+msgstr "అభిప్రాయం పంపండి"
+
+#: apps/mobile/app/(app)/feedback.tsx:40
+msgid "Thank you for your feedback!"
+msgstr "మీ అభిప్రాయానికి ధన్యవాదాలు!"
+
+#: apps/mobile/app/(app)/feedback.tsx:56
+msgid "Report a bug, request a feature, or just say hi!"
+msgstr "లోపాన్ని నివేదించండి, ఫీచర్ కోరండి, లేదా హాయ్ చెప్పండి!"
+
+#: apps/mobile/components/transaction/draft-transaction-item.tsx:104
+msgid "Understood"
+msgstr "అర్థం అయ్యింది"
+
+#: apps/mobile/app/(app)/profile.tsx:176
+msgid "Your display name"
+msgstr "మీ ప్రదర్శన పేరు"
+

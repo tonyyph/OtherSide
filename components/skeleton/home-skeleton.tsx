@@ -8,14 +8,14 @@ export function HomeSkeleton() {
 
   return (
     <View className="flex-1" style={{ paddingTop: top }}>
-      <Skeleton className="mt-3 h-80 rounded-none" />
-      <View className="bg-background pt-5 bottom-4 rounded-t-2xl">
+      <Skeleton className="h-[320px] rounded-none" />
+      <View className="bg-background pt-3 bottom-2 rounded-t-2xl">
         <View className="flex flex-row gap-x-4 mt-3 items-center">
           <Skeleton className="ml-4 mb-5 h-8 w-16 rounded-full" />
           <Skeleton className="mr-4 mb-5 h-8 rounded-full flex-1" />
         </View>
         {React.Children.toArray(
-          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+          [1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
             <Skeleton className="mx-4 mt-3 mb-5 h-5 rounded-full" />
           ))
         )}

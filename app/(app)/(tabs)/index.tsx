@@ -4,90 +4,55 @@ import {
   ImageBackground,
   LayoutChangeEvent,
   Pressable,
+  Share,
   Text,
   TouchableOpacity,
   useWindowDimensions,
   View
 } from "react-native";
 
+import { Icon } from "@/components/common/icon";
+import { toast } from "@/components/common/toast";
+import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
+import { dummyPosts } from "@/components/test/dummyPost";
+import { useMemoFunc } from "@/hooks/commons/useMemoFunc";
+import { formatDateTime } from "@/lib/date";
+import { useUserSettingsStore } from "@/stores";
+import { useUserBookmarkStore } from "@/stores/user-bookmark/store";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
+import { router } from "expo-router";
 import {
   CalendarClock,
   MessageCircle,
+  Share2Icon,
   ThumbsDown,
   ThumbsUp
 } from "lucide-react-native";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useUserSettingsStore } from "@/stores/user-settings/store";
-import { Icon } from "@/components/common/icon";
-import { useMemoFunc } from "@/hooks/commons/useMemoFunc";
-import { CategoriesBar } from "@/components/common/categories-bar";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-  useDerivedValue,
-  runOnJS
-} from "react-native-reanimated";
-import { dummyPosts } from "@/components/test/dummyPost";
-import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
-import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 
 export default function HomeScreen() {
-  const [activePostId, setActivePostId] = useState(dummyPosts[0].id);
-  const [posts, setPosts] = useState<typeof dummyPosts>([]);
+  const [activePostId, setActivePostId] = useState();
+  const [posts, setPosts] = useState<any>([]);
   const { height } = useWindowDimensions();
   const { i18n } = useLingui();
   const { top, bottom } = useSafeAreaInsets();
-  const { setHideTabBarStatus, hideTabBarStatus } = useUserSettingsStore();
   const [isContentLoaded, setIsContentLoaded] = useState(false);
-
-  const tabBarTranslateY = useSharedValue(0);
-
-  const hideTimer = useRef<NodeJS.Timeout | null>(null);
-
+  const { setHideTabBarStatus, hideTabBarStatus } = useUserSettingsStore();
+  const { addBookmark } = useUserBookmarkStore();
   const [isExpanded, setIsExpanded] = useState(true);
   const [bookmarked, setBookmarked] = useState(false);
   const [showReadMore, setShowReadMore] = useState(false);
   const didSetExpanded = useRef(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      setPosts(dummyPosts);
+      setPosts(dummyPosts?.articles);
     };
     fetchPosts();
   }, []);
-
-  useEffect(() => {
-    if (!hideTabBarStatus) {
-      tabBarTranslateY.value = 0;
-      if (hideTimer.current) clearTimeout(hideTimer.current);
-      hideTimer.current = setTimeout(() => {
-        runOnJS(() => {
-          tabBarTranslateY.value = -120;
-        })();
-      }, 4500);
-    }
-  }, [hideTabBarStatus]);
-
-  useEffect(() => {
-    hideTimer.current = setTimeout(() => {
-      tabBarTranslateY.value = -120;
-      setHideTabBarStatus(true);
-    }, 4500);
-
-    return () => {
-      if (hideTimer.current) clearTimeout(hideTimer.current);
-    };
-  }, [setHideTabBarStatus]);
-
-  const derivedTabBarTranslateY = useDerivedValue(
-    () => tabBarTranslateY.value,
-    []
-  );
 
   const viewabilityConfigCallbackPairs = useRef([
     {
@@ -100,15 +65,15 @@ export default function HomeScreen() {
     }
   ]);
 
-  const tabBarStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: withTiming(derivedTabBarTranslateY.value, {
-          duration: 450
-        })
-      }
-    ]
-  }));
+  async function handleShare({ title }: { title: string }) {
+    try {
+      await Share.share({
+        message: `${title} ${"https://otherside.com"} -via OtherSide`
+      });
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  }
 
   const handleLayout = useMemoFunc((event: LayoutChangeEvent) => {
     const { height } = event.nativeEvent.layout;
@@ -134,59 +99,74 @@ export default function HomeScreen() {
             style={{ paddingTop: top, paddingBottom: bottom * 1.5 }}
           >
             <ImageBackground
-              source={{ uri: item.imgUrl }}
-              className="h-[300px]"
+              source={{ uri: item.imageUrl }}
+              className="h-[320px]"
               resizeMode="cover"
             >
-              <View className="border p-2 border-blue-100 rounded-full bottom-7 right-3 absolute bg-white">
-                <TouchableOpacity onPress={() => setBookmarked(!bookmarked)}>
+              <View className="border p-2 gap-4 border-blue-100 rounded-full bottom-7 right-3 absolute bg-white">
+                <TouchableOpacity
+                  onPress={() => {
+                    setBookmarked(!bookmarked);
+                    addBookmark(item);
+                  }}
+                >
                   <Icon
                     name={bookmarked ? "BookmarkFilled" : "Bookmark"}
                     className="text-foreground"
                   />
                 </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleShare({ title: item.title })}
+                >
+                  <Share2Icon className="text-background size-5" />
+                </TouchableOpacity>
               </View>
             </ImageBackground>
-            <View className="flex-1 bg-background rounded-t-2xl bottom-3 gap-4 px-4 justify-between">
+            <View className="flex-1 bg-background rounded-t-2xl bottom-3 gap-4 px-4">
               <View
                 className="gap-4 flex-1"
-                style={{ maxHeight: height * 0.55 }}
+                style={{ maxHeight: height * 0.44 }}
               >
                 <View className="flex-row justify-between mt-4 gap-x-4">
                   <View
                     style={{
                       backgroundColor:
-                        item?.side === "Left" ? "#3b82f6" : "#ef4444"
+                        item?.side === "Right" ? "#ef4444" : "#3b82f6"
                     }}
                     className="rounded-full px-3 py-[2px] self-start top-1 items-center justify-center"
                   >
                     <Text className="!text-sm !text-blue-50 font-semiBold">
-                      {item?.side}
+                      {item?.side ?? "Left"}
                     </Text>
                   </View>
                   <Text
                     numberOfLines={2}
-                    className="text-foreground font-bold text-lg flex-1"
+                    className="text-foreground font-bold text-xl flex-1"
                   >
                     {t(i18n)`${item.title}`}
                   </Text>
                 </View>
                 <Text
                   ellipsizeMode="tail"
-                  className="flex-1 text-muted-foreground text-medium font-medium"
+                  className="flex-1 text-muted-foreground text-lg font-medium"
                 >
-                  {t(i18n)`${item.description}`}
+                  {t(i18n)`${item.content}`}
                 </Text>
               </View>
 
               <View className="flex flex-row items-center gap-2">
                 <View
-                  className="h-[4px] bg-red-500"
-                  style={{ flex: item?.dislike / (item.dislike + item.like) }}
+                  className="h-[4px] bg-green-500"
+                  style={{
+                    flex: item?.likeCount / (item.dislikeCount + item.likeCount)
+                  }}
                 />
                 <View
-                  className="h-[4px] bg-green-500"
-                  style={{ flex: item?.like / (item.dislike + item.like) }}
+                  className="h-[4px] bg-red-500"
+                  style={{
+                    flex:
+                      item?.dislikeCount / (item.dislikeCount + item.likeCount)
+                  }}
                 />
               </View>
 
@@ -194,26 +174,31 @@ export default function HomeScreen() {
                 <View className="flex flex-row items-center gap-2">
                   <CalendarClock className="size-5 text-muted-foreground" />
                   <Text className="text-foreground text-xs">
-                    {"3 hours ago"}
+                    {formatDateTime?.(item?.createdAt) ?? null}
                   </Text>
                 </View>
                 <View className="flex flex-row items-center gap-3">
-                  <View className="flex flex-row items-center gap-2">
+                  <View className="flex flex-row items-center gap-1">
                     <ThumbsUp className="size-5 text-green-500" />
-                    <Text className="text-foreground text-xs">{item.like}</Text>
-                  </View>
-                  <View className="flex flex-row items-center gap-2">
-                    <ThumbsDown className="size-5 text-red-500" />
-                    <Text className="text-foreground text-xs">
-                      {item.dislike}
+                    <Text className="text-foreground text-sm">
+                      {item.likeCount}
                     </Text>
                   </View>
-                  <View className="flex flex-row items-center gap-2">
+                  <View className="flex flex-row items-center gap-1">
+                    <ThumbsDown className="size-5 text-red-500" />
+                    <Text className="text-foreground text-sm">
+                      {item.dislikeCount}
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    className="flex flex-row items-center justify-center gap-1"
+                    onPress={() => router.push("/article-comment")}
+                  >
                     <MessageCircle className="size-5 text-muted-foreground" />
-                    <Text className="text-foreground text-xs">
+                    <Text className="text-foreground text-sm">
                       {item?.commentCount}
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
@@ -224,22 +209,38 @@ export default function HomeScreen() {
   };
 
   const renderItem = ({ item }: { item: any }) => {
+    const customData = [
+      {
+        ...item?.leftPerspective,
+        side: "Left",
+        isBookmarked: item?.isBookmarked,
+        createdAt: item?.createdAt
+      },
+      {
+        ...item?.rightPerspective,
+        side: "Right",
+        isBookmarked: item?.isBookmarked,
+        createdAt: item?.createdAt
+      }
+    ];
     return (
       <View className="flex-1">
         {!isContentLoaded && <HomeSkeleton />}
         <FlatList
-          data={item?.option}
+          data={customData}
           horizontal
           renderItem={renderHorizontalItem}
           keyExtractor={(item, index) => `${item.id}-${index}`}
           pagingEnabled
-          viewabilityConfigCallbackPairs={
-            viewabilityConfigCallbackPairs.current
-          }
           showsVerticalScrollIndicator={false}
-          onContentSizeChange={(contentWidth, contentHeight) => {
+          onContentSizeChange={(contentHeight) => {
             if (contentHeight > 0) {
-              setIsContentLoaded(true);
+              if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+              }
+              timeoutRef.current = setTimeout(() => {
+                setIsContentLoaded(true);
+              }, 500);
             }
           }}
         />
@@ -247,21 +248,14 @@ export default function HomeScreen() {
     );
   };
 
-  // return <HomeSkeleton />;
-
   return (
     <View className=" flex-1 bg-background">
-      <Animated.View
-        style={[tabBarStyle]}
-        className="absolute top-0 z-50 flex-row items-center justify-center self-center bg-background"
-      >
-        <CategoriesBar onPress={() => setHideTabBarStatus(false)} />
-      </Animated.View>
       <FlatList
         data={posts}
         renderItem={renderItem}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         pagingEnabled
+        ListEmptyComponent={() => <HomeSkeleton />}
         viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
         showsVerticalScrollIndicator={false}
       />

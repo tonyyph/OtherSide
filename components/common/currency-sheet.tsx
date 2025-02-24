@@ -1,4 +1,3 @@
-import { currencies } from "@OtherSide/currency";
 import {
   BottomSheetFlatList,
   BottomSheetTextInput
@@ -10,6 +9,7 @@ import { useState } from "react";
 import { View } from "react-native";
 import { Text } from "../ui/text";
 import { MenuItem } from "./menu-item";
+import { currencies } from "@/utils/currency";
 
 type CurrencySheetListProps = {
   onSelect: (currency: (typeof currencies)[number]) => void;

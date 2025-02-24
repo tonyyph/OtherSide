@@ -44,6 +44,30 @@ export function formatDateShort(date?: Date) {
   return format(date, "yyyy-MM-dd");
 }
 
+export function formatDateTime(date?: Date) {
+  if (!date) {
+    return "";
+  }
+
+  if (isToday(date)) {
+    return t`Today`;
+  }
+
+  if (isYesterday(date)) {
+    return t`Yesterday`;
+  }
+
+  if (isTomorrow(date)) {
+    return t`Tomorrow`;
+  }
+
+  if (isSameYear(date, new Date())) {
+    return format(date, "MMM d");
+  }
+
+  return format(date, "yyyy-MM-dd - HH:mm:ss");
+}
+
 export function formatDateTimeShort(date?: Date) {
   if (!date) {
     return "";

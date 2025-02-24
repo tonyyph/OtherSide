@@ -2,9 +2,9 @@ import * as Application from "expo-application";
 import * as Haptics from "expo-haptics";
 
 import { FooterGradient } from "@/components/common/footer-gradient";
-import { Logo } from "@/components/common/logo";
 import { MenuItem } from "@/components/common/menu-item";
 import { toast } from "@/components/common/toast";
+import { ProfileCard } from "@/components/profile/profile-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -13,27 +13,20 @@ import { useLocale } from "@/locales/provider";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import * as Clipboard from "expo-clipboard";
 import * as Notifications from "expo-notifications";
 import { Link } from "expo-router";
 import {
-  BeanIcon,
   BellIcon,
   BookTypeIcon,
   ChevronRightIcon,
   EarthIcon,
-  GithubIcon,
   InboxIcon,
-  LockKeyholeIcon,
   LogOutIcon,
   MessageSquareQuoteIcon,
-  PencilRulerIcon,
   ScrollTextIcon,
   ShapesIcon,
   Share2Icon,
-  SparklesIcon,
-  SwatchBookIcon,
-  WalletCardsIcon
+  SwatchBookIcon
 } from "lucide-react-native";
 import {
   Alert,
@@ -45,13 +38,12 @@ import {
   View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { HomeHeader } from "@/components/home/header";
-import { ProfileCard } from "@/components/profile/profile-card";
 
 export default function ProfileScreen() {
   const { i18n } = useLingui();
   const { bottom } = useSafeAreaInsets();
   const { language } = useLocale();
+
   const { setEnabledPushNotifications, enabledPushNotifications } =
     useUserSettingsStore();
 
@@ -91,19 +83,9 @@ export default function ProfileScreen() {
                 }
               />
             </Link>
-            <MenuItem
-              label={t(i18n)`Magic inbox`}
-              icon={InboxIcon}
-              rightSection={
-                <Badge variant="outline">
-                  <Text className="text-xs">{t(i18n)`Coming soon`}</Text>
-                </Badge>
-              }
-              disabled
-            />
           </View>
         </View>
-        <View className="gap-2">
+        <View className="gap-2 mt-4">
           <Text className="mx-6 text-muted-foreground">
             {t(i18n)`App settings`}
           </Text>

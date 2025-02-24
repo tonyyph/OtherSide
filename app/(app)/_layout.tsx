@@ -28,31 +28,31 @@ export default function AuthenticatedLayout() {
     return <Redirect href={"/login"} />;
   }
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      setLoading(true);
-      hideTimer.current = setTimeout(() => {
-        setLoading(false);
-      }, 1500);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     setLoading(true);
+  //     hideTimer.current = setTimeout(() => {
+  //       setLoading(false);
+  //     }, 1500);
 
-      return () => {
-        if (hideTimer.current) clearTimeout(hideTimer.current);
-      };
-    }
-  }, [isLoggedIn]);
+  //     return () => {
+  //       if (hideTimer.current) clearTimeout(hideTimer.current);
+  //     };
+  //   }
+  // }, [isLoggedIn]);
 
-  if (loading) {
-    return (
-      <View className="flex-1 items-center">
-        <LottieView
-          style={{ width: "60%", height: "100%" }}
-          source={require("@/assets/json/loading.json")}
-          autoPlay
-          loop
-        />
-      </View>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <View className="flex-1 items-center">
+  //       <LottieView
+  //         style={{ width: "60%", height: "100%" }}
+  //         source={require("@/assets/json/loading.json")}
+  //         autoPlay
+  //         loop
+  //       />
+  //     </View>
+  //   );
+  // }
 
   const isOnBoarding = false;
 
@@ -87,6 +87,16 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="breaking-news"
           options={{ headerTitle: t(i18n)`Breaking News` }}
+        />
+        <Stack.Screen
+          name="article-comment"
+          options={{
+            presentation: "modal",
+            headerTitle: "",
+            headerStyle: {
+              backgroundColor: getColor("--muted")
+            }
+          }}
         />
         <Stack.Screen
           name="appearance"
