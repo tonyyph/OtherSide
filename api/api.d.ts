@@ -64,3 +64,48 @@ type RestfulApiError = {
   message?: string;
   statusCode?: number;
 };
+
+type UpdateProfileRequest = {
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  birthday?: string;
+  gender?: string;
+  id: number;
+};
+
+type UpdateProfileResponse = {
+  email: string;
+  first_name: string;
+  last_name: string;
+  birthday: string;
+  gender: string;
+  confirmationToken: string;
+  role: string;
+  isActive: boolean;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  language: string;
+};
+
+type GetProfileResponse = {
+  email: string;
+  first_name: string;
+  last_name: string;
+  birthday: string;
+  gender: string;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  language: string;
+};
+
+type ChangePasswordRequest = {
+  current_password: string;
+  new_password: string;
+};
+
+type ChangePasswordResponse = {
+  message: string;
+};

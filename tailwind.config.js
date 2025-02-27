@@ -33,6 +33,7 @@ module.exports = {
         bold: ['Poppins-Bold'],
       },
       colors: {
+        overlay: 'rgba(0,0,0,0.75)',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

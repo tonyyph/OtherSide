@@ -80,6 +80,12 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
+          name="change-password/index"
+          options={{
+            headerTitle: t(i18n)`Change your password`
+          }}
+        />
+        <Stack.Screen
           name="explore-categories"
           options={{ headerTitle: t(i18n)`Explore Categories` }}
         />

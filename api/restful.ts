@@ -64,10 +64,54 @@ export const refreshToken = async (data: RefreshTokenRequest) => {
 export const getUserProfile = async () => {
   const cookie = authenStore.getState().cookie;
 
-  return await axios.get<any>(`${process.env.EXPO_PUBLIC_API_URL}/users/me`, {
-    headers: {
-      accept: "*/*",
-      Authorization: `Bearer ${cookie?.accessToken}`
+  console.log("env", `${process.env.EXPO_PUBLIC_API_URL}/me`);
+  return await axios.get<GetProfileResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/me`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
     }
-  });
+  );
+};
+
+export const updateUserProfile = async (data: UpdateProfileRequest) => {
+  const cookie = authenStore.getState().cookie;
+
+  return await axios.put<UpdateProfileResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/me`,
+    {
+      email: data.email,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      birthday: data.birthday,
+      gender: data.gender,
+      language: "en"
+    },
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const changePassword = async (data: ChangePasswordRequest) => {
+  const cookie = authenStore.getState().cookie;
+
+  return await axios.put<ChangePasswordResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/me/change-password`,
+    {
+      current_password: data.current_password,
+      new_password: data.new_password
+    },
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
 };

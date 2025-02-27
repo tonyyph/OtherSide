@@ -1,4 +1,5 @@
 import { getUserProfile } from "@/api";
+import { userStore } from "@/stores/userStore";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 
@@ -20,8 +21,11 @@ export const useProfile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await getUserProfile();
-        setData(response.data);
+        const { data: session } = await getUserProfile();
+
+        userStore.setState({ userProfile: session });
+
+        setData(session);
       } catch (error) {
         console.log(
           (error as AxiosError<RestfulApiError>).response?.data?.message

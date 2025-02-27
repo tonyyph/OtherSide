@@ -20,6 +20,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useProfile } from "@/hooks/profile/useProfile";
 import { Skeleton } from "../ui/skeleton";
+import { userStore } from "@/stores/userStore";
 
 const COLS = 15;
 const ROWS = 15;
@@ -151,20 +152,7 @@ export const DotsGrid = () => {
 export function ProfileCard() {
   const { i18n } = useLingui();
   const router = useRouter();
-  const { userProfile, loading } = useProfile();
-
-  if (loading) {
-    return (
-      <View className="mx-6 flex-row items-center justify-center overflow-hidden rounded-lg">
-        <Skeleton className="h-16 w-16 rounded-full" />
-        <View className=" flex-1 bg-background gap-3">
-          <Skeleton className="mx-3 h-5 w-1/2 rounded-full" />
-          <Skeleton className="mx-3 h-6 w-2/3 rounded-full" />
-        </View>
-        <Skeleton className="h-6 w-6 rounded-full" />
-      </View>
-    );
-  }
+  const userProfile = userStore.getState().userProfile;
 
   return (
     <View className="mx-6 flex-row items-center justify-center overflow-hidden rounded-lg">
@@ -187,7 +175,7 @@ export function ProfileCard() {
             className="flex-row gap-1 self-start rounded-md"
           >
             {true && <CrownIcon className="size-4 text-primary-foreground" />}
-            <Text className="font-medium text-sm">{t(i18n)`Professional`}</Text>
+            <Text className="font-medium text-sm">{t(i18n)`Admin`}</Text>
           </Badge>
         </View>
       </TouchableOpacity>

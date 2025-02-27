@@ -18,7 +18,7 @@ import {
   MailIcon,
   UserRoundPenIcon
 } from "lucide-react-native";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Image, ScrollView, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -29,9 +29,10 @@ export default function EditProfileScreen() {
     lastNameState,
     genderState,
     birthDayState,
-    updateProfileSuccess,
     loading,
-    emailAddressState
+    emailAddressState,
+    passwordState,
+    onUpdateProfile
   } = useUpdateProfile();
 
   const sheetRef = useRef<BottomSheetModal>(null);
@@ -44,21 +45,15 @@ export default function EditProfileScreen() {
     }
   });
 
-  useEffect(() => {
-    if (!updateProfileSuccess) {
-      sheetRef.current?.present();
-    }
-  }, [updateProfileSuccess]);
-
   if (loading) {
     return (
-      <View className="bg-background flex-1 gap-4 justify-between">
+      <View className="bg-background flex-1 p-6 gap-4 justify-between">
         <View className="flex-1">
           <UserRoundPenIcon className="absolute top-0 right-0 size-80 text-muted-foreground opacity-30" />
-          <View className="bg-background self-center mb-2 border border-blue-200 rounded-full">
+          <View className="bg-background self-center mb-10 border border-blue-200 rounded-full">
             <Skeleton className="m-[2px] h-28 w-28 rounded-full self-center" />
           </View>
-          <View className="flex-row gap-2 mb-2">
+          <View className="flex-row gap-2 mb-6">
             <View className="flex-1 gap-2">
               <Skeleton className="h-4 w-2/3 rounded-full" />
               <Skeleton className="h-10" />
@@ -68,21 +63,21 @@ export default function EditProfileScreen() {
               <Skeleton className="h-10 " />
             </View>
           </View>
-          <View className="gap-2 mb-2">
+          <View className="gap-2 mb-6">
             <Skeleton className="h-4 w-1/3 rounded-full" />
             <Skeleton className="h-10 " />
           </View>
-          <View className="gap-2 mb-2">
+          <View className="gap-2 mb-6">
             <Skeleton className="h-4 w-1/3 rounded-full" />
             <Skeleton className="h-10 " />
           </View>
-          <View className="gap-2 mb-2">
+          <View className="gap-2 mb-6">
             <Skeleton className="h-4 w-1/3 rounded-full" />
             <Skeleton className="h-10" />
           </View>
         </View>
         <View className="flex-1 justify-end">
-          <Skeleton className="h-12 rounded-full bottom-32" />
+          <Skeleton className="h-12 rounded-full bottom-16" />
         </View>
       </View>
     );
@@ -234,10 +229,10 @@ export default function EditProfileScreen() {
             variant="default"
             size={"lg"}
             className="rounded-full"
-            onPress={() => {}}
+            onPress={() => sheetRef.current?.present()}
           >
             <Text className="text-white text-base font-medium">
-              {t(i18n)`Sign Up`}
+              {t(i18n)`Save changes`}
             </Text>
           </Button>
         </View>
@@ -245,29 +240,30 @@ export default function EditProfileScreen() {
       <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
         <BottomSheetView style={{ paddingBottom: bottom }}>
           <View className="p-4">
-            <View className="items-center mb-5 px-6 pb-4">
+            <View className="mb-5 px-4 pb-4">
               <Image
                 source={require("@/assets/images/success.png")}
                 className="w-[64px] h-[64px] self-center mb-4"
               />
               <Text className="!text-xl !text-white mb-2 font-semiBold text-center">
-                Profile Update Successful
+                {`Profile Update Successful`}
               </Text>
               <Text className="!text-lg !text-foreground mb-2 text-center">
-                Your profile information has been updated successfully. If you
-                didn’t make this change, please contact support immediately.
+                {`Your profile information has been updated successfully. If you didn’t make this change, please contact support immediately.`}
               </Text>
             </View>
             <Button
               variant="default"
               className="rounded-full mx-4"
+              disabled={!passwordState.value}
               onPress={() => {
+                onUpdateProfile();
                 sheetRef?.current?.close();
                 router.dismiss();
               }}
             >
               <Text className="text-white text-base font-medium">
-                {t(i18n)`Go back`}
+                {`Go back`}
               </Text>
             </Button>
           </View>

@@ -1,26 +1,29 @@
 import * as Application from "expo-application";
 import * as Haptics from "expo-haptics";
 
+import { BottomSheet } from "@/components/common/bottom-sheet";
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { MenuItem } from "@/components/common/menu-item";
 import { toast } from "@/components/common/toast";
 import { ProfileCard } from "@/components/profile/profile-card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";
+import { useLogout } from "@/hooks/auth/useLogout";
 import { useLocale } from "@/locales/provider";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import * as Notifications from "expo-notifications";
 import { Link } from "expo-router";
+import LottieView from "lottie-react-native";
 import {
   BellIcon,
   BookTypeIcon,
   ChevronRightIcon,
   EarthIcon,
-  InboxIcon,
+  KeyRoundIcon,
   LogOutIcon,
   MessageSquareQuoteIcon,
   ScrollTextIcon,
@@ -28,8 +31,8 @@ import {
   Share2Icon,
   SwatchBookIcon
 } from "lucide-react-native";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
-  Alert,
   Image,
   Linking,
   ScrollView,
@@ -38,17 +41,31 @@ import {
   View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useUserAuthenticateStore } from "@/stores";
-import { useProfile } from "@/hooks/profile/useProfile";
+import { userStore } from "@/stores/userStore";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ListSkeleton } from "@/components/common/list-skeleton";
 
 export default function ProfileScreen() {
   const { i18n } = useLingui();
   const { bottom } = useSafeAreaInsets();
   const { language } = useLocale();
-  const { setIsLoggedIn } = useUserAuthenticateStore();
+  const sheetRef = useRef<BottomSheetModal>(null);
+  const { onLogout } = useLogout();
+  const [loading, setLoading] = useState(true);
+  const hideTimer = useRef<NodeJS.Timeout | null>(null);
+  const userProfile = userStore.getState().userProfile;
 
   const { setEnabledPushNotifications, enabledPushNotifications } =
     useUserSettingsStore();
+  useLayoutEffect(() => {
+    !!userProfile && setLoading(false);
+    hideTimer.current = setTimeout(() => {
+      setLoading(false);
+    }, 650);
+    return () => {
+      if (hideTimer.current) clearTimeout(hideTimer.current);
+    };
+  }, [userProfile]);
 
   async function handleCopyVersion() {
     toast.success(t(i18n)`Copied version to clipboard`);
@@ -66,6 +83,22 @@ export default function ProfileScreen() {
     }
   }
 
+  if (loading) {
+    return (
+      <View className="flex-1 bg-background py-4 gap-4">
+        <View className="mx-6 flex-row items-center justify-center overflow-hidden rounded-lg">
+          <Skeleton className="h-16 w-16 rounded-full" />
+          <View className=" flex-1 bg-background gap-3">
+            <Skeleton className="mx-3 h-5 w-1/2 rounded-full" />
+            <Skeleton className="mx-3 h-6 w-2/3 rounded-full" />
+          </View>
+          <Skeleton className="h-6 w-6 rounded-full" />
+        </View>
+        <ListSkeleton />
+      </View>
+    );
+  }
+
   return (
     <View className="flex-1 bg-background">
       <ScrollView
@@ -81,6 +114,15 @@ export default function ProfileScreen() {
               <MenuItem
                 label={t(i18n)`Categories`}
                 icon={ShapesIcon}
+                rightSection={
+                  <ChevronRightIcon className="h-5 w-5 text-foreground" />
+                }
+              />
+            </Link>
+            <Link href="/change-password" asChild>
+              <MenuItem
+                label={t(i18n)`Change password`}
+                icon={KeyRoundIcon}
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />
                 }
@@ -195,23 +237,9 @@ export default function ProfileScreen() {
             />
             <Button
               variant="ghost"
-              onPress={() =>
-                Alert.alert(t(i18n)`Are you sure you want to sign out?`, "", [
-                  {
-                    text: t(i18n)`Cancel`,
-                    style: "cancel"
-                  },
-                  {
-                    text: t(i18n)`Sign out`,
-                    style: "destructive",
-                    onPress: async () => {
-                      setIsLoggedIn(false);
-                      // await signOut()
-                      // await cancelAllScheduledNotifications()
-                    }
-                  }
-                ])
-              }
+              onPress={() => {
+                sheetRef.current?.present();
+              }}
               className="!px-6 justify-start gap-6"
             >
               <LogOutIcon className="h-5 w-5 text-red-500" />
@@ -238,6 +266,39 @@ export default function ProfileScreen() {
         </TouchableOpacity>
       </ScrollView>
       <FooterGradient />
+      <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
+        <BottomSheetView style={{ paddingBottom: bottom }}>
+          <View className="p-4">
+            <View className="items-center mb-5 px-6 pb-4">
+              <LottieView
+                style={{ width: 120, height: 120 }}
+                source={require("@/assets/json/logout.json")}
+                autoPlay
+                loop
+              />
+              <Text className="!text-xl !text-white mb-2 font-semiBold text-center">
+                Ready to Leave?
+              </Text>
+              <Text className="!text-lg !text-foreground mb-2 text-center">
+                Are you sure you want to log out? You will need to log in again
+                to access your account.
+              </Text>
+            </View>
+            <Button
+              variant="default"
+              className="rounded-full mx-4"
+              onPress={() => {
+                onLogout();
+                sheetRef?.current?.close();
+              }}
+            >
+              <Text className="text-white text-base font-medium">
+                {t(i18n)`Logout`}
+              </Text>
+            </Button>
+          </View>
+        </BottomSheetView>
+      </BottomSheet>
     </View>
   );
 }

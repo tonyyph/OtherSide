@@ -43,6 +43,7 @@ export default function ForgotPasswordScreen() {
         <Button
           variant="default"
           size={"lg"}
+          className="rounded-full mx-2"
           disabled={!emailState.value}
           onPress={() => {
             router.back();
@@ -55,6 +56,7 @@ export default function ForgotPasswordScreen() {
         <Button
           variant="default"
           size={"lg"}
+          className="rounded-full mx-2"
           disabled={!emailState.value}
           onPress={() => {
             router.push("/reset-password");
@@ -127,13 +129,14 @@ export default function ForgotPasswordScreen() {
           <Button
             variant="default"
             size={"lg"}
+            className="rounded-full mx-2"
             disabled={!emailState.value}
             onPress={handleSendEmailToResetPassword}
             // onPress={onForgotPassword}
           >
-            <Text className="text-white text-base font-medium">{t(
-              i18n
-            )`Submit`}</Text>
+            <Text className="text-white text-base font-medium">
+              {t(i18n)`Submit`}
+            </Text>
           </Button>
         </View>
       </View>

@@ -3,10 +3,12 @@ import { useUserAuthenticateStore } from "@/stores";
 import { authenStore } from "@/stores/authenStore";
 import { actionWithLoading, validatePassword, validateUsername } from "@/utils";
 import { AxiosError } from "axios";
+import { useState } from "react";
 import { useMemoFunc, useValidateInput } from "../commons";
 
 export const useLogin = () => {
   const { setIsLoggedIn } = useUserAuthenticateStore();
+  const [loading, setLoading] = useState(false);
 
   const usernameState = useValidateInput({
     defaultValue: "",
@@ -24,7 +26,7 @@ export const useLogin = () => {
       const setError = (error: string = "Invalid password") => {
         passwordState.setState((prev) => ({ ...prev, error }));
       };
-
+      setLoading(true);
       try {
         const { data: session } = await loginWithUsername({
           email: usernameState.value,
@@ -37,12 +39,11 @@ export const useLogin = () => {
           });
         }
       } catch (error) {
-        console.log("error:", error);
-
         setError(
           (error as AxiosError<RestfulApiError>).response?.data?.message
         );
       } finally {
+        setLoading(false);
       }
     })
   );
@@ -52,6 +53,7 @@ export const useLogin = () => {
     cookieAccessState,
     cookieRefreshState,
     passwordState,
-    onLogin
+    onLogin,
+    loading
   };
 };

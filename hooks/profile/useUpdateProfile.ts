@@ -1,7 +1,13 @@
-import { validateLetter, validateUsername } from "@/utils";
-import { useEffect, useState } from "react";
-import { useValidateInput } from "../commons";
-import { useProfile } from "./useProfile";
+import { updateUserProfile } from "@/api";
+import { userStore } from "@/stores/userStore";
+import {
+  actionWithLoading,
+  validateLetter,
+  validatePassword,
+  validateUsername
+} from "@/utils";
+import { useEffect, useRef, useState } from "react";
+import { useMemoFunc, useValidateInput } from "../commons";
 
 type userProps = {
   id?: number;
@@ -17,7 +23,11 @@ type userProps = {
 
 export const useUpdateProfile = () => {
   const [updateProfileSuccess, setUpdateProfileSuccess] = useState(false);
-  const { userProfile, loading } = useProfile();
+  const [loading, setLoading] = useState(true);
+  const userProfile = userStore.getState().userProfile;
+
+  const hideTimer = useRef<NodeJS.Timeout | null>(null);
+
   const emailAddressState = useValidateInput({
     defaultValue: userProfile?.email,
     validate: validateUsername
@@ -42,6 +52,11 @@ export const useUpdateProfile = () => {
     validate: validateLetter
   });
 
+  const passwordState = useValidateInput({
+    defaultValue: "",
+    validate: validatePassword
+  });
+
   useEffect(() => {
     if (!!userProfile) {
       firstNameState.onChangeText(userProfile?.first_name || "");
@@ -49,8 +64,37 @@ export const useUpdateProfile = () => {
       genderState.onChangeText(userProfile?.gender || "");
       birthDayState.onChangeText(userProfile?.birthday || "");
       emailAddressState.onChangeText(userProfile?.email || "");
+      hideTimer.current = setTimeout(() => {
+        setLoading(false);
+      }, 500);
     }
+    return () => {
+      if (hideTimer.current) clearTimeout(hideTimer.current);
+    };
   }, [userProfile]);
+
+  const onUpdateProfile = useMemoFunc(
+    actionWithLoading(async () => {
+      try {
+        const { data: session } = await updateUserProfile({
+          email: emailAddressState.value,
+          first_name: firstNameState.value,
+          last_name: lastNameState.value,
+          birthday: birthDayState.value,
+          gender: genderState.value,
+          id: userProfile?.id ?? 0
+        });
+        if (session) {
+          console.log("session", session);
+          setUpdateProfileSuccess(true);
+        }
+      } catch (error) {
+        console.log("error:", error);
+      } finally {
+        setLoading(false);
+      }
+    })
+  );
 
   return {
     userProfile,
@@ -60,6 +104,9 @@ export const useUpdateProfile = () => {
     lastNameState,
     genderState,
     birthDayState,
-    emailAddressState
+    emailAddressState,
+    onUpdateProfile,
+    passwordState,
+    setUpdateProfileSuccess
   };
 };

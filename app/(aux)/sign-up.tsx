@@ -49,6 +49,7 @@ export default function SignUpScreen() {
         <Button
           variant="default"
           size={"lg"}
+          className="rounded-full mx-2"
           disabled={!emailAddressState.value}
           onPress={() => {
             router.back();
@@ -248,7 +249,7 @@ export default function SignUpScreen() {
             </View>
             <View className="my-1">
               <Text className="text-sm font-medium text-foreground mb-1">
-                Confirm password{" "}
+                Confirm Password{" "}
                 <Text className="font-regular text-red-400 group-active:text-red-400">
                   *
                 </Text>
@@ -277,6 +278,7 @@ export default function SignUpScreen() {
             <Button
               variant="default"
               size={"lg"}
+              className="rounded-full mx-2"
               disabled={
                 !emailAddressState.value ||
                 !passwordState.value ||
