@@ -145,16 +145,6 @@ export default function ExploreScreen() {
           <Text className="text-foreground text-medium font-medium">{`Judge temporarily blocks Trump's federal government employee buyout`}</Text>
           <View className="flex flex-row justify-between items-center gap-2">
             <View className="flex flex-row items-center gap-2">
-              <Image
-                source={{
-                  uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLas6SIkIzEZ6aTqN39_yEomNNA89CD8hEcQ&s"
-                }}
-                className="h-8 w-8 rounded-full border border-border"
-                resizeMode="cover"
-              />
-              <Text className="text-muted-foreground font-bold text-xs">
-                {t(i18n)`ABC News`}
-              </Text>
               <ClockIcon className="size-5 text-muted-foreground" />
               <Text className="text-muted-foreground text-xs">
                 {"3 hours ago"}
@@ -178,16 +168,6 @@ export default function ExploreScreen() {
           <Text className="text-foreground text-medium font-medium">{`Musk trolls critics and federal workers as DOGE targets US agencies`}</Text>
           <View className="flex flex-row justify-between items-center gap-2">
             <View className="flex flex-row items-center gap-2">
-              <Image
-                source={{
-                  uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLas6SIkIzEZ6aTqN39_yEomNNA89CD8hEcQ&s"
-                }}
-                className="h-8 w-8 rounded-full border border-border"
-                resizeMode="cover"
-              />
-              <Text className="text-muted-foreground font-bold text-xs">
-                {t(i18n)`ABC News`}
-              </Text>
               <ClockIcon className="size-5 text-muted-foreground" />
               <Text className="text-muted-foreground text-xs">
                 {"3 hours ago"}

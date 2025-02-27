@@ -8,14 +8,16 @@ import { AppleLogo } from "../svg-assets/apple-logo";
 import { GoogleLogo } from "../svg-assets/google-logo";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
+import { useNavigation } from "expo-router";
+import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 
 type Strategy = "oauth_google" | "oauth_apple";
 
 type AuthSocialProps = {
   label: string;
-  icon: React.ComponentType<SvgProps>;
+  icon?: React.ComponentType<SvgProps>;
   strategy: Strategy;
-  onSignedUp: (
+  onSignedUp?: (
     strategy: Strategy,
     userData: {
       id?: string;
@@ -33,42 +35,17 @@ type AuthSocialProps = {
   ) => void;
 };
 
-export function AuthSocial({
+export function AuthButton({
   label,
   icon: Icon,
   strategy,
   onSignedIn,
   onSignedUp
 }: AuthSocialProps) {
-  // const { startOAuthFlow } = useOAuth({ strategy })
-
+  const { setIsLoggedIn } = useUserAuthenticateStore();
   const onPress = async () => {
     try {
-      // const { createdSessionId, setActive, signUp, signIn } =
-      //   await startOAuthFlow()
-      // if (createdSessionId) {
-      //   setActive?.({ session: createdSessionId })
-      //   if (signUp?.createdUserId) {
-      //     setTimeout(async () => {
-      //       await createUser({
-      //         email: signUp.emailAddress!,
-      //         name: signUp.firstName ?? '',
-      //       })
-      //       onSignedUp(strategy, {
-      //         id: signUp.id,
-      //         email: signUp.emailAddress ?? undefined,
-      //         name: signUp.firstName ?? undefined,
-      //       })
-      //     }, 1000)
-      //   }
-      // } else {
-      //   // Use signIn or signUp for next steps such as MFA
-      //   onSignedIn(strategy, {
-      //     id: signIn?.id,
-      //     name: signIn?.userData.firstName,
-      //   })
-      // }
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      setIsLoggedIn(true);
     } catch (err: any) {
       toast.error(
         err?.errors?.[0]?.longMessage ?? err.message ?? "Unknown error"
@@ -77,14 +54,13 @@ export function AuthSocial({
   };
 
   return (
-    <Button variant="outline" onPress={onPress}>
-      <Icon className="h-5 w-5 text-primary" />
-      <Text>{label}</Text>
+    <Button variant="default" onPress={onPress}>
+      <Text className="text-background text-base font-medium">{label}</Text>
     </Button>
   );
 }
 
-export function GoogleAuthButton({
+export function SignUpButton({
   onSignedUp,
   onSignedIn
 }: {
@@ -107,7 +83,7 @@ export function GoogleAuthButton({
 }) {
   const { i18n } = useLingui();
   return (
-    <AuthSocial
+    <AuthButton
       label={t(i18n)`Sign in with Google`}
       icon={GoogleLogo}
       strategy="oauth_google"
@@ -117,18 +93,9 @@ export function GoogleAuthButton({
   );
 }
 
-export function AppleAuthButton({
-  onSignedUp,
+export function LoginInButton({
   onSignedIn
 }: {
-  onSignedUp: (
-    strategy: Strategy,
-    userData: {
-      id?: string;
-      email?: string;
-      name?: string;
-    }
-  ) => void;
   onSignedIn: (
     strategy: Strategy,
     userData: {
@@ -140,12 +107,10 @@ export function AppleAuthButton({
 }) {
   const { i18n } = useLingui();
   return (
-    <AuthSocial
-      label={t(i18n)`Sign in with Apple`}
-      icon={AppleLogo}
+    <AuthButton
+      label={t(i18n)`Login`}
       strategy="oauth_apple"
       onSignedIn={onSignedIn}
-      onSignedUp={onSignedUp}
     />
   );
 }

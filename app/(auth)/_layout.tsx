@@ -1,12 +1,11 @@
-// import { useAuth } from '@clerk/clerk-expo'
+import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { Redirect, Stack } from "expo-router";
 import { SafeAreaView } from "react-native";
 
 export default function UnAuthenticatedLayout() {
-  // const { isSignedIn } = useAuth()
-  const isSignedIn = false;
+  const { isLoggedIn } = useUserAuthenticateStore();
 
-  if (isSignedIn) {
+  if (isLoggedIn) {
     return <Redirect href={"/"} />;
   }
 

@@ -35,7 +35,7 @@ export default function TabLayout() {
           borderRadius: 16
         },
         headerTitleStyle: {
-          fontFamily: "Haskoy-SemiBold",
+          fontFamily: "Poppins-SemiBold",
           fontSize: 16,
           color: getColor("--foreground")
         },

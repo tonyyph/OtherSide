@@ -43,7 +43,7 @@ msgid "* you can always change this later."
 msgstr ""
 
 #: apps/mobile/app/(auth)/login.tsx:63
-msgid "<0><1>Manage your expense seamlessly</1><2>Let <3>6pm</3> a good time to spend</2></0>"
+msgid "<0><1>Manage your expense seamlessly</1><2>Let <3>OtherSide</3> a good time to spend</2></0>"
 msgstr ""
 
 #: apps/mobile/app/(app)/paywall.tsx:301
@@ -69,11 +69,11 @@ msgid "6 budgets & 6 accounts"
 msgstr ""
 
 #: apps/mobile/components/common/update-loader.tsx:12
-msgid "6pm is updating, please wait..."
+msgid "OtherSide is updating, please wait..."
 msgstr ""
 
 #: apps/mobile/components/transaction/scanner.tsx:182
-msgid "6pm needs camera permissions to scan your transactions"
+msgid "OtherSide needs camera permissions to scan your transactions"
 msgstr ""
 
 #: apps/mobile/app/(app)/profile.tsx:58
@@ -254,11 +254,11 @@ msgid "Catppuccin"
 msgstr ""
 
 #: apps/mobile/app/(app)/appearance.tsx:100
-msgid "Choose a preferred color palette for 6pm"
+msgid "Choose a preferred color palette for OtherSide"
 msgstr ""
 
 #: apps/mobile/app/(app)/appearance.tsx:19
-#~ msgid "Choose a preferred theme for the 6pm"
+#~ msgid "Choose a preferred theme for the OtherSide"
 #~ msgstr ""
 
 #: apps/mobile/app/(app)/app-icon.tsx:88
@@ -334,7 +334,7 @@ msgid "Delete"
 msgstr ""
 
 #: apps/mobile/app/(app)/profile.tsx:203
-msgid "Delete 6pm account"
+msgid "Delete OtherSide account"
 msgstr ""
 
 #: apps/mobile/app/(app)/wallet/[walletId].tsx:70
@@ -407,7 +407,7 @@ msgid "General"
 msgstr ""
 
 #: apps/mobile/app/(app)/(tabs)/settings.tsx:103
-msgid "Get 6pm Pro"
+msgid "Get OtherSide Pro"
 msgstr ""
 
 #: apps/mobile/app/onboarding/step-one.tsx:28
@@ -424,7 +424,7 @@ msgid "Growth"
 msgstr ""
 
 #: apps/mobile/app/(app)/(tabs)/settings.tsx:80
-msgid "Hi there! I'm using 6pm to manage my expenses and budgets. Feel free to give it a try and let me know what you think. https://get6pm.com"
+msgid "Hi there! I'm using OtherSide to manage my expenses and budgets. Feel free to give it a try and let me know what you think. https://getOtherSide.com"
 msgstr ""
 
 #: apps/mobile/app/onboarding/step-two.tsx:116
@@ -630,7 +630,7 @@ msgid "Quarterly"
 msgstr ""
 
 #: apps/mobile/app/(app)/(tabs)/settings.tsx:235
-#~ msgid "Rate 6pm on App Store"
+#~ msgid "Rate OtherSide on App Store"
 #~ msgstr ""
 
 #: apps/mobile/app/(app)/feedback.tsx:56
@@ -763,7 +763,7 @@ msgid "Sign out"
 msgstr ""
 
 #: apps/mobile/components/auth/auth-email.tsx:220
-msgid "Sign up"
+msgid "Sign Up"
 msgstr ""
 
 #: apps/mobile/components/transaction/draft-transaction-item.tsx:55
@@ -824,7 +824,7 @@ msgid "Thank you for your feedback!"
 msgstr ""
 
 #: apps/mobile/app/(app)/paywall.tsx:142
-msgid "Thank you! You have unlocked 6pm Pro!"
+msgid "Thank you! You have unlocked OtherSide Pro!"
 msgstr ""
 
 #: apps/mobile/app/(app)/transaction/[transactionId].tsx:68
@@ -913,7 +913,7 @@ msgid "Unlock"
 msgstr ""
 
 #: apps/mobile/app/(app)/paywall.tsx:291
-msgid "Unlock 6pm Pro"
+msgid "Unlock OtherSide Pro"
 msgstr ""
 
 #: apps/mobile/app/(app)/(tabs)/settings.tsx:106
@@ -971,7 +971,7 @@ msgid "Weekly"
 msgstr ""
 
 #: apps/mobile/app/onboarding/step-one.tsx:25
-msgid "Welcome to 6pm!"
+msgid "Welcome to OtherSide!"
 msgstr ""
 
 #: apps/mobile/app/(app)/appearance.tsx:45

@@ -1,6 +1,6 @@
-import * as LabelPrimitive from '@/components/primitives/label'
-import { cn } from '@/lib/utils'
-import * as React from 'react'
+import * as LabelPrimitive from "@/components/primitives/label";
+import { cn } from "@/lib/utils";
+import * as React from "react";
 
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Text>,
@@ -8,7 +8,7 @@ const Label = React.forwardRef<
 >(
   (
     { className, onPress, onLongPress, onPressIn, onPressOut, ...props },
-    ref,
+    ref
   ) => (
     <LabelPrimitive.Root
       className="web:cursor-default"
@@ -20,14 +20,14 @@ const Label = React.forwardRef<
       <LabelPrimitive.Text
         ref={ref}
         className={cn(
-          'font-medium native:text-base text-foreground text-sm leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70',
-          className,
+          "font-medium native:text-base text-foreground text-sm py-1 leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70",
+          className
         )}
         {...props}
       />
     </LabelPrimitive.Root>
-  ),
-)
-Label.displayName = LabelPrimitive.Root.displayName
+  )
+);
+Label.displayName = LabelPrimitive.Root.displayName;
 
-export { Label }
+export { Label };

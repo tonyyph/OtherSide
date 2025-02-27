@@ -15,6 +15,7 @@ import { LocaleProvider } from "@/locales/provider";
 import { cssInterop } from "nativewind";
 import { LinearGradient } from "expo-linear-gradient";
 import Svg from "react-native-svg";
+import LottieView from "lottie-react-native";
 
 import "../global.css";
 import { CustomPaletteWrapper } from "@/components/common/custom-palette-wrapper";
@@ -23,6 +24,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { ToastRoot } from "@/components/common/toast";
 import { PortalHost } from "@rn-primitives/portal";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -39,17 +41,26 @@ cssInterop(LinearGradient, {
   }
 });
 
+cssInterop(LottieView, {
+  className: {
+    target: "style"
+  }
+});
+
 export const unstable_settings = {
   initialRouteName: "(app)"
 };
 
 export default function RootLayout() {
-  const { colorScheme } = useColorScheme();
   const [fontsLoaded] = useFonts({
-    "Haskoy-Regular": require("../assets/fonts/Haskoy-Regular.ttf"),
-    "Haskoy-Medium": require("../assets/fonts/Haskoy-Medium.ttf"),
-    "Haskoy-SemiBold": require("../assets/fonts/Haskoy-SemiBold.ttf"),
-    "Haskoy-Bold": require("../assets/fonts/Haskoy-Bold.ttf")
+    "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
+    "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
+    "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
+    "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+    "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
+    "Poppins-ExtraLight": require("../assets/fonts/Poppins-ExtraLight.ttf"),
+    "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
+    "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf")
   });
 
   useEffect(() => {
@@ -64,38 +75,34 @@ export default function RootLayout() {
 
   return (
     <PostHogProvider
-      autocapture
-      // apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
-      apiKey={"phx_8s4eOA8xjkEGpx8ntRsdHK6CJXGxFm9qcjMFFucu9cjJeI3"}
+      apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
       options={{
-        // host: process.env.EXPO_PUBLIC_POSTHOG_HOST!,
-        host: "https://us.i.posthog.com",
+        host: process.env.EXPO_PUBLIC_POSTHOG_HOST!,
         disabled: false
       }}
     >
       <LocaleProvider>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
+        <ThemeProvider value={DarkTheme}>
           <CustomPaletteWrapper>
             <SafeAreaProvider>
               <GestureHandlerRootView>
-                <BottomSheetModalProvider>
-                  <Stack screenOptions={{ headerShown: false }}>
-                    <Stack.Screen
-                      name="(aux)"
-                      options={{
-                        presentation: "modal"
-                      }}
-                    />
-                  </Stack>
-                  <ToastRoot />
-                  <PortalHost />
-                </BottomSheetModalProvider>
+                <KeyboardProvider>
+                  <BottomSheetModalProvider>
+                    <Stack screenOptions={{ headerShown: false }}>
+                      <Stack.Screen
+                        name="(aux)"
+                        options={{
+                          presentation: "modal"
+                        }}
+                      />
+                    </Stack>
+                    <ToastRoot />
+                    <PortalHost />
+                  </BottomSheetModalProvider>
+                </KeyboardProvider>
               </GestureHandlerRootView>
             </SafeAreaProvider>
           </CustomPaletteWrapper>
-          <StatusBar style="auto" />
         </ThemeProvider>
       </LocaleProvider>
     </PostHogProvider>

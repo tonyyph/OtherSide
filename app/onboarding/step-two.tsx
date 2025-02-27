@@ -5,7 +5,7 @@
 // import { useUserMetadata } from '@/hooks/use-user-metadata'
 // import { useCreateBudget } from '@/stores/budget/hooks'
 // import { useDefaultCurrency } from '@/stores/user-settings/hooks'
-// import { BudgetPeriodTypeSchema, BudgetTypeSchema } from '@6pm/validation'
+// import { BudgetPeriodTypeSchema, BudgetTypeSchema } from '@OtherSide/validation'
 // import { zodResolver } from '@hookform/resolvers/zod'
 // import { t } from '@lingui/macro'
 // import { useLingui } from '@lingui/react'

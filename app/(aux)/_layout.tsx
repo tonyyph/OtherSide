@@ -9,6 +9,7 @@ export default function AuxiliaryLayout() {
   const { getColor } = useColorPalette();
 
   const { i18n } = useLingui();
+
   return (
     <SafeAreaView className="flex-1 bg-background">
       <Stack
@@ -17,7 +18,7 @@ export default function AuxiliaryLayout() {
           headerTintColor: getColor("--foreground"),
           headerShadowVisible: false,
           headerTitleStyle: {
-            fontFamily: "Haskoy-SemiBold",
+            fontFamily: "Poppins-SemiBold",
             fontSize: 16,
             color: getColor("--foreground")
           },
@@ -32,6 +33,34 @@ export default function AuxiliaryLayout() {
           options={{
             presentation: "modal",
             headerTitle: t(i18n)`Privacy Policy`
+          }}
+        />
+        <Stack.Screen
+          name="sign-up"
+          options={{
+            presentation: "modal",
+            headerTitle: t(i18n)`Sign Up`
+          }}
+        />
+        <Stack.Screen
+          name="forgot-password"
+          options={{
+            presentation: "modal",
+            headerTitle: t(i18n)`Forgot Password`
+          }}
+        />
+        <Stack.Screen
+          name="reset-password"
+          options={{
+            presentation: "modal",
+            headerTitle: t(i18n)`Reset Password`
+          }}
+        />
+        <Stack.Screen
+          name="login-error"
+          options={{
+            presentation: "modal",
+            headerTitle: t(i18n)`Login Error`
           }}
         />
         <Stack.Screen

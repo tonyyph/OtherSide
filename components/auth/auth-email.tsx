@@ -216,7 +216,7 @@ export function AuthEmail({
             />
             <SubmitButton onPress={verifyEmailForm.handleSubmit(onVerify)}>
               <Text>
-                {mode === "signUp" ? t(i18n)`Sign up` : t(i18n)`Sign in`}
+                {mode === "signUp" ? t(i18n)`Sign Up` : t(i18n)`Sign in`}
               </Text>
             </SubmitButton>
           </View>

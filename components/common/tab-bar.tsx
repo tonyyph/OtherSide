@@ -91,7 +91,7 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
     hideTimer.current = setTimeout(() => {
       tabBarTranslateY.value = 100;
       setHideTabBarStatus(true);
-    }, 3000);
+    }, 4500);
   }
 
   useEffect(() => {
@@ -104,7 +104,7 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
     hideTimer.current = setTimeout(() => {
       tabBarTranslateY.value = 100;
       setHideTabBarStatus(true);
-    }, 3000);
+    }, 4500);
 
     return () => {
       if (hideTimer.current) clearTimeout(hideTimer.current);
