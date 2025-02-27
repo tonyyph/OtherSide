@@ -22,7 +22,6 @@ export const useProfile = () => {
     const fetchUserProfile = async () => {
       try {
         const { data: session } = await getUserProfile();
-
         userStore.setState({ userProfile: session });
 
         setData(session);

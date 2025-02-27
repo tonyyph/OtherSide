@@ -1,4 +1,5 @@
 import { BackButton } from "@/components/common/back-button";
+import { useProfile } from "@/hooks/profile/useProfile";
 import { useColorPalette } from "@/hooks/use-color-palette";
 import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { t } from "@lingui/macro";
@@ -10,6 +11,7 @@ export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
   const { i18n } = useLingui();
   const { isLoggedIn } = useUserAuthenticateStore();
+  const { userProfile } = useProfile();
 
   if (!isLoggedIn) {
     return <Redirect href={"/login"} />;
@@ -82,7 +84,8 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="change-password/index"
           options={{
-            headerTitle: t(i18n)`Change your password`
+            presentation: "modal",
+            headerTitle: t(i18n)`Change password`
           }}
         />
         <Stack.Screen

@@ -34,7 +34,7 @@ const InfoBottomSheet = forwardRef(
               className="rounded-full mx-4"
               onPress={() => {}}
             >
-              <Text className="text-white text-base font-medium">
+              <Text className="text-background text-base font-medium">
                 {t(i18n)`Try again`}
               </Text>
             </Button>

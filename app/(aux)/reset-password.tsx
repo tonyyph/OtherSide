@@ -66,7 +66,7 @@ export default function ResetPasswordScreen() {
             router.back();
           }}
         >
-          <Text className="text-white text-base font-medium">
+          <Text className="text-background text-base font-medium">
             {t(i18n)`Login`}
           </Text>
         </Button>
@@ -146,7 +146,7 @@ export default function ResetPasswordScreen() {
             onPress={handleToResetPassword}
             // onPress={onForgotPassword}
           >
-            <Text className="text-white text-base font-medium">{t(
+            <Text className="text-background text-base font-medium">{t(
               i18n
             )`Submit`}</Text>
           </Button>

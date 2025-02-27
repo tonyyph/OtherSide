@@ -55,7 +55,7 @@ export default function SignUpScreen() {
             router.back();
           }}
         >
-          <Text className="text-white text-base font-medium">
+          <Text className="text-background text-base font-medium">
             {t(i18n)`Login`}
           </Text>
         </Button>
@@ -291,7 +291,7 @@ export default function SignUpScreen() {
               // onPress={handleSignUp}
               onPress={onSignUp}
             >
-              <Text className="text-white text-base font-medium">
+              <Text className="text-background text-base font-medium">
                 {t(i18n)`Sign Up`}
               </Text>
             </Button>

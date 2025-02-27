@@ -49,7 +49,7 @@ export default function ForgotPasswordScreen() {
             router.back();
           }}
         >
-          <Text className="text-white text-base font-medium">
+          <Text className="text-background text-base font-medium">
             {t(i18n)`Go back`}
           </Text>
         </Button>
@@ -62,7 +62,7 @@ export default function ForgotPasswordScreen() {
             router.push("/reset-password");
           }}
         >
-          <Text className="text-white text-base font-medium">
+          <Text className="text-background text-base font-medium">
             {t(i18n)`Reset Password`}
           </Text>
         </Button>
@@ -134,7 +134,7 @@ export default function ForgotPasswordScreen() {
             onPress={handleSendEmailToResetPassword}
             // onPress={onForgotPassword}
           >
-            <Text className="text-white text-base font-medium">
+            <Text className="text-background text-base font-medium">
               {t(i18n)`Submit`}
             </Text>
           </Button>

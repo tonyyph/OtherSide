@@ -189,7 +189,7 @@ export default function LoginScreen() {
               disabled={!usernameState.value || !passwordState.value}
               onPress={onLogin}
             >
-              <Text className="text-white text-base font-medium">
+              <Text className="text-background text-base font-medium">
                 {t(i18n)`Login`}
               </Text>
             </Button>
@@ -255,7 +255,7 @@ export default function LoginScreen() {
                 className="rounded-full mx-4"
                 onPress={() => sheetRef?.current?.close()}
               >
-                <Text className="text-white text-base font-medium">
+                <Text className="text-background text-base font-medium">
                   {t(i18n)`Try again`}
                 </Text>
               </Button>

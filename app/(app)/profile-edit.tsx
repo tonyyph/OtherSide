@@ -231,7 +231,7 @@ export default function EditProfileScreen() {
             className="rounded-full"
             onPress={() => sheetRef.current?.present()}
           >
-            <Text className="text-white text-base font-medium">
+            <Text className="text-background text-base font-medium">
               {t(i18n)`Save changes`}
             </Text>
           </Button>
@@ -255,14 +255,13 @@ export default function EditProfileScreen() {
             <Button
               variant="default"
               className="rounded-full mx-4"
-              disabled={!passwordState.value}
               onPress={() => {
                 onUpdateProfile();
                 sheetRef?.current?.close();
                 router.dismiss();
               }}
             >
-              <Text className="text-white text-base font-medium">
+              <Text className="text-background text-base font-medium">
                 {`Go back`}
               </Text>
             </Button>

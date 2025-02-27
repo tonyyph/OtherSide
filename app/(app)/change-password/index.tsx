@@ -105,7 +105,7 @@ export default function ChangePasswordScreen() {
           </View>
         </View>
       </View>
-      <View className="justify-end bottom-12">
+      <View className="justify-end bottom-28">
         <Button
           variant="default"
           size={"lg"}
@@ -117,7 +117,7 @@ export default function ChangePasswordScreen() {
           }
           onPress={onChangePassword}
         >
-          <Text className="text-white text-base font-medium">
+          <Text className="text-background text-base font-medium">
             {t(i18n)`Save`}
           </Text>
         </Button>
@@ -148,7 +148,7 @@ export default function ChangePasswordScreen() {
                 router.dismiss();
               }}
             >
-              <Text className="text-white text-base font-medium">
+              <Text className="text-background text-base font-medium">
                 {`Go back`}
               </Text>
             </Button>

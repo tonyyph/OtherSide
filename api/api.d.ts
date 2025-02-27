@@ -34,6 +34,10 @@ type LoginResponse = {
   refreshToken: string;
 };
 
+type LogoutResponse = {
+  message: string;
+};
+
 type ForgotPasswordRequest = {
   email: string;
 };

@@ -32,7 +32,10 @@ export function UserAvatar({
   return (
     <Avatar
       alt={`${123}'s avatar`}
-      className={cn("h-12 w-12 border border-border bg-muted", className)}
+      className={cn(
+        "h-12 w-12 border border-blue-500 p-[1px] bg-muted",
+        className
+      )}
     >
       <AvatarImage source={{ uri: imageUrl }} />
       <AvatarFallback className={fallbackClassName}>

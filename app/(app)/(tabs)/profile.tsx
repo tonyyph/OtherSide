@@ -61,7 +61,7 @@ export default function ProfileScreen() {
     !!userProfile && setLoading(false);
     hideTimer.current = setTimeout(() => {
       setLoading(false);
-    }, 650);
+    }, 3000);
     return () => {
       if (hideTimer.current) clearTimeout(hideTimer.current);
     };
@@ -292,7 +292,7 @@ export default function ProfileScreen() {
                 sheetRef?.current?.close();
               }}
             >
-              <Text className="text-white text-base font-medium">
+              <Text className="text-background text-base font-medium">
                 {t(i18n)`Logout`}
               </Text>
             </Button>

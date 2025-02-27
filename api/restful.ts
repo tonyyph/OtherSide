@@ -33,6 +33,23 @@ export const loginWithUsername = async (data: LoginRequest) => {
   );
 };
 
+export const logout = async () => {
+  const cookie = authenStore.getState().cookie;
+
+  console.log(" logout 💯 cookie:", cookie);
+
+  return await axios.post<LogoutResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/auth/logout`,
+    {},
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
 export const forgotPassword = async (data: ForgotPasswordRequest) => {
   return await axios.post<ForgotPasswordResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/auth/forgot-password`,
