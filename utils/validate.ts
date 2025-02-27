@@ -2,14 +2,14 @@ export const validateUsername = (username?: string, required?: boolean) => {
   if (!username) {
     return { error: "Email or Phone Number is required.", valid: false };
   }
-  if (username?.includes("@")) {
-    const re = /\S+@\S+\.\S+/;
+  // if (username?.includes("@")) {
+  //   const re = /\S+@\S+\.\S+/;
 
-    if (!re.test(username)) {
-      return { error: "Invalid email address.", valid: false };
-    }
-    return { error: "", valid: true };
-  }
+  //   if (!re.test(username)) {
+  //     return { error: "Invalid email address.", valid: false };
+  //   }
+  //   return { error: "", valid: true };
+  // }
   return { error: "", valid: true };
 };
 
@@ -34,12 +34,6 @@ export const validateLetter = (email?: string, required?: boolean) => {
 };
 
 export const validatePassword = (password?: string, required?: boolean) => {
-  if (!password) {
-    return { error: "Password is required.", valid: false };
-  }
-  // if (password.length < 6) {
-  //   return { error: "Password is too short.", valid: false };
-  // }
   return { error: "", valid: true };
 };
 

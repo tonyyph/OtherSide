@@ -1,8 +1,7 @@
+import { authenStore } from "@/stores/authenStore";
 import axios from "axios";
 
 export const signUpWithEmail = async (data: SignUpRequest) => {
-  console.log("signUpWithEmail 💯 data:", data);
-
   return await axios.post<SignUpResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/users`,
     {
@@ -12,7 +11,8 @@ export const signUpWithEmail = async (data: SignUpRequest) => {
       first_name: data.first_name,
       last_name: data.last_name,
       birthday: data.birthday,
-      gender: data.gender
+      gender: data.gender,
+      language: "en"
     }
   );
 };
@@ -59,4 +59,15 @@ export const refreshToken = async (data: RefreshTokenRequest) => {
       refreshToken: data.refreshToken
     }
   );
+};
+
+export const getUserProfile = async () => {
+  const cookie = authenStore.getState().cookie;
+
+  return await axios.get<any>(`${process.env.EXPO_PUBLIC_API_URL}/users/me`, {
+    headers: {
+      accept: "*/*",
+      Authorization: `Bearer ${cookie?.accessToken}`
+    }
+  });
 };

@@ -38,11 +38,14 @@ import {
   View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useUserAuthenticateStore } from "@/stores";
+import { useProfile } from "@/hooks/profile/useProfile";
 
 export default function ProfileScreen() {
   const { i18n } = useLingui();
   const { bottom } = useSafeAreaInsets();
   const { language } = useLocale();
+  const { setIsLoggedIn } = useUserAuthenticateStore();
 
   const { setEnabledPushNotifications, enabledPushNotifications } =
     useUserSettingsStore();
@@ -202,6 +205,7 @@ export default function ProfileScreen() {
                     text: t(i18n)`Sign out`,
                     style: "destructive",
                     onPress: async () => {
+                      setIsLoggedIn(false);
                       // await signOut()
                       // await cancelAllScheduledNotifications()
                     }

@@ -1,43 +1,47 @@
+import { BottomSheet } from "@/components/common/bottom-sheet";
 import { CheckBox, UnCheckBox } from "@/components/common/icons";
 import { AuthIllustration } from "@/components/svg-assets/auth-illustration";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { useLogin } from "@/hooks/auth/useLogin";
-import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Link } from "expo-router";
 import {
   CircleAlertIcon,
-  EyeClosedIcon,
   EyeIcon,
   EyeOffIcon,
   KeyIcon,
-  User,
   UserRoundIcon
 } from "lucide-react-native";
-import { useCallback, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
+  Image,
   Linking,
   ScrollView,
   TextInput,
   TouchableOpacity,
   View
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function LoginScreen() {
   const [isRemember, setIsRemember] = useState(false);
   const [securePassword, setSecurePassword] = useState(true);
-  const { setIsLoggedIn } = useUserAuthenticateStore();
+  const sheetRef = useRef<BottomSheetModal>(null);
   const { i18n } = useLingui();
+  const { bottom } = useSafeAreaInsets();
+
   const { onLogin, usernameState, passwordState } = useLogin();
-  const handleSignedIn = useCallback(() => {
-    setIsLoggedIn(true);
-  }, []);
 
   const onPressSecurePassword = () => {
     setSecurePassword((prev) => !prev);
   };
+
+  useEffect(() => {
+    !!passwordState.error && sheetRef.current?.present();
+  }, [passwordState.error]);
 
   return (
     <ScrollView
@@ -158,10 +162,9 @@ export default function LoginScreen() {
           <Button
             variant="default"
             disabled={!usernameState.value || !passwordState.value}
-            // onPress={onLogin}
-            onPress={handleSignedIn}
+            onPress={onLogin}
           >
-            <Text className="text-black text-base font-medium">
+            <Text className="text-white text-base font-medium">
               {t(i18n)`Login`}
             </Text>
           </Button>
@@ -206,6 +209,33 @@ export default function LoginScreen() {
           </Trans>
         </View>
       </View>
+      <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
+        <BottomSheetView style={{ paddingBottom: bottom }}>
+          <View className="p-4">
+            <View className="items-center mb-5 px-6 pb-4">
+              <Image
+                source={require("@/assets/images/warning.png")}
+                className="w-[64px] h-[64px] self-center mb-4"
+              />
+              <Text className="!text-xl !text-white mb-2 font-semiBold text-center">
+                Invalid email or password
+              </Text>
+              <Text className="!text-lg !text-foreground mb-2 text-center">
+                Your email or password is incorrect. Please check and try again.
+              </Text>
+            </View>
+            <Button
+              variant="default"
+              className="rounded-full mx-4"
+              onPress={() => sheetRef?.current?.close()}
+            >
+              <Text className="text-white text-base font-medium">
+                {t(i18n)`Try again`}
+              </Text>
+            </Button>
+          </View>
+        </BottomSheetView>
+      </BottomSheet>
     </ScrollView>
   );
 }

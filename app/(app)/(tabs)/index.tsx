@@ -31,6 +31,7 @@ import {
 } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { FooterGradient } from "@/components/common/footer-gradient";
 
 export default function HomeScreen() {
   const [activePostId, setActivePostId] = useState();
@@ -259,6 +260,7 @@ export default function HomeScreen() {
         viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
         showsVerticalScrollIndicator={false}
       />
+      <FooterGradient />
     </View>
   );
 }

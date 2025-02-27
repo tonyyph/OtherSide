@@ -1,192 +1,278 @@
+import { BottomSheet } from "@/components/common/bottom-sheet";
+import { DatePicker } from "@/components/common/date-picker";
 import { UserAvatar } from "@/components/common/user-avatar";
-import { InputField } from "@/components/form-fields/input-field";
-import { SubmitButton } from "@/components/form-fields/submit-button";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Radio } from "@/components/ui/radio";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Text } from "@/components/ui/text";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useProfile } from "@/hooks/profile/useProfile";
+import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";
+import { formatDateShort } from "@/lib/date";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import * as Haptics from "expo-haptics";
-import { SaveFormat, manipulateAsync } from "expo-image-manipulator";
-import * as ImagePicker from "expo-image-picker";
-import { useRouter } from "expo-router";
-import { Trash2Icon } from "lucide-react-native";
+import { router } from "expo-router";
+import {
+  CaseLowerIcon,
+  CaseSensitiveIcon,
+  MailIcon,
+  UserRoundPenIcon
+} from "lucide-react-native";
+import { useEffect, useRef } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { Alert, Pressable, ScrollView, View } from "react-native";
-import { z } from "zod";
-
-const zProfileForm = z.object({
-  imageUrl: z.string().nullable(),
-  fullName: z.string().min(1, "Profile name is required")
-});
-type ProfileFormValues = z.infer<typeof zProfileForm>;
+import { Image, ScrollView, TextInput, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function EditProfileScreen() {
-  const { i18n } = useLingui();
-  const router = useRouter();
-  const user = {
-    id: "123",
-    fullName: "Tony Phan",
-    primaryEmailAddress: {
-      emailAddress: "tonyphan@gmail.com"
-    },
-    imageUrl:
-      "https://media.licdn.com/dms/image/v2/C4E0BAQHRcd8MW8NoEQ/company-logo_200_200/company-logo_200_200/0/1631373100497?e=2147483647&v=beta&t=1pTjV_f6c_HEPpm-zTeobA6HYV_YNV4aLrGLGBB0K-w"
-  };
+  const {
+    firstNameState,
+    lastNameState,
+    genderState,
+    birthDayState,
+    updateProfileSuccess,
+    loading,
+    emailAddressState
+  } = useUpdateProfile();
 
-  const profileForm = useForm<ProfileFormValues>({
-    resolver: zodResolver(zProfileForm),
+  const sheetRef = useRef<BottomSheetModal>(null);
+  const { bottom } = useSafeAreaInsets();
+
+  const { i18n } = useLingui();
+  const form = useForm({
     defaultValues: {
-      fullName: user?.fullName ?? "",
-      imageUrl: user?.imageUrl ?? null
+      date: new Date()
     }
   });
 
-  async function handlePickImage() {
-    Haptics.selectionAsync();
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsMultipleSelection: false,
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: false,
-      quality: 0.5
-    });
-    if (result.canceled) {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      return;
+  useEffect(() => {
+    if (!updateProfileSuccess) {
+      sheetRef.current?.present();
     }
-    const manipResult = await manipulateAsync(
-      result.assets[0].uri,
-      [
-        {
-          resize: { width: 512 }
-        }
-      ],
-      {
-        compress: 0.5,
-        format: SaveFormat.WEBP,
-        base64: true
-      }
-    );
-    const base64 = manipResult.base64;
-    const imageUrl = base64 ? `data:image/webp;base64,${base64}` : null;
-    profileForm.setValue("imageUrl", imageUrl, { shouldDirty: true });
-  }
+  }, [updateProfileSuccess]);
 
-  function onSubmit(data: ProfileFormValues) {
-    Alert.alert(t(i18n)`Are you sure you want to change profile?`, "", [
-      {
-        text: t(i18n)`Cancel`,
-        style: "cancel"
-      },
-      {
-        text: t(i18n)`Confirm`,
-        style: "destructive",
-        onPress: async () => {
-          // await signOut()
-          // await cancelAllScheduledNotifications()
-        }
-      }
-    ]);
-  }
-
-  function handleDeleteAccount() {
-    Alert.alert(
-      "",
-      t(
-        i18n
-      )`Are you sure you want to delete your account? This action cannot be undone.`,
-      [
-        {
-          text: t(i18n)`Cancel`,
-          style: "cancel"
-        },
-        {
-          text: t(i18n)`Delete`,
-          style: "destructive",
-          onPress: async () => {
-            // await mutateDeleteAccount()
-          }
-        }
-      ]
+  if (loading) {
+    return (
+      <View className="bg-background flex-1 gap-4 justify-between">
+        <View className="flex-1">
+          <UserRoundPenIcon className="absolute top-0 right-0 size-80 text-muted-foreground opacity-30" />
+          <View className="bg-background self-center mb-2 border border-blue-200 rounded-full">
+            <Skeleton className="m-[2px] h-28 w-28 rounded-full self-center" />
+          </View>
+          <View className="flex-row gap-2 mb-2">
+            <View className="flex-1 gap-2">
+              <Skeleton className="h-4 w-2/3 rounded-full" />
+              <Skeleton className="h-10" />
+            </View>
+            <View className="flex-1 gap-2">
+              <Skeleton className="h-4 w-2/3 rounded-full" />
+              <Skeleton className="h-10 " />
+            </View>
+          </View>
+          <View className="gap-2 mb-2">
+            <Skeleton className="h-4 w-1/3 rounded-full" />
+            <Skeleton className="h-10 " />
+          </View>
+          <View className="gap-2 mb-2">
+            <Skeleton className="h-4 w-1/3 rounded-full" />
+            <Skeleton className="h-10 " />
+          </View>
+          <View className="gap-2 mb-2">
+            <Skeleton className="h-4 w-1/3 rounded-full" />
+            <Skeleton className="h-10" />
+          </View>
+        </View>
+        <View className="flex-1 justify-end">
+          <Skeleton className="h-12 rounded-full bottom-32" />
+        </View>
+      </View>
     );
   }
 
   return (
-    <ScrollView className="bg-background" contentContainerClassName="px-6 py-3">
-      <FormProvider {...profileForm}>
-        <View className="gap-4">
-          <Pressable onPress={handlePickImage}>
-            <Controller
-              name="imageUrl"
-              control={profileForm.control}
-              render={({ field: { value } }) => (
-                <UserAvatar
-                  user={{
-                    ...user!,
-                    imageUrl: value!
-                  }}
-                  className="h-20 w-20"
+    <FormProvider {...form}>
+      <ScrollView
+        className="bg-background"
+        contentContainerClassName="gap-4 p-8 justify-center flex-1"
+        automaticallyAdjustKeyboardInsets
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <View className="bg-background self-center mb-2 border border-blue-200 rounded-full">
+          <UserAvatar
+            imageUrl="https://media.licdn.com/dms/image/v2/C4E0BAQHRcd8MW8NoEQ/company-logo_200_200/company-logo_200_200/0/1631373100497?e=2147483647&v=beta&t=1pTjV_f6c_HEPpm-zTeobA6HYV_YNV4aLrGLGBB0K-w"
+            fallbackClassName="bg-background"
+            className="h-28 w-28"
+          />
+        </View>
+        {/* Illustration */}
+        <UserRoundPenIcon className="absolute top-0 right-0 size-80 text-muted-foreground opacity-30" />
+        {/* Input Field */}
+        <View className="flex-1">
+          <View className="flex-1 flex-col gap-3">
+            {/* Username Field */}
+            <View className="flex flex-row justify-between gap-2">
+              <View className="my-1 flex-1">
+                <Text className="text-sm font-medium text-foreground mb-1">
+                  First Name
+                </Text>
+                <View className="border border-border rounded-lg relative">
+                  <TextInput
+                    className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
+                    placeholder={t(i18n)`ex: Tony .D`}
+                    placeholderTextColor={"gray"}
+                    autoCapitalize="none"
+                    value={firstNameState.value}
+                    onChangeText={firstNameState.onChangeText}
+                  />
+                  <View className="absolute top-4 left-3">
+                    <CaseSensitiveIcon className="size-5 text-muted-foreground" />
+                  </View>
+                </View>
+              </View>
+
+              <View className="my-1 flex-1">
+                <Text className="text-sm font-medium text-foreground mb-1">
+                  Last Name
+                </Text>
+                <View className="border border-border rounded-lg relative">
+                  <TextInput
+                    className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
+                    placeholder={t(i18n)`ex: Phan`}
+                    placeholderTextColor={"gray"}
+                    autoCapitalize="none"
+                    value={lastNameState.value}
+                    onChangeText={lastNameState.onChangeText}
+                  />
+                  <View className="absolute top-4 left-3">
+                    <CaseLowerIcon className="size-5 text-muted-foreground" />
+                  </View>
+                </View>
+              </View>
+            </View>
+
+            <View className="my-1">
+              <Text className="text-sm font-medium text-foreground mb-1">
+                Email Address
+              </Text>
+              <View className="border border-border rounded-lg relative">
+                <TextInput
+                  className="pl-10 pr-10 rounded-lg bg-background h-12 text-white opacity-30"
+                  placeholderTextColor={"gray"}
+                  autoCapitalize="none"
+                  value={emailAddressState.value}
+                  editable={false}
                 />
-              )}
-            />
-          </Pressable>
-          <View className=" flex-1 bg-background mb-2">
-            <Text className="text-base font-extrabold text-foreground mb-1">
-              {t(i18n)`Avatar`}
-            </Text>
-            <View className="flex-row items-center gap-2">
-              <Button variant="secondary" size="sm" onPress={handlePickImage}>
-                <Text>{t(i18n)`Upload new photo`}</Text>
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                disabled={!user?.imageUrl}
-                onPress={() =>
-                  profileForm.setValue("imageUrl", null, { shouldDirty: true })
-                }
-              >
-                <Trash2Icon className="h-5 w-5 text-foreground" />
-              </Button>
+                <View className="absolute top-4 left-3">
+                  <MailIcon className="size-5 text-muted-foreground opacity-50" />
+                </View>
+              </View>
+            </View>
+
+            <View className="justify-center">
+              <Text className="text-sm font-medium text-foreground mb-1">
+                Gender
+              </Text>
+              <View className="flex flex-row items-center gap-2 h-12">
+                <View className="flex flex-row items-center gap-2 justify-center">
+                  <Radio
+                    selected={genderState.value === "male" ? true : false}
+                    onPress={() => {
+                      genderState.onChangeText("male");
+                    }}
+                  />
+                  <Text className="text-sm font-medium text-white">
+                    {"Male"}
+                  </Text>
+                </View>
+                <View className="flex flex-row items-center gap-2 justify-center">
+                  <Radio
+                    selected={genderState.value === "female" ? true : false}
+                    onPress={() => {
+                      genderState.onChangeText("female");
+                    }}
+                  />
+                  <Text className="text-sm font-medium text-white">
+                    {"Female"}
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <View className="flex-1">
+              <Text className="text-sm font-medium text-foreground mb-1">
+                Birthday
+              </Text>
+              <View className="rounded-lg">
+                <Controller
+                  name="date"
+                  rules={{ required: true }}
+                  control={form.control}
+                  render={({ field: { onChange, value } }) => (
+                    <DatePicker
+                      value={new Date(birthDayState.value ?? "1990-01-01")}
+                      onChange={(val) => {
+                        birthDayState.onChangeText(formatDateShort(val));
+                        onChange(val);
+                      }}
+                      minimumDate={
+                        new Date(Date.now() - 365 * 24 * 60 * 60 * 1000 * 100)
+                      }
+                      maximumDate={
+                        new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+                      }
+                    />
+                  )}
+                />
+              </View>
             </View>
           </View>
-          <InputField
-            name="fullName"
-            label={t(i18n)`Display name`}
-            placeholder={t(i18n)`Your display name`}
-            autoCapitalize="words"
-            disabled={profileForm.formState.isLoading}
-          />
-          <SubmitButton
-            className="self-start"
-            onPress={profileForm.handleSubmit(onSubmit)}
-            disabled={
-              profileForm.formState.isLoading || !profileForm.formState.isDirty
-            }
-          >
-            <Text>{t(i18n)`Save changes`}</Text>
-          </SubmitButton>
         </View>
-      </FormProvider>
-      <Separator className="mt-20 mb-4" />
-      <View className="gap-3">
-        <Text className="font-medium text-base text-foreground">
-          {t(i18n)`Danger zone`}
-        </Text>
-        <Button
-          onPress={handleDeleteAccount}
-          disabled={false}
-          variant="destructive-outline"
-          size="sm"
-          className="self-start"
-        >
-          <Text>{t(i18n)`Delete account`}</Text>
-        </Button>
-        <Text className="mb-4 text-muted-foreground text-sm">
-          {t(i18n)`All your data will be deleted`}
-        </Text>
-      </View>
-    </ScrollView>
+
+        <View className="justify-end bottom-16">
+          {/* Login Button */}
+          <Button
+            variant="default"
+            size={"lg"}
+            className="rounded-full"
+            onPress={() => {}}
+          >
+            <Text className="text-white text-base font-medium">
+              {t(i18n)`Sign Up`}
+            </Text>
+          </Button>
+        </View>
+      </ScrollView>
+      <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
+        <BottomSheetView style={{ paddingBottom: bottom }}>
+          <View className="p-4">
+            <View className="items-center mb-5 px-6 pb-4">
+              <Image
+                source={require("@/assets/images/success.png")}
+                className="w-[64px] h-[64px] self-center mb-4"
+              />
+              <Text className="!text-xl !text-white mb-2 font-semiBold text-center">
+                Profile Update Successful
+              </Text>
+              <Text className="!text-lg !text-foreground mb-2 text-center">
+                Your profile information has been updated successfully. If you
+                didn’t make this change, please contact support immediately.
+              </Text>
+            </View>
+            <Button
+              variant="default"
+              className="rounded-full mx-4"
+              onPress={() => {
+                sheetRef?.current?.close();
+                router.dismiss();
+              }}
+            >
+              <Text className="text-white text-base font-medium">
+                {t(i18n)`Go back`}
+              </Text>
+            </Button>
+          </View>
+        </BottomSheetView>
+      </BottomSheet>
+    </FormProvider>
   );
 }

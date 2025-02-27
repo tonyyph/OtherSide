@@ -61,4 +61,6 @@ type RefreshTokenResponse = {
 };
 type RestfulApiError = {
   error?: string;
+  message?: string;
+  statusCode?: number;
 };

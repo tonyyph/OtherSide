@@ -18,6 +18,8 @@ import Animated, {
   withSequence,
   withTiming
 } from "react-native-reanimated";
+import { useProfile } from "@/hooks/profile/useProfile";
+import { Skeleton } from "../ui/skeleton";
 
 const COLS = 15;
 const ROWS = 15;
@@ -149,39 +151,43 @@ export const DotsGrid = () => {
 export function ProfileCard() {
   const { i18n } = useLingui();
   const router = useRouter();
-  const user = {
-    id: "123",
-    fullName: "Tony Phan",
-    primaryEmailAddress: {
-      emailAddress: "tonyphan@gmail.com"
-    },
-    imageUrl:
-      "https://media.licdn.com/dms/image/v2/C4E0BAQHRcd8MW8NoEQ/company-logo_200_200/company-logo_200_200/0/1631373100497?e=2147483647&v=beta&t=1pTjV_f6c_HEPpm-zTeobA6HYV_YNV4aLrGLGBB0K-w"
-  };
+  const { userProfile, loading } = useProfile();
+
+  if (loading) {
+    return (
+      <View className="mx-6 flex-row items-center justify-center overflow-hidden rounded-lg">
+        <Skeleton className="h-16 w-16 rounded-full" />
+        <View className=" flex-1 bg-background gap-3">
+          <Skeleton className="mx-3 h-5 w-1/2 rounded-full" />
+          <Skeleton className="mx-3 h-6 w-2/3 rounded-full" />
+        </View>
+        <Skeleton className="h-6 w-6 rounded-full" />
+      </View>
+    );
+  }
 
   return (
     <View className="mx-6 flex-row items-center justify-center overflow-hidden rounded-lg">
-      {/* href="/category" */}
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => router.push("/(app)/profile-edit")}
         className="flex flex-1 flex-row items-center justify-center gap-3"
       >
         <UserAvatar
-          user={user!}
+          imageUrl="https://media.licdn.com/dms/image/v2/C4E0BAQHRcd8MW8NoEQ/company-logo_200_200/company-logo_200_200/0/1631373100497?e=2147483647&v=beta&t=1pTjV_f6c_HEPpm-zTeobA6HYV_YNV4aLrGLGBB0K-w"
           fallbackClassName="bg-background"
           className="h-16 w-16"
         />
         <View className="flex-1 justify-center gap-1.5">
           <Text className="line-clamp-1 font-semiBold">
-            {user?.fullName ?? user?.primaryEmailAddress?.emailAddress}
+            {userProfile?.first_name + " " + userProfile?.last_name}
           </Text>
           <Badge
             variant="default"
             className="flex-row gap-1 self-start rounded-md"
           >
             {true && <CrownIcon className="size-4 text-primary-foreground" />}
-            <Text className="font-medium text-sm">{t(i18n)`Wealth`}</Text>
+            <Text className="font-medium text-sm">{t(i18n)`Professional`}</Text>
           </Badge>
         </View>
       </TouchableOpacity>

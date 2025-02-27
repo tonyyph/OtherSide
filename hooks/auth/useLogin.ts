@@ -1,13 +1,13 @@
 import { loginWithUsername } from "@/api";
+import { useUserAuthenticateStore } from "@/stores";
 import { authenStore } from "@/stores/authenStore";
 import { actionWithLoading, validatePassword, validateUsername } from "@/utils";
-import { useNavigation } from "@react-navigation/native";
 import { AxiosError } from "axios";
-import { Alert, Keyboard } from "react-native";
 import { useMemoFunc, useValidateInput } from "../commons";
 
 export const useLogin = () => {
-  const navigation = useNavigation<NavigationProps<"LoginScreen">>();
+  const { setIsLoggedIn } = useUserAuthenticateStore();
+
   const usernameState = useValidateInput({
     defaultValue: "",
     validate: validateUsername
@@ -26,14 +26,12 @@ export const useLogin = () => {
       };
 
       try {
-        console.log("usernameState.value", usernameState.value);
-        console.log("passwordState.value", passwordState.value);
         const { data: session } = await loginWithUsername({
           email: usernameState.value,
           password: passwordState.value
         });
-        console.log("session", session);
         if (session && session.accessToken && session.refreshToken) {
+          setIsLoggedIn(true);
           authenStore.setState({
             cookie: session
           });
@@ -41,18 +39,8 @@ export const useLogin = () => {
       } catch (error) {
         console.log("error:", error);
 
-        setError((error as AxiosError<RestfulApiError>).response?.data?.error);
-        Alert.alert(
-          "Login failed",
-          "Your username or password is incorrect. Please check and try again.",
-          [
-            {
-              text: "OK",
-              onPress: () => {
-                Keyboard.dismiss();
-              }
-            }
-          ]
+        setError(
+          (error as AxiosError<RestfulApiError>).response?.data?.message
         );
       } finally {
       }

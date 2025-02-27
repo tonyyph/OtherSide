@@ -13,15 +13,12 @@ import {
   CaseSensitiveIcon,
   KeyIcon,
   MailIcon,
-  NewspaperIcon,
   UserRoundPlusIcon
 } from "lucide-react-native";
-import { useCallback, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Linking, ScrollView, TextInput, View } from "react-native";
 
 export default function SignUpScreen() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const {
     onSignUp,
     passwordState,
@@ -30,13 +27,9 @@ export default function SignUpScreen() {
     lastNameState,
     genderState,
     birthDayState,
-    emailAddressState
+    emailAddressState,
+    registerSuccess
   } = useSignUp();
-
-  const handleSignUp = useCallback(() => {
-    setIsSubmitted(true);
-  }, []);
-  //TODO: remove this when all done.
 
   const { i18n } = useLingui();
   const form = useForm({
@@ -45,7 +38,7 @@ export default function SignUpScreen() {
     }
   });
 
-  if (isSubmitted) {
+  if (registerSuccess) {
     return (
       <View className=" flex-1 justify-center mb-4 gap-8 p-8">
         <BadgeCheckIcon className="absolute top-36 right-0  size-80 text-muted-foreground opacity-35" />
@@ -58,10 +51,10 @@ export default function SignUpScreen() {
           size={"lg"}
           disabled={!emailAddressState.value}
           onPress={() => {
-            router.dismiss();
+            router.back();
           }}
         >
-          <Text className="text-black text-base font-medium">
+          <Text className="text-white text-base font-medium">
             {t(i18n)`Login`}
           </Text>
         </Button>
@@ -296,7 +289,7 @@ export default function SignUpScreen() {
               // onPress={handleSignUp}
               onPress={onSignUp}
             >
-              <Text className="text-black text-base font-medium">
+              <Text className="text-white text-base font-medium">
                 {t(i18n)`Sign Up`}
               </Text>
             </Button>

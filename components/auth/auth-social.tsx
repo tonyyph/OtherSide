@@ -55,7 +55,7 @@ export function AuthButton({
 
   return (
     <Button variant="default" onPress={onPress}>
-      <Text className="text-black text-base font-medium">{label}</Text>
+      <Text className="text-white text-base font-medium">{label}</Text>
     </Button>
   );
 }
