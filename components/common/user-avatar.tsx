@@ -5,10 +5,10 @@ import { Text } from "../ui/text";
 type UserAvatarProps = {
   user?: {
     id?: string | undefined;
-    first_name?: string | undefined;
+    firstName?: string | undefined;
     imageUrl?: string | undefined;
     email?: string | undefined;
-    last_name?: string | undefined;
+    lastName?: string | undefined;
     birthday?: string | undefined;
     gender?: string | undefined;
     language?: string | undefined;
@@ -28,7 +28,7 @@ export function UserAvatar({
   fallbackClassName,
   fallbackLabelClassName
 }: UserAvatarProps) {
-  const shortName = user?.first_name?.split(" ")[0].slice(0, 2);
+  const shortName = user?.firstName?.split(" ")[0].slice(0, 2);
   return (
     <Avatar
       alt={`${123}'s avatar`}

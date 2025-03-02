@@ -53,19 +53,6 @@ export default function ForgotPasswordScreen() {
             {t(i18n)`Go back`}
           </Text>
         </Button>
-        <Button
-          variant="default"
-          size={"lg"}
-          className="rounded-full mx-2"
-          disabled={!emailState.value}
-          onPress={() => {
-            router.push("/reset-password");
-          }}
-        >
-          <Text className="text-background text-base font-medium">
-            {t(i18n)`Reset Password`}
-          </Text>
-        </Button>
       </View>
     );
   }
@@ -82,7 +69,9 @@ export default function ForgotPasswordScreen() {
       <View className="z-10">
         <Trans>
           <View className="gap-2">
-            <Text className="font-bold text-[44px] text-white">Forgot</Text>
+            <Text className="font-bold text-[44px] text-muted-foreground">
+              Forgot
+            </Text>
             <Text className="font-bold text-[44px] text-primary">
               Password?
             </Text>

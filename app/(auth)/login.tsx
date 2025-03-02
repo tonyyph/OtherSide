@@ -74,7 +74,7 @@ export default function LoginScreen() {
         <View className="z-10">
           <Trans>
             <View className="gap-2">
-              <Text className="font-bold text-[44px] text-white">
+              <Text className="font-bold text-[44px] text-muted-foreground">
                 Welcome to
               </Text>
               <Text className="font-bold text-[44px] text-primary">

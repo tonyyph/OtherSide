@@ -44,9 +44,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { userStore } from "@/stores/userStore";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ListSkeleton } from "@/components/common/list-skeleton";
+import { RefreshControl } from "react-native";
+import { useColorPalette } from "@/hooks/use-color-palette";
 
 export default function ProfileScreen() {
   const { i18n } = useLingui();
+  const { getColor } = useColorPalette();
+
   const { bottom } = useSafeAreaInsets();
   const { language } = useLocale();
   const sheetRef = useRef<BottomSheetModal>(null);
@@ -70,6 +74,13 @@ export default function ProfileScreen() {
   async function handleCopyVersion() {
     toast.success(t(i18n)`Copied version to clipboard`);
   }
+
+  const onRefresh = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  };
 
   async function handleShare() {
     try {
@@ -103,6 +114,13 @@ export default function ProfileScreen() {
     <View className="flex-1 bg-background">
       <ScrollView
         contentContainerClassName="py-4 gap-4"
+        refreshControl={
+          <RefreshControl
+            refreshing={true}
+            tintColor={getColor("--primary")}
+            onRefresh={onRefresh}
+          />
+        }
         contentContainerStyle={{ paddingBottom: bottom + 80 }}
         className="bg-background"
       >
@@ -121,7 +139,7 @@ export default function ProfileScreen() {
             </Link>
             <Link href="/change-password" asChild>
               <MenuItem
-                label={t(i18n)`Change password`}
+                label={t(i18n)`Change Password`}
                 icon={KeyRoundIcon}
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />

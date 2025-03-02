@@ -86,7 +86,9 @@ export default function ResetPasswordScreen() {
       <View className="z-10">
         <Trans>
           <View className="gap-2">
-            <Text className="font-bold text-[36px] text-white">Reset</Text>
+            <Text className="font-bold text-[36px] text-muted-foreground">
+              Reset
+            </Text>
             <Text className="font-bold text-[36px] text-primary">Password</Text>
             <Text className="text-muted-foreground text-[16px]">
               Don’t worry! it happens. Please enter the new password associated

@@ -168,7 +168,7 @@ export function ProfileCard() {
         />
         <View className="flex-1 justify-center gap-1.5">
           <Text className="line-clamp-1 font-semiBold">
-            {userProfile?.first_name + " " + userProfile?.last_name}
+            {userProfile?.firstName + " " + userProfile?.lastName}
           </Text>
           <Badge
             variant="default"

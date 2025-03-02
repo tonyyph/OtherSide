@@ -6,8 +6,8 @@ import { createWithEqualityFn } from "zustand/traditional";
 interface UserStore {
   userProfile?: {
     email: string;
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
     birthday: string;
     gender: string;
     id: number;

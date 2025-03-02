@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 type userProps = {
   id?: number;
   email?: string;
-  first_name?: string;
-  last_name?: string;
+  firstName?: string;
+  lastName?: string;
   birthday?: string;
   gender?: string;
   language?: string;

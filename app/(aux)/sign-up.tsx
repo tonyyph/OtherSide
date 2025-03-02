@@ -76,7 +76,9 @@ export default function SignUpScreen() {
         <View className="z-10">
           <Trans>
             <View className="gap-1">
-              <Text className="font-bold text-[36px] text-white">Create</Text>
+              <Text className="font-bold text-[36px] text-muted-foreground">
+                Create
+              </Text>
               <Text className="font-bold text-[36px] text-primary">
                 your account
               </Text>

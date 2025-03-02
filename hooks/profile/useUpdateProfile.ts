@@ -1,25 +1,8 @@
 import { updateUserProfile } from "@/api";
 import { userStore } from "@/stores/userStore";
-import {
-  actionWithLoading,
-  validateLetter,
-  validatePassword,
-  validateUsername
-} from "@/utils";
+import { actionWithLoading, validateLetter, validateUsername } from "@/utils";
 import { useEffect, useRef, useState } from "react";
 import { useMemoFunc, useValidateInput } from "../commons";
-
-type userProps = {
-  id?: number;
-  email?: string;
-  first_name?: string;
-  last_name?: string;
-  birthday?: string;
-  gender?: string;
-  language?: string;
-  updatedAt?: string;
-  createdAt?: string;
-};
 
 export const useUpdateProfile = () => {
   const [updateProfileSuccess, setUpdateProfileSuccess] = useState(false);
@@ -33,12 +16,12 @@ export const useUpdateProfile = () => {
     validate: validateUsername
   });
   const firstNameState = useValidateInput({
-    defaultValue: userProfile?.first_name,
+    defaultValue: userProfile?.firstName,
     validate: validateLetter
   });
 
   const lastNameState = useValidateInput({
-    defaultValue: userProfile?.last_name,
+    defaultValue: userProfile?.lastName,
     validate: validateLetter
   });
 
@@ -52,15 +35,10 @@ export const useUpdateProfile = () => {
     validate: validateLetter
   });
 
-  const passwordState = useValidateInput({
-    defaultValue: "",
-    validate: validatePassword
-  });
-
   useEffect(() => {
     if (!!userProfile) {
-      firstNameState.onChangeText(userProfile?.first_name || "");
-      lastNameState.onChangeText(userProfile?.last_name || "");
+      firstNameState.onChangeText(userProfile?.firstName || "");
+      lastNameState.onChangeText(userProfile?.lastName || "");
       genderState.onChangeText(userProfile?.gender || "");
       birthDayState.onChangeText(userProfile?.birthday || "");
       emailAddressState.onChangeText(userProfile?.email || "");
@@ -78,14 +56,25 @@ export const useUpdateProfile = () => {
       try {
         const { data: session } = await updateUserProfile({
           email: emailAddressState.value,
-          first_name: firstNameState.value,
-          last_name: lastNameState.value,
+          firstName: firstNameState.value,
+          lastName: lastNameState.value,
           birthday: birthDayState.value,
-          gender: genderState.value,
-          id: userProfile?.id ?? 0
+          gender: genderState.value
         });
         if (session) {
-          console.log("session", session);
+          userStore.setState({
+            userProfile: {
+              id: session.id,
+              email: session.email,
+              firstName: session.firstName,
+              lastName: session.lastName,
+              birthday: session.birthday,
+              gender: session.gender,
+              language: session.language,
+              createdAt: session.createdAt,
+              updatedAt: session.updatedAt
+            }
+          });
           setUpdateProfileSuccess(true);
         }
       } catch (error) {
@@ -106,7 +95,6 @@ export const useUpdateProfile = () => {
     birthDayState,
     emailAddressState,
     onUpdateProfile,
-    passwordState,
     setUpdateProfileSuccess
   };
 };

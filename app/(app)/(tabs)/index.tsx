@@ -2,7 +2,6 @@ import {
   Dimensions,
   FlatList,
   ImageBackground,
-  LayoutChangeEvent,
   Pressable,
   Share,
   Text,
@@ -11,11 +10,12 @@ import {
   View
 } from "react-native";
 
+import { FooterGradient } from "@/components/common/footer-gradient";
 import { Icon } from "@/components/common/icon";
 import { toast } from "@/components/common/toast";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { dummyPosts } from "@/components/test/dummyPost";
-import { useMemoFunc } from "@/hooks/commons/useMemoFunc";
+import { useArticle } from "@/hooks/article/useArticle";
 import { formatDateTime } from "@/lib/date";
 import { useUserSettingsStore } from "@/stores";
 import { useUserBookmarkStore } from "@/stores/user-bookmark/store";
@@ -31,29 +31,18 @@ import {
 } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { FooterGradient } from "@/components/common/footer-gradient";
 
 export default function HomeScreen() {
   const [activePostId, setActivePostId] = useState();
-  const [posts, setPosts] = useState<any>([]);
   const { height } = useWindowDimensions();
   const { i18n } = useLingui();
   const { top, bottom } = useSafeAreaInsets();
   const [isContentLoaded, setIsContentLoaded] = useState(false);
-  const { setHideTabBarStatus, hideTabBarStatus } = useUserSettingsStore();
+  const { setHideTabBarStatus } = useUserSettingsStore();
   const { addBookmark } = useUserBookmarkStore();
-  const [isExpanded, setIsExpanded] = useState(true);
   const [bookmarked, setBookmarked] = useState(false);
-  const [showReadMore, setShowReadMore] = useState(false);
-  const didSetExpanded = useRef(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      setPosts(dummyPosts?.articles);
-    };
-    fetchPosts();
-  }, []);
+  const { articles } = useArticle();
 
   const viewabilityConfigCallbackPairs = useRef([
     {
@@ -76,22 +65,10 @@ export default function HomeScreen() {
     }
   }
 
-  const handleLayout = useMemoFunc((event: LayoutChangeEvent) => {
-    const { height } = event.nativeEvent.layout;
-    if (height > 150) {
-      setShowReadMore(true);
-      if (!didSetExpanded.current) {
-        setIsExpanded(false);
-        didSetExpanded.current = true;
-      }
-    }
-  });
-
   const renderHorizontalItem = ({ item }: { item: any }) => {
     return (
       <Pressable onPress={() => setHideTabBarStatus(false)}>
         <View
-          onLayout={handleLayout}
           className={" flex-1 gap-3 justify-between"}
           style={{ height, width: Dimensions.get("window").width }}
         >
@@ -100,7 +77,11 @@ export default function HomeScreen() {
             style={{ paddingTop: top, paddingBottom: bottom * 1.5 }}
           >
             <ImageBackground
-              source={{ uri: item.imageUrl }}
+              source={{
+                uri:
+                  item.imageUrl ??
+                  "https://reliasoftware.com/images/careers/relia-software-office.webp"
+              }}
               className="h-[320px]"
               resizeMode="cover"
             >
@@ -159,34 +140,40 @@ export default function HomeScreen() {
                 <View
                   className="h-[4px] bg-green-500"
                   style={{
-                    flex: item?.likeCount / (item.dislikeCount + item.likeCount)
+                    flex:
+                      item?.likeCount === 0 && item?.dislikeCount === 0
+                        ? 1
+                        : item?.likeCount / (item.dislikeCount + item.likeCount)
                   }}
                 />
                 <View
                   className="h-[4px] bg-red-500"
                   style={{
                     flex:
-                      item?.dislikeCount / (item.dislikeCount + item.likeCount)
+                      item?.likeCount === 0 && item?.dislikeCount === 0
+                        ? 1
+                        : item?.dislikeCount /
+                          (item.dislikeCount + item.likeCount)
                   }}
                 />
               </View>
 
               <View className="flex flex-row justify-between gap-2">
                 <View className="flex flex-row items-center gap-2">
-                  <CalendarClock className="size-5 text-muted-foreground" />
-                  <Text className="text-foreground text-xs">
+                  <CalendarClock className="size-6 text-muted-foreground" />
+                  <Text className="text-foreground text-sm">
                     {formatDateTime?.(item?.createdAt) ?? null}
                   </Text>
                 </View>
                 <View className="flex flex-row items-center gap-3">
                   <View className="flex flex-row items-center gap-1">
-                    <ThumbsUp className="size-5 text-green-500" />
+                    <ThumbsUp className="size-6 text-green-500" />
                     <Text className="text-foreground text-sm">
                       {item.likeCount}
                     </Text>
                   </View>
                   <View className="flex flex-row items-center gap-1">
-                    <ThumbsDown className="size-5 text-red-500" />
+                    <ThumbsDown className="size-6 text-red-500" />
                     <Text className="text-foreground text-sm">
                       {item.dislikeCount}
                     </Text>
@@ -195,7 +182,7 @@ export default function HomeScreen() {
                     className="flex flex-row items-center justify-center gap-1"
                     onPress={() => router.push("/article-comment")}
                   >
-                    <MessageCircle className="size-5 text-muted-foreground" />
+                    <MessageCircle className="size-6 text-muted-foreground" />
                     <Text className="text-foreground text-sm">
                       {item?.commentCount}
                     </Text>
@@ -252,9 +239,9 @@ export default function HomeScreen() {
   return (
     <View className=" flex-1 bg-background">
       <FlatList
-        data={posts}
+        data={articles}
         renderItem={renderItem}
-        keyExtractor={(item, index) => `${item.id}-${index}`}
+        keyExtractor={(item, index) => `${item.createdAt}-${index}`}
         pagingEnabled
         ListEmptyComponent={() => <HomeSkeleton />}
         viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}

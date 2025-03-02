@@ -48,14 +48,14 @@ export const useSignUp = () => {
       };
       // c265606d-a438-4165-af98-3fe20eb0a142
       // id:15
-      // {"birthday": "1996-02-25", "confirmationToken": "c265606d-a438-4165-af98-3fe20eb0a142", "createdAt": "2025-02-25T10:45:28.204Z", "email": "saigon@gmail.com", "first_name": "Cường", "gender": "female", "id": 15, "isActive": false, "language": "en", "last_name": "Phan", "role": "user", "updatedAt": "2025-02-25T10:45:28.204Z"}
+      // {"birthday": "1996-02-25", "confirmationToken": "c265606d-a438-4165-af98-3fe20eb0a142", "createdAt": "2025-02-25T10:45:28.204Z", "email": "saigon@gmail.com", "firstName": "Cường", "gender": "female", "id": 15, "isActive": false, "language": "en", "lastName": "Phan", "role": "user", "updatedAt": "2025-02-25T10:45:28.204Z"}
       try {
         const { data: session } = await signUpWithEmail({
           email: emailAddressState.value,
           password: passwordState.value,
           confirm_password: confirmPasswordState.value,
-          first_name: firstNameState.value,
-          last_name: lastNameState.value,
+          firstName: firstNameState.value,
+          lastName: lastNameState.value,
           birthday: birthDayState.value,
           gender: genderState.value
         });

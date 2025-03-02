@@ -31,7 +31,6 @@ export default function EditProfileScreen() {
     birthDayState,
     loading,
     emailAddressState,
-    passwordState,
     onUpdateProfile
   } = useUpdateProfile();
 

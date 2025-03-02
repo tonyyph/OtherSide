@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useEffect, useRef } from "react";
 import { t, Trans } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import { KeyRoundIcon } from "lucide-react-native";
+import { CircleAlertIcon, KeyRoundIcon } from "lucide-react-native";
 import { Button } from "@/components/ui/button";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
@@ -36,10 +36,10 @@ export default function ChangePasswordScreen() {
         <View className="z-10">
           <Trans>
             <View className="">
-              <Text className="font-bold text-[44px] text-white">
+              <Text className="font-bold text-[44px] text-muted-foreground">
                 For security
               </Text>
-              <Text className="font-bold text-[44px] text-primary">
+              <Text className="font-semiBold text-[44px] text-primary">
                 reasons
               </Text>
               <Text className="text-muted-foreground mt-2 text-[20px]">
@@ -103,6 +103,15 @@ export default function ChangePasswordScreen() {
               onChangeText={confirmNewPasswordState.onChangeText}
             />
           </View>
+          {!!confirmNewPasswordState.error && (
+            <View className="flex flex-row items-center gap-x-2 mt-2">
+              <CircleAlertIcon className="size-4 text-red-400" />
+              <Text className="text-red-400 text-sm font-medium">
+                {confirmNewPasswordState.error?.charAt(0).toUpperCase() +
+                  confirmNewPasswordState.error?.slice(1)}
+              </Text>
+            </View>
+          )}
         </View>
       </View>
       <View className="justify-end bottom-28">
@@ -133,10 +142,10 @@ export default function ChangePasswordScreen() {
                 loop
               />
               <Text className="!text-xl !text-white mb-2 font-semiBold text-center">
-                {`Profile Update Successful`}
+                {`Change Password Successful`}
               </Text>
               <Text className="!text-lg !text-foreground mb-2 text-center">
-                {`Your profile information has been updated successfully. If you
+                {`Your password has been updated successfully. If you
                 didn’t make this change, please contact support immediately.`}
               </Text>
             </View>

@@ -42,7 +42,8 @@ function SpinnerDatePicker({
         minimumDate={minimumDate}
       />
       <Button
-        className="mx-6"
+        size={"lg"}
+        className="mx-6 rounded-full"
         onPress={() => {
           Haptics.selectionAsync();
           onChange(date);

@@ -3,17 +3,17 @@
 type SignUpRequest = {
   email: string;
   password: string;
-  confirm_password: string;
-  first_name: string;
-  last_name: string;
+  confirmPassword: string;
+  firstName: string;
+  lastName: string;
   birthday: string;
   gender: string;
 };
 
 type SignUpResponse = {
   email: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   birthday: string;
   gender: string;
   confirmationToken: string;
@@ -71,17 +71,16 @@ type RestfulApiError = {
 
 type UpdateProfileRequest = {
   email?: string;
-  first_name?: string;
-  last_name?: string;
+  firstName?: string;
+  lastName?: string;
   birthday?: string;
   gender?: string;
-  id: number;
 };
 
 type UpdateProfileResponse = {
   email: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   birthday: string;
   gender: string;
   confirmationToken: string;
@@ -95,8 +94,8 @@ type UpdateProfileResponse = {
 
 type GetProfileResponse = {
   email: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   birthday: string;
   gender: string;
   id: number;
@@ -106,10 +105,53 @@ type GetProfileResponse = {
 };
 
 type ChangePasswordRequest = {
-  current_password: string;
-  new_password: string;
+  currentPassword: string;
+  newPassword: string;
 };
 
 type ChangePasswordResponse = {
   message: string;
+};
+
+type GetArticlesRequest = {
+  skip?: string;
+  limit?: string;
+};
+
+type Category = {};
+
+type Article = {
+  isBookmarked: boolean;
+  isUnRead: boolean;
+  createdAt: string;
+  leftPerspective: {
+    id: number;
+    title: string;
+    content: string;
+    category: Category[];
+    imageUrl: string;
+    likeCount: number;
+    commentCount: number;
+    dislikeCount: number;
+  };
+  rightPerspective: {
+    id: number;
+    title: string;
+    content: string;
+    category: Category[];
+    imageUrl: string;
+    likeCount: number;
+    commentCount: number;
+    dislikeCount: number;
+  };
+};
+
+type GetArticlesResponse = {
+  pagination: {
+    total: number;
+    limit: string;
+    skip: string;
+    hasMore: boolean;
+  };
+  articles: Article[];
 };

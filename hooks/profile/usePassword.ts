@@ -1,13 +1,14 @@
 import { changePassword } from "@/api";
 import { actionWithLoading, validatePassword } from "@/utils";
+import { AxiosError } from "axios";
 import { useState } from "react";
 import { useMemoFunc, useValidateInput } from "../commons";
 
 type userProps = {
   id?: number;
   email?: string;
-  first_name?: string;
-  last_name?: string;
+  firstName?: string;
+  lastName?: string;
   birthday?: string;
   gender?: string;
   language?: string;
@@ -36,17 +37,28 @@ export const usePassword = () => {
 
   const onChangePassword = useMemoFunc(
     actionWithLoading(async () => {
+      const setError = (error: string = "Invalid password") => {
+        confirmNewPasswordState.setState((prev) => ({ ...prev, error }));
+      };
+
+      if (newPasswordState.value !== confirmNewPasswordState.value) {
+        setError("Password does not match");
+        return;
+      }
+
       try {
         const { data: session } = await changePassword({
-          current_password: passwordState.value,
-          new_password: newPasswordState.value
+          currentPassword: passwordState.value,
+          newPassword: newPasswordState.value
         });
         if (session) {
-          console.log("session change password", session);
+          console.log("onChangePassword 💯 session:", session);
           setChangePasswordSuccess(true);
         }
       } catch (error) {
-        console.log("error:", error);
+        setError(
+          (error as AxiosError<RestfulApiError>).response?.data?.message
+        );
       } finally {
         setLoading(false);
       }

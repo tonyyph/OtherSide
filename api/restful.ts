@@ -7,9 +7,9 @@ export const signUpWithEmail = async (data: SignUpRequest) => {
     {
       email: data.email,
       password: data.password,
-      confirm_password: data.confirm_password,
-      first_name: data.first_name,
-      last_name: data.last_name,
+      confirmPassword: data.confirmPassword,
+      firstName: data.firstName,
+      lastName: data.lastName,
       birthday: data.birthday,
       gender: data.gender,
       language: "en"
@@ -35,9 +35,6 @@ export const loginWithUsername = async (data: LoginRequest) => {
 
 export const logout = async () => {
   const cookie = authenStore.getState().cookie;
-
-  console.log(" logout 💯 cookie:", cookie);
-
   return await axios.post<LogoutResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/auth/logout`,
     {},
@@ -81,7 +78,7 @@ export const refreshToken = async (data: RefreshTokenRequest) => {
 export const getUserProfile = async () => {
   const cookie = authenStore.getState().cookie;
 
-  console.log("env", `${process.env.EXPO_PUBLIC_API_URL}/me`);
+  console.log("LOADING USER PROFILE");
   return await axios.get<GetProfileResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/me`,
     {
@@ -100,8 +97,8 @@ export const updateUserProfile = async (data: UpdateProfileRequest) => {
     `${process.env.EXPO_PUBLIC_API_URL}/me`,
     {
       email: data.email,
-      first_name: data.first_name,
-      last_name: data.last_name,
+      firstName: data.firstName,
+      lastName: data.lastName,
       birthday: data.birthday,
       gender: data.gender,
       language: "en"
@@ -121,9 +118,24 @@ export const changePassword = async (data: ChangePasswordRequest) => {
   return await axios.put<ChangePasswordResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/me/change-password`,
     {
-      current_password: data.current_password,
-      new_password: data.new_password
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword
     },
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const getArticles = async (data: GetArticlesRequest) => {
+  const cookie = authenStore.getState().cookie;
+
+  console.log("LOAD ARTICLES FROM API RESPONSE");
+  return await axios.get<GetArticlesResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/articles?limit=${data?.limit}&skip=${data?.skip}`,
     {
       headers: {
         accept: "*/*",
