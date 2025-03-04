@@ -144,3 +144,180 @@ export const getArticles = async (data: GetArticlesRequest) => {
     }
   );
 };
+
+// Engagement
+
+export const getEngagementArt = async (id: string) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.get<ArticleEngagementResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/article/${id}`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const getLikes = async () => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.get<GetEngagementResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/likes`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const getDisLikes = async () => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.get<GetEngagementResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/dislikes`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const getComments = async () => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.get<GetEngagementResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/comments`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const getBookmarks = async () => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.get<GetEngagementResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/bookmarks`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const createLikes = async (artId: string) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.post<PostEngagementActionResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/like/${artId}`,
+    {},
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const createDisLikes = async (artId: string) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.post<PostEngagementActionResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/dislike/${artId}`,
+    {},
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const createBookmarks = async (artId: string) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.post<PostEngagementActionResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/bookmark/${artId}`,
+    {},
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const createComments = async (data: any) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.post<PostEngagementActionResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/comment/${data.artId}`,
+    {
+      text: data?.text
+    },
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const deleteLikes = async (likeId: string) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.delete<DeleteResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/like/${likeId}`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const deleteDisLikes = async (dislikeId: string) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.delete<DeleteResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/dislike/${dislikeId}`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const deleteBookmarks = async (bookmarkId: string) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.delete<DeleteResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/bookmark/${bookmarkId}`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const deleteComments = async (commentId: string) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.delete<DeleteResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/engagement/comment/${commentId}`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};

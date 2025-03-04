@@ -15,14 +15,12 @@ type VerticalNewsProps = {
   content?: string;
 };
 export function VerticalNews({
-  title = `'Studio sex' and 'hitman threats': Insiders speak out about Diddy's 90s music empire`,
-  authorName = "BBC News",
-  authorAvatar = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/BBC_News_2019.svg/1024px-BBC_News_2019.svg.png",
-  timestamp = "13 hours ago",
+  title,
+  timestamp,
   side = "Left",
-  imgUrl = "https://ichef.bbci.co.uk/news/1536/cpsprodpb/0561/live/ae1fd0e0-e3d3-11ef-a319-fb4e7360c4ec.jpg.webp",
+  imgUrl,
   isBookmarked = false,
-  content = "example"
+  content
 }: VerticalNewsProps) {
   const { i18n } = useLingui();
 
@@ -30,7 +28,11 @@ export function VerticalNews({
     <View className="flex flex-row items-center px-6 my-2">
       <View className="flex gap-3 flex-row">
         <Image
-          source={{ uri: imgUrl }}
+          source={{
+            uri:
+              imgUrl ??
+              "https://reliasoftware.com/images/careers/relia-software-office.webp"
+          }}
           className="h-[120px] w-[120px] border border-border rounded-lg"
           resizeMode="cover"
         />

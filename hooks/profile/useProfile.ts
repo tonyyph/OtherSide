@@ -1,4 +1,6 @@
 import { getUserProfile } from "@/api";
+import { useUserAuthenticateStore } from "@/stores";
+import { authenStore } from "@/stores/authenStore";
 import { userStore } from "@/stores/userStore";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
@@ -17,6 +19,7 @@ type userProps = {
 export const useProfile = () => {
   const [data, setData] = useState<userProps>();
   const [loading, setLoading] = useState(true);
+  const { setIsLoggedIn } = useUserAuthenticateStore();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -26,6 +29,10 @@ export const useProfile = () => {
 
         setData(session);
       } catch (error) {
+        setIsLoggedIn(false);
+        authenStore.setState({
+          cookie: undefined
+        });
         console.log(
           (error as AxiosError<RestfulApiError>).response?.data?.message
         );

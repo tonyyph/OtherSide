@@ -87,7 +87,7 @@ export default function ProfileScreen() {
       await Share.share({
         message: t(
           i18n
-        )`OtherSide is a news aggregation app designed to provide users with diverse perspectives on current events, helping them see beyond their usual sources. By curating stories from various media outlets, OtherSide ensures balanced, unbiased news coverage. Whether you're interested in global affairs, technology, finance, or culture, the app delivers real-time updates and multiple viewpoints on each topic. Stay informed with OtherSide, where news meets perspective. Feel free to give it a try and let me know what you think. https://otherside.com`
+        )`OtherSide is a news aggregation app designed to provide users with diverse perspectives on current events, helping them see beyond their usual sources. By curating stories from various media outlets, OtherSide ensures balanced, unbiased news coverage. Whether you're interested in global affairs, technology, finance, or culture, the app delivers real-time updates and multiple viewpoints on each topic. Stay informed with OtherSide, where news meets perspective. Feel free to give it a try and let me know what you think. https://othersideindia.com`
       });
     } catch (error: any) {
       toast.error(error.message);
