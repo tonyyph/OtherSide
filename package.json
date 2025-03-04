@@ -69,6 +69,7 @@
     "expo-status-bar": "~2.0.1",
     "expo-symbols": "~0.2.2",
     "expo-system-ui": "~4.0.8",
+    "expo-updates": "~0.27.1",
     "expo-web-browser": "~14.0.2",
     "https": "^1.0.0",
     "lodash-es": "^4.17.21",
