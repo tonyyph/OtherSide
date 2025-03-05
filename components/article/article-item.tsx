@@ -54,7 +54,7 @@ export const ArticleItem = ({ item }: any) => {
   }
 
   const like = !!data ? data.likesCount : item.likeCount;
-  const dislike = item.dislikeCount;
+  const dislike = !!data ? data.dislikesCount : item.dislikeCount;
   const commentCount = !!data ? data.comments?.length : item.commentCount;
   const totalReactionCount = like + dislike;
   const isBookmarked = !!data
@@ -129,14 +129,14 @@ export const ArticleItem = ({ item }: any) => {
                   numberOfLines={2}
                   className="text-foreground font-bold text-xl flex-1"
                 >
-                  {t(i18n)`${item.title}`}
+                  {`${item.title}`}
                 </Text>
               </View>
               <Text
                 ellipsizeMode="tail"
                 className="flex-1 text-muted-foreground text-lg font-medium"
               >
-                {t(i18n)`${item.content}`}
+                {`${item.content}`}
               </Text>
             </View>
 

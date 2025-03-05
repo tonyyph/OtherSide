@@ -112,7 +112,7 @@ export default function EditProfileScreen() {
                 <View className="border border-border rounded-lg relative">
                   <TextInput
                     className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
-                    placeholder={t(i18n)`ex: Tony .D`}
+                    placeholder={`ex: Tony .D`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
                     value={firstNameState.value}
@@ -131,7 +131,7 @@ export default function EditProfileScreen() {
                 <View className="border border-border rounded-lg relative">
                   <TextInput
                     className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
-                    placeholder={t(i18n)`ex: Phan`}
+                    placeholder={`ex: Phan`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
                     value={lastNameState.value}
@@ -231,7 +231,7 @@ export default function EditProfileScreen() {
             onPress={() => sheetRef.current?.present()}
           >
             <Text className="text-background text-base font-medium">
-              {t(i18n)`Save changes`}
+              {`Save changes`}
             </Text>
           </Button>
         </View>

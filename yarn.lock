@@ -821,11 +821,11 @@
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
 "@clerk/clerk-expo@^2.0.0":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@clerk/clerk-expo/-/clerk-expo-2.8.2.tgz#467bb2d06cf3860f39a412cc32f84f36514f29f7"
-  integrity sha512-JtYJMbsuxhlodlDjNR5ahx8OdRczUbpAyTqHpSFEFf00SfaM8ihst9aFoci7q+zLl1B2zi3FAz/8tILY9o6hEA==
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/@clerk/clerk-expo/-/clerk-expo-2.8.3.tgz#7f7fe0b9dc6b5b583db0046f41e73ba2ef550384"
+  integrity sha512-u7UXmfoCxIfm8k4bRj7matm+z4eT71CrC144G+/eyXfglI3RV6jUfhfcZFwVbEMZZ/sl0p8471jo3E7bBypyHA==
   dependencies:
-    "@clerk/clerk-js" "^5.54.2"
+    "@clerk/clerk-js" "^5.55.0"
     "@clerk/clerk-react" "^5.24.1"
     "@clerk/shared" "^3.0.0"
     "@clerk/types" "^4.47.0"
@@ -833,12 +833,12 @@
     react-native-url-polyfill "2.0.0"
     tslib "2.4.1"
 
-"@clerk/clerk-js@^5.54.2":
-  version "5.54.2"
-  resolved "https://registry.yarnpkg.com/@clerk/clerk-js/-/clerk-js-5.54.2.tgz#a3e574085d3cd128477c9ac04e4db35d72b10fe6"
-  integrity sha512-ER3ybcImNgwOzPybv71wHzavTbwVoGhsr1Zq5E4AEKi147Pms/x5q9oi/JxfWUSjXZCqmwOt3E6+JvqgthlCgg==
+"@clerk/clerk-js@^5.55.0":
+  version "5.55.0"
+  resolved "https://registry.yarnpkg.com/@clerk/clerk-js/-/clerk-js-5.55.0.tgz#c1e8eb3decc9c22fa78aa143ba168c1f4b86fac3"
+  integrity sha512-m/F3TjGmn2NyKfgiCmJ4UmsiSW1IizfXMjEiLtNFMnazVjP2T3DmLB0apeP/x/tVWY8JDjQgabdcsOjM+6DHSA==
   dependencies:
-    "@clerk/localizations" "^3.10.8"
+    "@clerk/localizations" "^3.11.0"
     "@clerk/shared" "^3.0.0"
     "@clerk/types" "^4.47.0"
     "@coinbase/wallet-sdk" "4.3.0"
@@ -867,10 +867,10 @@
     "@clerk/types" "^4.47.0"
     tslib "2.4.1"
 
-"@clerk/localizations@^3.10.8":
-  version "3.10.8"
-  resolved "https://registry.yarnpkg.com/@clerk/localizations/-/localizations-3.10.8.tgz#776719fc14d52f40e5522fa182e174bce81a2eaa"
-  integrity sha512-G4yjQSZAvW8kQyOSY7YOh5B41NSfHoJ6JrbvEdsUcpe6Lkds39OVCeQDtoyixVZtc1OMutzcDZsgdDC9YU8Tjg==
+"@clerk/localizations@^3.11.0":
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/@clerk/localizations/-/localizations-3.11.0.tgz#bc80d5400409fde6bf5bb32a56b1911554932456"
+  integrity sha512-lySGjtO/2g/12YZE+bdvMwQpEQJDLOIpMPG7HaBTGSxqvmTCDOfIUixD/yP7BxWS4ya3lPSEc5pLQTUGKENYRg==
   dependencies:
     "@clerk/types" "^4.47.0"
 
@@ -4709,9 +4709,9 @@ ee-first@1.1.1:
   integrity sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==
 
 electron-to-chromium@^1.5.73:
-  version "1.5.111"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.111.tgz#c4c4b37536192157a586df9dc1fa984cd7857ee2"
-  integrity sha512-vJyJlO95wQRAw6K2ZGF/8nol7AcbCOnp8S6H91mwOOBbXoS9seDBYxCTPYAFsvXLxl3lc0jLXXe9GLxC4nXVog==
+  version "1.5.112"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.112.tgz#8d3d95d4d5653836327890282c8eda5c6f26626d"
+  integrity sha512-oen93kVyqSb3l+ziUgzIOlWt/oOuy4zRmpwestMn4rhFWAoFJeFuCVte9F2fASjeZZo7l/Cif9TiyrdW4CwEMA==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -5388,9 +5388,9 @@ flow-enums-runtime@^0.0.6:
   integrity sha512-3PYnM29RFXwvAN6Pc/scUfkI7RwhQ/xqyLUyPNlXUp9S40zI8nup9tUSrTLSVnWGBN38FNiGWbwZOB6uR4OGdw==
 
 flow-parser@0.*:
-  version "0.262.0"
-  resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.262.0.tgz#3af48ee0c0d8f56729ae18a748d1fb0953db1c33"
-  integrity sha512-K3asSw4s2/sRoUC4xD2OfGi04gdYCCFRgkcwEXi5JyfFhS0HrFWLcDPp55ttv95OY5970WKl4T+7hWrnuOAUMQ==
+  version "0.263.0"
+  resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.263.0.tgz#97740b1401297a0fae0deef9c213865264435007"
+  integrity sha512-F0Tr7SUvZ4BQYglFOkr8rCTO5FPjCwMhm/6i57h40F80Oz/hzzkqte4lGO0vGJ7THQonuXcTyYqCdKkAwt5d2w==
 
 follow-redirects@^1.15.6:
   version "1.15.9"

@@ -32,42 +32,42 @@ export default function AuxiliaryLayout() {
           name="privacy-policy"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Privacy Policy`
+            headerTitle: `Privacy Policy`
           }}
         />
         <Stack.Screen
           name="sign-up"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Sign Up`
+            headerTitle: `Sign Up`
           }}
         />
         <Stack.Screen
           name="forgot-password"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Forgot Password`
+            headerTitle: `Forgot Password`
           }}
         />
         <Stack.Screen
           name="reset-password"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Reset Password`
+            headerTitle: `Reset Password`
           }}
         />
         <Stack.Screen
           name="login-error"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Login Error`
+            headerTitle: `Login Error`
           }}
         />
         <Stack.Screen
           name="terms-of-service"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Terms & Conditions`
+            headerTitle: `Terms & Conditions`
           }}
         />
       </Stack>

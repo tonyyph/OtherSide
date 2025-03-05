@@ -39,7 +39,7 @@ export function HorizontalNews({
               resizeMode="cover"
             />
             <Text className="text-muted-foreground font-bold text-xs">
-              {t(i18n)`${authorName}`}
+              {`${authorName}`}
             </Text>
             <ClockIcon className="size-5 text-muted-foreground" />
             <Text className="text-muted-foreground text-xs">{timestamp}</Text>

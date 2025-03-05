@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { Trans, t } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Link } from "expo-router";
 import LottieView from "lottie-react-native";
@@ -18,7 +18,6 @@ import {
 } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import {
-  ActivityIndicator,
   Image,
   Linking,
   Modal,
@@ -102,7 +101,7 @@ export default function LoginScreen() {
               <View className="border-2 border-border rounded-lg relative">
                 <TextInput
                   className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
-                  placeholder={t(i18n)`Enter your username`}
+                  placeholder={`Enter your username`}
                   placeholderTextColor={"gray"}
                   autoCapitalize="none"
                   value={usernameState.value}
@@ -133,7 +132,7 @@ export default function LoginScreen() {
               <View className="border-2 border-border rounded-lg relative">
                 <TextInput
                   className="px-10 rounded-lg bg-background h-12 text-white"
-                  placeholder={t(i18n)`Enter your password`}
+                  placeholder={`Enter your password`}
                   placeholderTextColor={"gray"}
                   secureTextEntry={securePassword}
                   value={passwordState.value}
@@ -171,9 +170,7 @@ export default function LoginScreen() {
                 >
                   {isRemember ? <CheckBox /> : <UnCheckBox />}
                 </TouchableOpacity>
-                <Text className="text-sm text-foreground">
-                  {t(i18n)`Remember me`}
-                </Text>
+                <Text className="text-sm text-foreground">{`Remember me`}</Text>
               </View>
               <Link href="/(aux)/forgot-password">
                 <Text className="text-primary text-sm font-semiBold">
@@ -190,7 +187,7 @@ export default function LoginScreen() {
               onPress={onLogin}
             >
               <Text className="text-background text-base font-medium">
-                {t(i18n)`Login`}
+                {`Login`}
               </Text>
             </Button>
             {/* Don’t have an account yet? Sign Up */}
@@ -256,7 +253,7 @@ export default function LoginScreen() {
                 onPress={() => sheetRef?.current?.close()}
               >
                 <Text className="text-background text-base font-medium">
-                  {t(i18n)`Try again`}
+                  {`Try again`}
                 </Text>
               </Button>
             </View>

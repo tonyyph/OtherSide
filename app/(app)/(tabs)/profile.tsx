@@ -72,7 +72,7 @@ export default function ProfileScreen() {
   }, [userProfile]);
 
   async function handleCopyVersion() {
-    toast.success(t(i18n)`Copied version to clipboard`);
+    toast.success(`Copied version to clipboard`);
   }
 
   const onRefresh = () => {
@@ -126,11 +126,11 @@ export default function ProfileScreen() {
       >
         <ProfileCard />
         <View className="mt-4 gap-2">
-          <Text className="mx-6 text-muted-foreground">{t(i18n)`General`}</Text>
+          <Text className="mx-6 text-muted-foreground">{`General`}</Text>
           <View>
             <Link href="/category" asChild>
               <MenuItem
-                label={t(i18n)`Categories`}
+                label={`Categories`}
                 icon={ShapesIcon}
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -139,7 +139,7 @@ export default function ProfileScreen() {
             </Link>
             <Link href="/change-password" asChild>
               <MenuItem
-                label={t(i18n)`Change Password`}
+                label={`Change Password`}
                 icon={KeyRoundIcon}
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -149,13 +149,11 @@ export default function ProfileScreen() {
           </View>
         </View>
         <View className="gap-2 mt-4">
-          <Text className="mx-6 text-muted-foreground">
-            {t(i18n)`App settings`}
-          </Text>
+          <Text className="mx-6 text-muted-foreground">{`App settings`}</Text>
           <View>
             <Link href="/appearance" asChild>
               <MenuItem
-                label={t(i18n)`Appearance`}
+                label={`Appearance`}
                 icon={SwatchBookIcon}
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -164,12 +162,12 @@ export default function ProfileScreen() {
             </Link>
             <Link href="/language" asChild>
               <MenuItem
-                label={t(i18n)`Language`}
+                label={`Language`}
                 icon={EarthIcon}
                 rightSection={
                   <View className="flex flex-row items-center gap-2">
                     <Text className="text-muted-foreground uppercase">
-                      {t(i18n)`${language}`}
+                      {`${language}`}
                     </Text>
                     <ChevronRightIcon className="h-5 w-5 text-foreground" />
                   </View>
@@ -177,7 +175,7 @@ export default function ProfileScreen() {
               />
             </Link>
             <MenuItem
-              label={t(i18n)`Push notifications`}
+              label={`Push notifications`}
               icon={BellIcon}
               disabled
               rightSection={
@@ -195,15 +193,13 @@ export default function ProfileScreen() {
                         finalStatus = status;
                       }
                       if (finalStatus !== "granted") {
-                        toast.error(
-                          t(i18n)`Push notifications are not enabled`
-                        );
+                        toast.error(`Push notifications are not enabled`);
                         setEnabledPushNotifications(false);
                         return;
                       }
-                      toast.success(t(i18n)`Push notifications are enabled`);
+                      toast.success(`Push notifications are enabled`);
                     } else {
-                      toast.success(t(i18n)`Push notifications are disabled`);
+                      toast.success(`Push notifications are disabled`);
                     }
                     setEnabledPushNotifications(checked);
                   }}
@@ -213,11 +209,11 @@ export default function ProfileScreen() {
           </View>
         </View>
         <View className="gap-2">
-          <Text className="mx-6 text-muted-foreground">{t(i18n)`Others`}</Text>
+          <Text className="mx-6 text-muted-foreground">{`Others`}</Text>
           <View>
             <Link href="/privacy-policy" asChild>
               <MenuItem
-                label={t(i18n)`Privacy policy`}
+                label={`Privacy policy`}
                 icon={ScrollTextIcon}
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -225,7 +221,7 @@ export default function ProfileScreen() {
               />
             </Link>
             <MenuItem
-              label={t(i18n)`Terms of use`}
+              label={`Terms of use`}
               icon={BookTypeIcon}
               rightSection={
                 <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -238,7 +234,7 @@ export default function ProfileScreen() {
             />
             <Link href="/feedback" asChild>
               <MenuItem
-                label={t(i18n)`Send feedback`}
+                label={`Send feedback`}
                 icon={MessageSquareQuoteIcon}
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -246,7 +242,7 @@ export default function ProfileScreen() {
               />
             </Link>
             <MenuItem
-              label={t(i18n)`Share with friends`}
+              label={`Share with friends`}
               icon={Share2Icon}
               rightSection={
                 <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -262,7 +258,7 @@ export default function ProfileScreen() {
             >
               <LogOutIcon className="h-5 w-5 text-red-500" />
               <Text className="font-regular text-red-500 group-active:text-red-500">
-                {t(i18n)`Sign out`}
+                {`Sign out`}
               </Text>
             </Button>
           </View>
@@ -278,7 +274,7 @@ export default function ProfileScreen() {
             className="mx-auto h-16 w-16 rounded-full"
           />
           <Text className="text-muted-foreground text-sm">
-            {t(i18n)`ver.`}
+            {`ver.`}
             {Application.nativeApplicationVersion}
           </Text>
         </TouchableOpacity>
@@ -311,7 +307,7 @@ export default function ProfileScreen() {
               }}
             >
               <Text className="text-background text-base font-medium">
-                {t(i18n)`Logout`}
+                {`Logout`}
               </Text>
             </Button>
           </View>

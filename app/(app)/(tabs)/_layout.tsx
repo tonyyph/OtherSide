@@ -48,7 +48,7 @@ export default function TabLayout() {
         name="index"
         options={{
           headerShown: false,
-          headerTitle: t(i18n)`Home`,
+          headerTitle: `Home`,
           headerTitleStyle: { marginLeft: 5 },
           headerTitleAlign: "center"
         }}
@@ -56,7 +56,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
-          headerTitle: t(i18n)`Explore`,
+          headerTitle: `Explore`,
           headerTitleStyle: { marginLeft: 5 },
           headerTitleAlign: "center"
         }}
@@ -65,7 +65,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="bookmarks"
         options={{
-          headerTitle: t(i18n)`Bookmarks`,
+          headerTitle: `Bookmarks`,
           headerTitleStyle: { marginLeft: 5 },
           headerTitleAlign: "center"
         }}
@@ -75,7 +75,7 @@ export default function TabLayout() {
         options={{
           headerTitleStyle: { marginLeft: 5 },
           headerTitleAlign: "center",
-          headerTitle: t(i18n)`Profile`,
+          headerTitle: `Profile`,
           tabBarShowLabel: false,
           tabBarIcon: ({ color }) => <BarChartBigIcon color={color} />
         }}

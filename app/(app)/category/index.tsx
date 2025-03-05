@@ -30,8 +30,8 @@ export default function CategoriesScreen() {
   }, []);
 
   const sections = [
-    { key: "EXPLORE", title: t(i18n)`Explore`, data: [] },
-    { key: "TOPIC", title: t(i18n)`Topic`, data: [] }
+    { key: "EXPLORE", title: `Explore`, data: [] },
+    { key: "TOPIC", title: `Topic`, data: [] }
   ];
 
   return (
@@ -58,11 +58,11 @@ export default function CategoriesScreen() {
               </>
             ) : (
               <Text className="mt-6 mb-9 text-center text-muted-foreground">
-                {t(i18n)`empty`}
+                {`empty`}
               </Text>
             ))}
           <AddNewButton
-            label={t(i18n)`New ${section.key.toLowerCase()}`}
+            label={`New ${section.key.toLowerCase()}`}
             // onPress={() =>
             //   router.push({
             //     pathname: "/category/new-category",

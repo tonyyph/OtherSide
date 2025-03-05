@@ -59,7 +59,7 @@ export default function ExploreScreen() {
             variant="ghost"
             className="h-10 border border-blue-400 w-[78px]"
           >
-            <Text className="text-blue-400 font-bold">{t(i18n)`Save`}</Text>
+            <Text className="text-blue-400 font-bold">{`Save`}</Text>
           </Button>
         </Link>
       </View>
@@ -90,7 +90,7 @@ export default function ExploreScreen() {
             variant="ghost"
             className="h-10 border border-blue-400 bg-blue-400 w-[78px]"
           >
-            <Text className="text-background font-bold">{t(i18n)`Saved`}</Text>
+            <Text className="text-background font-bold">{`Saved`}</Text>
           </Button>
         </Link>
       </View>
@@ -121,7 +121,7 @@ export default function ExploreScreen() {
             variant="ghost"
             className="h-10 border border-blue-400 bg-blue-400 w-[78px]"
           >
-            <Text className="text-background font-bold">{t(i18n)`Saved`}</Text>
+            <Text className="text-background font-bold">{`Saved`}</Text>
           </Button>
         </Link>
       </View>
@@ -140,7 +140,7 @@ export default function ExploreScreen() {
             resizeMode="cover"
           />
           <Text className="text-muted-foreground font-semiBold text-xs">
-            {t(i18n)`U.S`}
+            {`U.S`}
           </Text>
           <Text className="text-foreground text-medium font-medium">{`Judge temporarily blocks Trump's federal government employee buyout`}</Text>
           <View className="flex flex-row justify-between items-center gap-2">
@@ -163,7 +163,7 @@ export default function ExploreScreen() {
             resizeMode="cover"
           />
           <Text className="text-muted-foreground font-semiBold text-xs">
-            {t(i18n)`U.S`}
+            {`U.S`}
           </Text>
           <Text className="text-foreground text-medium font-medium">{`Musk trolls critics and federal workers as DOGE targets US agencies`}</Text>
           <View className="flex flex-row justify-between items-center gap-2">

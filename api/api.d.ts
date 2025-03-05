@@ -225,5 +225,6 @@ type ArticleEngagementResponse = {
   articleId: number;
   comments: Comments[];
   likesCount: number;
+  dislikesCount: number;
   bookmarksCount: number;
 };

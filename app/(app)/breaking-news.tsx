@@ -25,7 +25,7 @@ export default function BreakingNewsScreen() {
             resizeMode="cover"
           />
           <Text className="text-muted-foreground font-semiBold text-xs">
-            {t(i18n)`U.S`}
+            {`U.S`}
           </Text>
           <Text className="text-foreground text-medium font-medium">{`Judge temporarily blocks Trump's federal government employee buyout`}</Text>
           <View className="flex flex-row justify-between items-center gap-2">
@@ -38,7 +38,7 @@ export default function BreakingNewsScreen() {
                 resizeMode="cover"
               />
               <Text className="text-muted-foreground font-bold text-xs">
-                {t(i18n)`ABC News`}
+                {`ABC News`}
               </Text>
               <ClockIcon className="size-5 text-muted-foreground" />
               <Text className="text-muted-foreground text-xs">
@@ -58,7 +58,7 @@ export default function BreakingNewsScreen() {
             resizeMode="cover"
           />
           <Text className="text-muted-foreground font-semiBold text-xs">
-            {t(i18n)`U.S`}
+            {`U.S`}
           </Text>
           <Text className="text-foreground text-medium font-medium">{`Musk trolls critics and federal workers as DOGE targets US agencies`}</Text>
           <View className="flex flex-row justify-between items-center gap-2">
@@ -71,7 +71,7 @@ export default function BreakingNewsScreen() {
                 resizeMode="cover"
               />
               <Text className="text-muted-foreground font-bold text-xs">
-                {t(i18n)`ABC News`}
+                {`ABC News`}
               </Text>
               <ClockIcon className="size-5 text-muted-foreground" />
               <Text className="text-muted-foreground text-xs">
@@ -91,7 +91,7 @@ export default function BreakingNewsScreen() {
             resizeMode="cover"
           />
           <Text className="text-muted-foreground font-semiBold text-xs">
-            {t(i18n)`UK`}
+            {`UK`}
           </Text>
           <Text className="text-foreground text-medium font-medium">{`Liverpool 4-0 Tottenham (agg: 4-1): Cody Gakpo and Mohamed Salah among goalscorers as Arne Slot books first cup final appearance as Reds boss`}</Text>
           <View className="flex flex-row justify-between items-center gap-2">
@@ -104,7 +104,7 @@ export default function BreakingNewsScreen() {
                 resizeMode="cover"
               />
               <Text className="text-muted-foreground font-bold text-xs">
-                {t(i18n)`Sky Sport News`}
+                {`Sky Sport News`}
               </Text>
               <ClockIcon className="size-5 text-muted-foreground" />
               <Text className="text-muted-foreground text-xs">

@@ -7,7 +7,6 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { Palette, themeVariables } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
-import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
@@ -28,31 +27,31 @@ export default function AppearanceScreen() {
   const palettes = [
     {
       id: Palette.Default,
-      label: t(i18n)`Default`,
+      label: `Default`,
       themeVariables: themeVariables[Palette.Default]["dark"],
       pro: false
     },
     {
       id: Palette.TokyoNight,
-      label: t(i18n)`Tokyo Night`,
+      label: `Tokyo Night`,
       themeVariables: themeVariables[Palette.TokyoNight]["dark"],
       pro: false
     },
     {
       id: Palette.WinterIsComing,
-      label: t(i18n)`Winter is coming`,
+      label: `Winter is coming`,
       themeVariables: themeVariables[Palette.WinterIsComing]["dark"],
       pro: false
     },
     {
       id: Palette.Catppuccin,
-      label: t(i18n)`Catppuccin`,
+      label: `Catppuccin`,
       themeVariables: themeVariables[Palette.Catppuccin]["dark"],
       pro: false
     },
     {
       id: Palette.RosePine,
-      label: t(i18n)`Rosé Pine`,
+      label: `Rosé Pine`,
       themeVariables: themeVariables[Palette.RosePine]["dark"],
       pro: false
     }
@@ -61,10 +60,10 @@ export default function AppearanceScreen() {
   return (
     <ScrollView className="bg-background" contentContainerClassName="px-6 py-3">
       <Text className="font-semiBold text-base text-foreground">
-        {t(i18n)`App theme`}
+        {`App theme`}
       </Text>
       <Text className="mb-4 text-muted-foreground text-sm">
-        {t(i18n)`Toggle between light and dark mode`}
+        {`Toggle between light and dark mode`}
       </Text>
       <Tabs
         value={colorScheme || "light"}
@@ -80,21 +79,21 @@ export default function AppearanceScreen() {
         <TabsList>
           <TabsTrigger value="light">
             <SunIcon className="h-5 w-5 text-muted-foreground" />
-            <Text>{t(i18n)`Light`}</Text>
+            <Text>{`Light`}</Text>
           </TabsTrigger>
           <TabsTrigger value="dark">
             <MoonStarIcon className="h-5 w-5 text-muted-foreground" />
-            <Text>{t(i18n)`Dark`}</Text>
+            <Text>{`Dark`}</Text>
           </TabsTrigger>
         </TabsList>
       </Tabs>
       {!isDynamicColorPaletteEnabled && (
         <>
           <Text className="mt-8 font-semiBold text-base text-foreground">
-            {t(i18n)`Color palette`}
+            {`Color palette`}
           </Text>
           <Text className="mb-4 text-muted-foreground text-sm">
-            {t(i18n)`Choose a preferred color palette for OtherSide`}
+            {`Choose a preferred color palette for OtherSide`}
           </Text>
           <View className="flex-row flex-wrap gap-4">
             {palettes.map((palette) => (

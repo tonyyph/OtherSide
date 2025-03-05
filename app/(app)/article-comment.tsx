@@ -124,7 +124,7 @@ export default function ArticleDetailScreen() {
               <View className="flex flex-row items-center gap-4">
                 <TextInput
                   className="line-clamp-1 h-14 flex-1 truncate border rounded-full px-6 border-border bg-black text-white"
-                  placeholder={t(i18n)`Enter you comment here...`}
+                  placeholder={`Enter you comment here...`}
                   placeholderTextColor={"gray"}
                   autoCapitalize="none"
                   value={content}

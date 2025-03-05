@@ -88,7 +88,7 @@ function FormSubmitButton({
       disabled={form.formState.isLoading || !amount}
       className="flex-shrink-0"
     >
-      <Text>{t(i18n)`Save`}</Text>
+      <Text>{`Save`}</Text>
     </SubmitButton>
   );
 }
@@ -156,7 +156,7 @@ export const CommentForm = ({
           />
           <InputField
             name="note"
-            placeholder={t(i18n)`transaction note`}
+            placeholder={`transaction note`}
             autoCapitalize="none"
             className="line-clamp-1 h-8 truncate border-0 bg-transparent"
             placeholderClassName="!text-muted"

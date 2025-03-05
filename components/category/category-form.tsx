@@ -2,12 +2,11 @@ import {
   CATEGORY_EXPENSE_ICONS,
   CATEGORY_INCOME_ICONS
 } from "@/lib/icons/category-icons";
-import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { useEffect, useRef } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { View } from "react-native";
 import type { TextInput } from "react-native";
+import { View } from "react-native";
 import { InputField } from "../form-fields/input-field";
 import { SubmitButton } from "../form-fields/submit-button";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
@@ -60,8 +59,8 @@ export const CategoryForm = ({
         <InputField
           ref={nameInputRef}
           name="name"
-          label={t(i18n)`Name`}
-          placeholder={t(i18n)`Category name`}
+          label={`Name`}
+          placeholder={`Category name`}
           autoCapitalize="none"
           autoFocus={!defaultValues}
           className="!pl-[62px]"
@@ -77,7 +76,7 @@ export const CategoryForm = ({
 
         {!isTypeHidden && (
           <>
-            <Text className="font-medium">{t(i18n)`Type`}</Text>
+            <Text className="font-medium">{`Type`}</Text>
             <Controller
               control={categoryForm.control}
               name="type"
@@ -92,13 +91,13 @@ export const CategoryForm = ({
                       disabled={categoryForm.formState.isLoading}
                       value="EXPENSE"
                     >
-                      <Text>{t(i18n)`Expense`}</Text>
+                      <Text>{`Expense`}</Text>
                     </TabsTrigger>
                     <TabsTrigger
                       disabled={categoryForm.formState.isLoading}
                       value="INCOME"
                     >
-                      <Text>{t(i18n)`Income`}</Text>
+                      <Text>{`Income`}</Text>
                     </TabsTrigger>
                   </TabsList>
                 </Tabs>
@@ -112,7 +111,7 @@ export const CategoryForm = ({
           disabled={categoryForm.formState.isLoading}
           className="mt-4"
         >
-          <Text>{t(i18n)`Save`}</Text>
+          <Text>{`Save`}</Text>
         </SubmitButton>
       </View>
     </FormProvider>

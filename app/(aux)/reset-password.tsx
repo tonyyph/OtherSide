@@ -67,7 +67,7 @@ export default function ResetPasswordScreen() {
           }}
         >
           <Text className="text-background text-base font-medium">
-            {t(i18n)`Login`}
+            {`Login`}
           </Text>
         </Button>
       </View>
@@ -113,7 +113,7 @@ export default function ResetPasswordScreen() {
             <View className="border-2 border-border rounded-lg relative">
               <TextInput
                 className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
-                placeholder={t(i18n)`Enter your new password`}
+                placeholder={`Enter your new password`}
                 placeholderTextColor={"gray"}
                 autoCapitalize="none"
                 secureTextEntry={securePassword}

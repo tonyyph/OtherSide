@@ -85,7 +85,7 @@ export default function AuthenticatedLayout() {
           name="change-password/index"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Change Password`
+            headerTitle: `Change Password`
           }}
         />
         <Stack.Screen
