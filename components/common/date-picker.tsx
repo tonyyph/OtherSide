@@ -49,7 +49,7 @@ function SpinnerDatePicker({
           onChange(date);
         }}
       >
-        <Text>{t(i18n)`Save`}</Text>
+        <Text>{`Save`}</Text>
       </Button>
     </View>
   );

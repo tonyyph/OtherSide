@@ -74,19 +74,17 @@ export default function SignUpScreen() {
       >
         {/* Welcome */}
         <View className="z-10">
-          <Trans>
-            <View className="gap-1">
-              <Text className="font-bold text-[36px] text-muted-foreground">
-                Create
-              </Text>
-              <Text className="font-bold text-[36px] text-primary">
-                your account
-              </Text>
-              <Text className="text-muted-foreground text-[16px]">
-                Register to get started with us and explore about our app.
-              </Text>
-            </View>
-          </Trans>
+          <View className="gap-1">
+            <Text className="font-bold text-[36px] text-muted-foreground">
+              Create
+            </Text>
+            <Text className="font-bold text-[36px] text-primary">
+              your account
+            </Text>
+            <Text className="text-muted-foreground text-[16px]">
+              Register to get started with us and explore about our app.
+            </Text>
+          </View>
         </View>
         {/* Illustration */}
         <UserRoundPlusIcon className="absolute top-0 right-0 size-80 text-muted-foreground opacity-30" />
@@ -299,27 +297,25 @@ export default function SignUpScreen() {
             </Button>
           </View>
           <View className="justify-end mt-6">
-            <Trans>
-              <Text className="mx-auto text-center text-muted-foreground text-xs">
-                By signing up, you agree to the{" "}
-                <Text
-                  className="text-primary text-xs"
-                  onPress={() =>
-                    Linking.openURL(
-                      "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-                    )
-                  }
-                >
-                  Terms of Service
-                </Text>{" "}
-                and{" "}
-                <Link href="/(aux)/privacy-policy">
-                  <Text className="text-primary text-xs">
-                    Data Processing Agreement
-                  </Text>
-                </Link>
-              </Text>
-            </Trans>
+            <Text className="mx-auto text-center text-muted-foreground text-xs">
+              By signing up, you agree to the{" "}
+              <Text
+                className="text-primary text-xs"
+                onPress={() =>
+                  Linking.openURL(
+                    "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+                  )
+                }
+              >
+                Terms of Service
+              </Text>{" "}
+              and{" "}
+              <Link href="/(aux)/privacy-policy">
+                <Text className="text-primary text-xs">
+                  Data Processing Agreement
+                </Text>
+              </Link>
+            </Text>
           </View>
         </View>
       </ScrollView>

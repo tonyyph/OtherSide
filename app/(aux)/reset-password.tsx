@@ -84,18 +84,16 @@ export default function ResetPasswordScreen() {
     >
       {/* Welcome */}
       <View className="z-10">
-        <Trans>
-          <View className="gap-2">
-            <Text className="font-bold text-[36px] text-muted-foreground">
-              Reset
-            </Text>
-            <Text className="font-bold text-[36px] text-primary">Password</Text>
-            <Text className="text-muted-foreground text-[16px]">
-              Don’t worry! it happens. Please enter the new password associated
-              with your account.
-            </Text>
-          </View>
-        </Trans>
+        <View className="gap-2">
+          <Text className="font-bold text-[36px] text-muted-foreground">
+            Reset
+          </Text>
+          <Text className="font-bold text-[36px] text-primary">Password</Text>
+          <Text className="text-muted-foreground text-[16px]">
+            Don’t worry! it happens. Please enter the new password associated
+            with your account.
+          </Text>
+        </View>
       </View>
       {/* Illustration */}
       <KeyRoundIcon className="absolute top-16 right-0 size-80 text-muted-foreground opacity-30" />

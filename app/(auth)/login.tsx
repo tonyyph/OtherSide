@@ -71,19 +71,17 @@ export default function LoginScreen() {
       >
         {/* Welcome */}
         <View className="z-10">
-          <Trans>
-            <View className="gap-2">
-              <Text className="font-bold text-[44px] text-muted-foreground">
-                Welcome to
-              </Text>
-              <Text className="font-bold text-[44px] text-primary">
-                OtherSide
-              </Text>
-              <Text className="text-muted-foreground text-[19px]">
-                Keep up with the newest news, updates, and announcements from us
-              </Text>
-            </View>
-          </Trans>
+          <View className="gap-2">
+            <Text className="font-bold text-[44px] text-muted-foreground">
+              Welcome to
+            </Text>
+            <Text className="font-bold text-[44px] text-primary">
+              OtherSide
+            </Text>
+            <Text className="text-muted-foreground text-[19px]">
+              Keep up with the newest news, updates, and announcements from us
+            </Text>
+          </View>
         </View>
         {/* Illustration */}
         <AuthIllustration className="h-[350px] opacity-35 absolute top-12 items-center text-primary" />
@@ -192,43 +190,39 @@ export default function LoginScreen() {
             </Button>
             {/* Don’t have an account yet? Sign Up */}
             <View className="px-4 mt-4 flex-1">
-              <Trans>
-                <Text className="mx-auto text-center text-muted-foreground text-sm">
-                  Don’t have an account yet?{" "}
-                  <Link href="/(aux)/sign-up">
-                    <Text className="text-primary text-sm font-semiBold">
-                      Sign Up
-                    </Text>
-                  </Link>{" "}
-                  now and start your journey with us!{" "}
-                </Text>
-              </Trans>
+              <Text className="mx-auto text-center text-muted-foreground text-sm">
+                Don’t have an account yet?{" "}
+                <Link href="/(aux)/sign-up">
+                  <Text className="text-primary text-sm font-semiBold">
+                    Sign Up
+                  </Text>
+                </Link>{" "}
+                now and start your journey with us!{" "}
+              </Text>
             </View>
           </View>
         </View>
         {/* Private policy and term of use */}
         <View className="px-4 justify-end">
           <View className="justify-end">
-            <Trans>
-              <Text className="mx-auto text-center text-muted-foreground text-xs">
-                By continuing, you acknowledge that you understand and agree to
-                our{" "}
-                <Link href="/(aux)/privacy-policy">
-                  <Text className="text-primary text-xs">Privacy Policy</Text>
-                </Link>{" "}
-                and{" "}
-                <Text
-                  className="text-primary text-xs"
-                  onPress={() =>
-                    Linking.openURL(
-                      "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-                    )
-                  }
-                >
-                  Terms of Use
-                </Text>
+            <Text className="mx-auto text-center text-muted-foreground text-xs">
+              By continuing, you acknowledge that you understand and agree to
+              our{" "}
+              <Link href="/(aux)/privacy-policy">
+                <Text className="text-primary text-xs">Privacy Policy</Text>
+              </Link>{" "}
+              and{" "}
+              <Text
+                className="text-primary text-xs"
+                onPress={() =>
+                  Linking.openURL(
+                    "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+                  )
+                }
+              >
+                Terms of Use
               </Text>
-            </Trans>
+            </Text>
           </View>
         </View>
         <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>

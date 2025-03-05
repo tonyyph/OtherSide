@@ -67,20 +67,16 @@ export default function ForgotPasswordScreen() {
     >
       {/* Welcome */}
       <View className="z-10">
-        <Trans>
-          <View className="gap-2">
-            <Text className="font-bold text-[44px] text-muted-foreground">
-              Forgot
-            </Text>
-            <Text className="font-bold text-[44px] text-primary">
-              Password?
-            </Text>
-            <Text className="text-muted-foreground text-[19px]">
-              Don’t worry! it happens. Please enter the address associated with
-              your account.
-            </Text>
-          </View>
-        </Trans>
+        <View className="gap-2">
+          <Text className="font-bold text-[44px] text-muted-foreground">
+            Forgot
+          </Text>
+          <Text className="font-bold text-[44px] text-primary">Password?</Text>
+          <Text className="text-muted-foreground text-[19px]">
+            Don’t worry! it happens. Please enter the address associated with
+            your account.
+          </Text>
+        </View>
       </View>
       {/* Illustration */}
       <SquareAsterisk className="absolute top-16 right-0 size-80 text-muted-foreground opacity-30" />

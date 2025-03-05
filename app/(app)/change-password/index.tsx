@@ -1,15 +1,15 @@
-import { Image, StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useEffect, useRef } from "react";
-import { t, Trans } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
-import { CircleAlertIcon, KeyRoundIcon } from "lucide-react-native";
-import { Button } from "@/components/ui/button";
 import { BottomSheet } from "@/components/common/bottom-sheet";
-import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { router } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Button } from "@/components/ui/button";
 import { usePassword } from "@/hooks/profile/usePassword";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import { t } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
+import { router } from "expo-router";
 import LottieView from "lottie-react-native";
+import { CircleAlertIcon, KeyRoundIcon } from "lucide-react-native";
+import { useEffect, useRef } from "react";
+import { Text, TextInput, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ChangePasswordScreen() {
   const { i18n } = useLingui();
@@ -34,19 +34,17 @@ export default function ChangePasswordScreen() {
     <View className=" flex-1 bg-background p-6">
       <View className="flex-1">
         <View className="z-10">
-          <Trans>
-            <View className="">
-              <Text className="font-bold text-[44px] text-muted-foreground">
-                For security
-              </Text>
-              <Text className="font-semiBold text-[44px] text-primary">
-                reasons
-              </Text>
-              <Text className="text-muted-foreground mt-2 text-[20px]">
-                Please confirm your current password before setting a new one.
-              </Text>
-            </View>
-          </Trans>
+          <View className="">
+            <Text className="font-bold text-[44px] text-muted-foreground">
+              For security
+            </Text>
+            <Text className="font-semiBold text-[44px] text-primary">
+              reasons
+            </Text>
+            <Text className="text-muted-foreground mt-2 text-[20px]">
+              Please confirm your current password before setting a new one.
+            </Text>
+          </View>
         </View>
         <KeyRoundIcon className="absolute top-0 right-0 size-80 text-muted-foreground opacity-30" />
 
@@ -60,7 +58,7 @@ export default function ChangePasswordScreen() {
           <View className="border border-foreground rounded-lg relative">
             <TextInput
               className="px-4 rounded-lg bg-background h-12 text-white"
-              placeholder={t(i18n)`Enter your password`}
+              placeholder={`Enter your password`}
               placeholderTextColor={"gray"}
               secureTextEntry
               value={passwordState.value}
@@ -78,7 +76,7 @@ export default function ChangePasswordScreen() {
           <View className="border border-foreground rounded-lg relative">
             <TextInput
               className="px-4 rounded-lg bg-background h-12 text-white"
-              placeholder={t(i18n)`Enter your password`}
+              placeholder={`Enter your password`}
               placeholderTextColor={"gray"}
               secureTextEntry
               value={newPasswordState.value}
@@ -96,7 +94,7 @@ export default function ChangePasswordScreen() {
           <View className="border border-foreground rounded-lg relative">
             <TextInput
               className="px-4 rounded-lg bg-background h-12 text-white"
-              placeholder={t(i18n)`Enter your confirm password`}
+              placeholder={`Enter your confirm password`}
               placeholderTextColor={"gray"}
               secureTextEntry
               value={confirmNewPasswordState.value}
@@ -127,7 +125,7 @@ export default function ChangePasswordScreen() {
           onPress={onChangePassword}
         >
           <Text className="text-background text-base font-medium">
-            {t(i18n)`Save`}
+            {`Save`}
           </Text>
         </Button>
       </View>

@@ -35,7 +35,7 @@ const InfoBottomSheet = forwardRef(
               onPress={() => {}}
             >
               <Text className="text-background text-base font-medium">
-                {t(i18n)`Try again`}
+                {`Try again`}
               </Text>
             </Button>
           </View>

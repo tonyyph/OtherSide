@@ -2,7 +2,6 @@ import { BackButton } from "@/components/common/back-button";
 import { useProfile } from "@/hooks/profile/useProfile";
 import { useColorPalette } from "@/hooks/use-color-palette";
 import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
-import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Redirect, Stack } from "expo-router";
 import { View } from "react-native";
@@ -49,7 +48,7 @@ export default function AuthenticatedLayout() {
         />
         <Stack.Screen
           name="breaking-news"
-          options={{ headerTitle: t(i18n)`Breaking News` }}
+          options={{ headerTitle: `Breaking News` }}
         />
         <Stack.Screen
           name="article-comment"
@@ -65,20 +64,20 @@ export default function AuthenticatedLayout() {
           name="appearance"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Appearance`
+            headerTitle: `Appearance`
           }}
         />
         <Stack.Screen
           name="profile-edit"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Fill Your Profile`
+            headerTitle: `Fill Your Profile`
           }}
         />
         <Stack.Screen
           name="category/index"
           options={{
-            headerTitle: t(i18n)`Categories`
+            headerTitle: `Categories`
           }}
         />
         <Stack.Screen
@@ -90,28 +89,28 @@ export default function AuthenticatedLayout() {
         />
         <Stack.Screen
           name="explore-categories"
-          options={{ headerTitle: t(i18n)`Explore Categories` }}
+          options={{ headerTitle: `Explore Categories` }}
         />
         <Stack.Screen
           name="notifications"
-          options={{ headerTitle: t(i18n)`Notifications` }}
+          options={{ headerTitle: `Notifications` }}
         />
         <Stack.Screen
           name="search"
-          options={{ headerTitle: t(i18n)`Search`, headerShown: false }}
+          options={{ headerTitle: `Search`, headerShown: false }}
         />
         <Stack.Screen
           name="feedback"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Feedback`
+            headerTitle: `Feedback`
           }}
         />
         <Stack.Screen
           name="language"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Language`
+            headerTitle: `Language`
           }}
         />
       </Stack>
