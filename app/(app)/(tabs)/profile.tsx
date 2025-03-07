@@ -116,7 +116,7 @@ export default function ProfileScreen() {
         contentContainerClassName="py-4 gap-4"
         refreshControl={
           <RefreshControl
-            refreshing={true}
+            refreshing={false}
             tintColor={getColor("--primary")}
             onRefresh={onRefresh}
           />

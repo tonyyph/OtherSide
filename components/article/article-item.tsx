@@ -14,6 +14,7 @@ import {
 import {
   Dimensions,
   ImageBackground,
+  Platform,
   Pressable,
   Share,
   TouchableOpacity,
@@ -82,11 +83,14 @@ export const ArticleItem = ({ item }: any) => {
     <Pressable onPress={() => setHideTabBarStatus(false)}>
       <View
         className={" flex-1 gap-3 justify-between"}
-        style={{ height, width: Dimensions.get("window").width }}
+        style={{
+          height: Platform.OS === "ios" ? height : height - 24,
+          width: Dimensions.get("window").width
+        }}
       >
         <View
           className="flex-1"
-          style={{ paddingTop: top, paddingBottom: bottom * 1.5 }}
+          // style={{ paddingTop: top, paddingBottom: bottom * 1.5 }}
         >
           <ImageBackground
             source={{

@@ -10,7 +10,6 @@ export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
   const { i18n } = useLingui();
   const { isLoggedIn } = useUserAuthenticateStore();
-  const { userProfile } = useProfile();
 
   if (!isLoggedIn) {
     return <Redirect href={"/login"} />;
