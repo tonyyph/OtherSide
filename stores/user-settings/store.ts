@@ -26,7 +26,7 @@ export const useUserSettingsStore = create<UserSettingsStore>()(
         set({ enabledPushNotifications }),
       enabledLocalAuth: false,
       setEnabledLocalAuth: (enabledLocalAuth) => set({ enabledLocalAuth }),
-      preferredPalette: Palette.Default,
+      preferredPalette: Palette.RosePine,
       setPreferredPalette: (preferredPalette) => set({ preferredPalette }),
       hideTabBarStatus: true,
       setHideTabBarStatus: (hideTabBarStatus) => set({ hideTabBarStatus })

@@ -51,7 +51,7 @@ export default function ProfileScreen() {
   const { i18n } = useLingui();
   const { getColor } = useColorPalette();
 
-  const { bottom } = useSafeAreaInsets();
+  const { bottom, top } = useSafeAreaInsets();
   const { language } = useLocale();
   const sheetRef = useRef<BottomSheetModal>(null);
   const { onLogout } = useLogout();
@@ -96,7 +96,10 @@ export default function ProfileScreen() {
 
   if (loading) {
     return (
-      <View className="flex-1 bg-background py-4 gap-4">
+      <View
+        className="flex-1 bg-background py-4 gap-4"
+        style={{ paddingTop: top }}
+      >
         <View className="mx-6 flex-row items-center justify-center overflow-hidden rounded-lg">
           <Skeleton className="h-16 w-16 rounded-full" />
           <View className=" flex-1 bg-background gap-3">
@@ -111,7 +114,7 @@ export default function ProfileScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1 bg-background" style={{ paddingTop: top }}>
       <ScrollView
         contentContainerClassName="py-4 gap-4"
         refreshControl={
@@ -270,8 +273,8 @@ export default function ProfileScreen() {
           onLongPress={handleCopyVersion}
         >
           <Image
-            source={require("@/assets/images/appstore.png")}
-            className="mx-auto h-16 w-16 rounded-full"
+            source={require("@/assets/images/logo-transparent.png")}
+            className="mx-auto h-16 w-24 rounded-full"
           />
           <Text className="text-muted-foreground text-sm">
             {`ver.`}

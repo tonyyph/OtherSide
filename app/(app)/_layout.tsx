@@ -8,7 +8,6 @@ import { View } from "react-native";
 
 export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
-  const { i18n } = useLingui();
   const { isLoggedIn } = useUserAuthenticateStore();
 
   if (!isLoggedIn) {

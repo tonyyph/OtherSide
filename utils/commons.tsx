@@ -36,6 +36,14 @@ export const showLoading = () => commonStore.setState({ isLoading: true });
 
 export const hideLoading = () => commonStore.setState({ isLoading: false });
 
+const pivotWidth = 390;
+const pivotHeight = 844;
+
+export const exactDesign = (value: any) => {
+  const ratio = (SCREEN_HEIGHT * SCREEN_WIDTH) / (pivotHeight * pivotWidth);
+  return ratio >= 1 ? value : value * ratio;
+};
+
 export const actionWithLoading = <T extends any>(cb: () => Promise<T>) => {
   return async () => {
     let result;

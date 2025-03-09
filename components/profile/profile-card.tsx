@@ -150,7 +150,6 @@ export const DotsGrid = () => {
 };
 
 export function ProfileCard() {
-  const { i18n } = useLingui();
   const router = useRouter();
   const userProfile = userStore.getState().userProfile;
 
