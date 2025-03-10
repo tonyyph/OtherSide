@@ -1,30 +1,24 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider
-} from "@react-navigation/native";
+import { CustomPaletteWrapper } from "@/components/common/custom-palette-wrapper";
+import { ToastRoot } from "@/components/common/toast";
+import { LocaleProvider } from "@/locales/provider";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { DarkTheme, ThemeProvider } from "@react-navigation/native";
+import { PortalHost } from "@rn-primitives/portal";
 import { useFonts } from "expo-font";
+import { LinearGradient } from "expo-linear-gradient";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
-import "react-native-reanimated";
-import { PostHogProvider } from "posthog-react-native";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { LocaleProvider } from "@/locales/provider";
-import { cssInterop } from "nativewind";
-import { LinearGradient } from "expo-linear-gradient";
-import Svg from "react-native-svg";
+import * as Updates from "expo-updates";
 import LottieView from "lottie-react-native";
-
-import "../global.css";
-import { CustomPaletteWrapper } from "@/components/common/custom-palette-wrapper";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { cssInterop } from "nativewind";
+import { PostHogProvider } from "posthog-react-native";
+import { useCallback, useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { ToastRoot } from "@/components/common/toast";
-import { PortalHost } from "@rn-primitives/portal";
 import { KeyboardProvider } from "react-native-keyboard-controller";
+import "react-native-reanimated";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Svg from "react-native-svg";
+import "../global.css";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -62,8 +56,28 @@ export default function RootLayout() {
     "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf")
   });
+  const [updating, setUpdating] = useState<boolean>(false);
+
+  const checkAndForceUpdates = useCallback(async () => {
+    if (__DEV__) {
+      return;
+    }
+    setUpdating(true);
+    try {
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync();
+        await Updates.reloadAsync();
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+    setUpdating(false);
+  }, []);
 
   useEffect(() => {
+    checkAndForceUpdates();
+
     if (fontsLoaded) {
       SplashScreen.hideAsync();
     }

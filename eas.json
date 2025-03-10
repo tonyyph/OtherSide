@@ -9,7 +9,8 @@
       "distribution": "internal",
       "ios": {
         "simulator": true
-      }
+      },
+      "channel": "development-simulator"
     },
     "development": {
       "developmentClient": true,
@@ -34,7 +35,8 @@
   "submit": {
     "production": {
       "ios": {
-        "ascAppId": "6504689878"
+        "appleId": "ducle@reliasoftware.com",
+        "ascAppId": "6742776601"
       }
     }
   }

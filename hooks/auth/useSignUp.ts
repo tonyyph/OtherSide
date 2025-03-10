@@ -46,14 +46,21 @@ export const useSignUp = () => {
       const setError = (error: string = "Invalid password") => {
         passwordState.setState((prev) => ({ ...prev, error }));
       };
-      // c265606d-a438-4165-af98-3fe20eb0a142
-      // id:15
-      // {"birthday": "1996-02-25", "confirmationToken": "c265606d-a438-4165-af98-3fe20eb0a142", "createdAt": "2025-02-25T10:45:28.204Z", "email": "saigon@gmail.com", "firstName": "Cường", "gender": "female", "id": 15, "isActive": false, "language": "en", "lastName": "Phan", "role": "user", "updatedAt": "2025-02-25T10:45:28.204Z"}
+
+      console.log("first", {
+        email: emailAddressState.value,
+        password: passwordState.value,
+        confirmPassword: confirmPasswordState.value,
+        firstName: firstNameState.value,
+        lastName: lastNameState.value,
+        birthday: birthDayState.value,
+        gender: genderState.value
+      });
       try {
         const { data: session } = await signUpWithEmail({
           email: emailAddressState.value,
           password: passwordState.value,
-          confirm_password: confirmPasswordState.value,
+          confirmPassword: confirmPasswordState.value,
           firstName: firstNameState.value,
           lastName: lastNameState.value,
           birthday: birthDayState.value,

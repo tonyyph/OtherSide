@@ -2,7 +2,7 @@
   "expo": {
     "name": "OtherSide India",
     "slug": "otherside-india",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/appstore.png",
     "scheme": "myapp",
@@ -28,6 +28,7 @@
       },
       "package": "com.cuongphan2.OtherSide",
       "permissions": [
+        "android.permission.RECORD_AUDIO",
         "android.permission.RECORD_AUDIO"
       ]
     },
@@ -60,7 +61,7 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/b5ddc4d7-9d25-4435-8997-1d7ef051e76c"
+      "url": "https://u.expo.dev/d8aa85d7-390b-4d74-b889-ffd90a5b9bb2"
     },
     "owner": "otherside-india"
   }

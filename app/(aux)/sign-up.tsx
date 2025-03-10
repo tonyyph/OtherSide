@@ -17,6 +17,7 @@ import {
 } from "lucide-react-native";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Linking, ScrollView, TextInput, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SignUpScreen() {
   const {
@@ -31,7 +32,7 @@ export default function SignUpScreen() {
     registerSuccess
   } = useSignUp();
 
-  const { i18n } = useLingui();
+  const { top, bottom } = useSafeAreaInsets();
   const form = useForm({
     defaultValues: {
       date: new Date()
@@ -40,16 +41,30 @@ export default function SignUpScreen() {
 
   if (registerSuccess) {
     return (
-      <View className=" flex-1 justify-center mb-4 gap-8 p-8">
-        <BadgeCheckIcon className="absolute top-36 right-0  size-80 text-muted-foreground opacity-35" />
-        <Text className="font-bold text-[20px] text-muted-foreground text-center mt-8 justify-center">
-          Sign Up successful! Please check your email to verify your account and
-          complete the registration process. Welcome aboard!
-        </Text>
+      <View
+        className="flex-1 bg-background mb-4 justify-between gap-8 p-8"
+        style={{ paddingBottom: bottom }}
+      >
+        <BadgeCheckIcon className="absolute top-12 right-0 size-80 text-muted-foreground opacity-35" />
+        {/* Welcome */}
+        <View className="z-10">
+          <View className="gap-1">
+            <Text className="font-bold text-[36px] text-muted-foreground">
+              Sign Up
+            </Text>
+            <Text className="font-bold text-[36px] text-primary">
+              successful
+            </Text>
+            <Text className="text-muted-foreground text-[16px]">
+              Please check your email to verify your account and complete the
+              registration process. Welcome aboard!{" "}
+            </Text>
+          </View>
+        </View>
         <Button
           variant="default"
           size={"lg"}
-          className="rounded-full mx-2"
+          className="rounded-full mx-2 bottom-6"
           disabled={!emailAddressState.value}
           onPress={() => {
             router.back();
@@ -67,7 +82,7 @@ export default function SignUpScreen() {
     <FormProvider {...form}>
       <ScrollView
         className="bg-background"
-        contentContainerClassName="gap-4 p-8 justify-center"
+        contentContainerClassName="gap-4 px-6 justify-center"
         automaticallyAdjustKeyboardInsets
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
@@ -197,10 +212,6 @@ export default function SignUpScreen() {
               <View className="flex-1">
                 <Text className="text-sm font-medium text-foreground mb-1">
                   Birthday{" "}
-                  {/* <Text className="font-regular text-red-400 group-active:text-red-400">
-                    *
-                  </Text> */}
-                  {/* TODO: remove this */}
                 </Text>
                 <View className="rounded-lg">
                   <Controller
@@ -285,8 +296,6 @@ export default function SignUpScreen() {
                 !confirmPasswordState.value ||
                 !firstNameState.value ||
                 !lastNameState.value
-                // !genderState.value || //TODO: remove this
-                // !birthDayState.value
               }
               // onPress={handleSignUp}
               onPress={onSignUp}

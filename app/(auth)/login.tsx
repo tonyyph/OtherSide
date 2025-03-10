@@ -6,8 +6,8 @@ import { Text } from "@/components/ui/text";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { exactDesign } from "@/utils";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { Trans } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
+import * as Updates from "expo-updates";
+import * as Application from "expo-application";
 import { Link } from "expo-router";
 import LottieView from "lottie-react-native";
 import {
@@ -185,7 +185,7 @@ export default function LoginScreen() {
               </View>
               <Link href="/(aux)/forgot-password">
                 <Text className="text-primary text-sm font-semiBold">
-                  Forgot password?
+                  Forgot Password?
                 </Text>
               </Link>
             </View>
@@ -215,32 +215,34 @@ export default function LoginScreen() {
             </View>
           </View>
         </View>
-      </Animated.ScrollView>
-      {/* Private policy and term of use */}
-      <View
-        className="px-4 justify-end bg-background"
-        style={{ paddingBottom: bottom }}
-      >
-        <View className="justify-end">
-          <Text className="mx-auto text-center text-muted-foreground text-xs">
-            By continuing, you acknowledge that you understand and agree to our{" "}
-            <Link href="/(aux)/privacy-policy">
-              <Text className="text-primary text-xs">Privacy Policy</Text>
-            </Link>{" "}
-            and{" "}
-            <Text
-              className="text-primary text-xs"
-              onPress={() =>
-                Linking.openURL(
-                  "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-                )
-              }
-            >
-              Terms of Use
+        {/* Private policy and term of use */}
+        <View className="px-4 justify-end bg-background">
+          <View className="justify-end">
+            <Text className="mx-auto text-center text-muted-foreground text-xs">
+              By continuing, you acknowledge that you understand and agree to
+              our{" "}
+              <Link href="/(aux)/privacy-policy">
+                <Text className="text-primary text-xs">Privacy Policy</Text>
+              </Link>{" "}
+              and{" "}
+              <Text
+                className="text-primary text-xs"
+                onPress={() =>
+                  Linking.openURL(
+                    "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+                  )
+                }
+              >
+                Terms of Use
+              </Text>
             </Text>
-          </Text>
+          </View>
         </View>
-      </View>
+        <Text>{`${Application.nativeApplicationVersion} - ${
+          Updates.updateId ?? "Embedded"
+        }`}</Text>
+      </Animated.ScrollView>
+
       <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
         <BottomSheetView>
           <View className="p-4">
