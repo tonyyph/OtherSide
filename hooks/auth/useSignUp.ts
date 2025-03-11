@@ -7,7 +7,6 @@ import {
 } from "@/utils";
 import { AxiosError } from "axios";
 import { useState } from "react";
-import { Alert, Keyboard } from "react-native";
 import { useMemoFunc, useValidateInput } from "../commons";
 
 export const useSignUp = () => {
@@ -70,22 +69,14 @@ export const useSignUp = () => {
           setRegisterSuccess(true);
         }
       } catch (error) {
-        console.log("error:", error);
-
-        setError((error as AxiosError<RestfulApiError>).response?.data?.error);
-        Alert.alert(
-          "Sign Up failed",
-          "Your username or password is incorrect. Please check and try again.",
-          [
-            {
-              text: "OK",
-              onPress: () => {
-                Keyboard.dismiss();
-              }
-            }
-          ]
+        console.log(
+          "error:",
+          (error as AxiosError<RestfulApiError>).response?.data?.message
         );
-      } finally {
+
+        setError(
+          (error as AxiosError<RestfulApiError>).response?.data?.message
+        );
       }
     })
   );

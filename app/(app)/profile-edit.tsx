@@ -111,16 +111,13 @@ export default function EditProfileScreen() {
                 </Text>
                 <View className="border border-border rounded-lg relative">
                   <TextInput
-                    className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
+                    className="pl-4 pr-10 rounded-lg bg-background h-12 text-white"
                     placeholder={`ex: Tony .D`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
                     value={firstNameState.value}
                     onChangeText={firstNameState.onChangeText}
                   />
-                  <View className="absolute top-4 left-3">
-                    <CaseSensitiveIcon className="size-5 text-muted-foreground" />
-                  </View>
                 </View>
               </View>
 
@@ -130,16 +127,13 @@ export default function EditProfileScreen() {
                 </Text>
                 <View className="border border-border rounded-lg relative">
                   <TextInput
-                    className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
+                    className="pl-4 pr-10 rounded-lg bg-background h-12 text-white"
                     placeholder={`ex: Phan`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
                     value={lastNameState.value}
                     onChangeText={lastNameState.onChangeText}
                   />
-                  <View className="absolute top-4 left-3">
-                    <CaseLowerIcon className="size-5 text-muted-foreground" />
-                  </View>
                 </View>
               </View>
             </View>

@@ -37,7 +37,10 @@ export const useArticle = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const { data: session } = await getArticles({ limit: "20", skip: "0" });
+        const { data: session } = await getArticles({
+          limit: "100",
+          skip: "0"
+        });
 
         setData(session?.articles);
       } catch (error) {

@@ -1,8 +1,6 @@
 import { useEngagement } from "@/hooks/article/useEngagement";
 import { formatDateTime } from "@/lib/date";
 import { useUserSettingsStore } from "@/stores";
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import { router } from "expo-router";
 import {
   CalendarClock,
@@ -25,6 +23,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "../common/icon";
 import { toast } from "../common/toast";
 import { Text } from "../ui/text";
+import { exactDesign } from "@/utils";
 
 export const ArticleItem = ({ item }: any) => {
   const { height } = useWindowDimensions();
@@ -41,8 +40,6 @@ export const ArticleItem = ({ item }: any) => {
     onDeleteLike,
     data
   } = useEngagement();
-
-  const { i18n } = useLingui();
 
   async function handleShare({ title }: { title: string }) {
     try {
@@ -88,17 +85,15 @@ export const ArticleItem = ({ item }: any) => {
           width: Dimensions.get("window").width
         }}
       >
-        <View
-          className="flex-1"
-          // style={{ paddingTop: top, paddingBottom: bottom * 1.5 }}
-        >
+        <View className="flex-1">
           <ImageBackground
             source={{
               uri:
                 item.imageUrl ??
                 "https://reliasoftware.com/images/careers/relia-software-office.webp"
             }}
-            className="h-[320px]"
+            // className="h-[360px]"
+            style={{ height: exactDesign(360) }}
             resizeMode="cover"
           >
             <View className="border p-2 gap-4 border-blue-100 rounded-full bottom-7 right-3 absolute bg-white">

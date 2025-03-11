@@ -3,15 +3,19 @@ import * as Haptics from "expo-haptics";
 
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { FooterGradient } from "@/components/common/footer-gradient";
+import { ListSkeleton } from "@/components/common/list-skeleton";
 import { MenuItem } from "@/components/common/menu-item";
 import { toast } from "@/components/common/toast";
 import { ProfileCard } from "@/components/profile/profile-card";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";
 import { useLogout } from "@/hooks/auth/useLogout";
+import { useColorPalette } from "@/hooks/use-color-palette";
 import { useLocale } from "@/locales/provider";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
+import { userStore } from "@/stores/userStore";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
@@ -31,21 +35,17 @@ import {
   Share2Icon,
   SwatchBookIcon
 } from "lucide-react-native";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import {
   Image,
   Linking,
+  RefreshControl,
   ScrollView,
   Share,
   TouchableOpacity,
   View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { userStore } from "@/stores/userStore";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ListSkeleton } from "@/components/common/list-skeleton";
-import { RefreshControl } from "react-native";
-import { useColorPalette } from "@/hooks/use-color-palette";
 
 export default function ProfileScreen() {
   const { i18n } = useLingui();
@@ -239,6 +239,7 @@ export default function ProfileScreen() {
               <MenuItem
                 label={`Send feedback`}
                 icon={MessageSquareQuoteIcon}
+                disabled={true}
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />
                 }

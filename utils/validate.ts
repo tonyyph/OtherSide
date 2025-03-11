@@ -1,7 +1,7 @@
 export const validateUsername = (username?: string, required?: boolean) => {
-  if (!username) {
-    return { error: "Email or Phone Number is required.", valid: false };
-  }
+  // if (!username) {
+  //   return { error: "Email or Phone Number is required.", valid: false };
+  // }
   // if (username?.includes("@")) {
   //   const re = /\S+@\S+\.\S+/;
 

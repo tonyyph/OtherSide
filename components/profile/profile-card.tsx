@@ -167,14 +167,16 @@ export function ProfileCard() {
         />
         <View className="flex-1 justify-center gap-1.5">
           <Text className="line-clamp-1 font-semiBold">
-            {userProfile?.firstName + " " + userProfile?.lastName}
+            {(userProfile?.firstName ?? "") +
+              " " +
+              (userProfile?.lastName ?? "")}
           </Text>
           <Badge
             variant="default"
             className="flex-row gap-1 self-start rounded-md"
           >
             {true && <CrownIcon className="size-4 text-primary-foreground" />}
-            <Text className="font-medium text-sm text-center">{`Admin`}</Text>
+            <Text className="font-medium text-sm text-center">{`Free`}</Text>
           </Badge>
         </View>
       </TouchableOpacity>

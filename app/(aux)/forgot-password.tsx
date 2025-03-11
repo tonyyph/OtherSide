@@ -1,40 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { useForgotPassword } from "@/hooks/auth/useForgotPassword";
-import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { router } from "expo-router";
 import { MailIcon, SquareAsterisk, User } from "lucide-react-native";
-import { useCallback, useState } from "react";
-import { Alert, Keyboard, ScrollView, TextInput, View } from "react-native";
+import { ScrollView, TextInput, View } from "react-native";
 
 export default function ForgotPasswordScreen() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const { i18n } = useLingui();
-  const { onForgotPassword, emailState } = useForgotPassword();
+  const { onForgotPassword, emailState, registerSuccess } = useForgotPassword();
 
-  const handleSendEmailToResetPassword = useCallback(() => {
-    if (emailState.value === "a") {
-      setIsSubmitted(true);
-    } else {
-      Alert.alert(
-        "Reset Failed",
-        "Invalid email address. Please check and try again.",
-        [
-          {
-            text: "OK",
-            onPress: () => {
-              Keyboard.dismiss();
-            }
-          }
-        ]
-      );
-    }
-  }, [emailState.value]);
-
-  if (isSubmitted) {
+  if (!!registerSuccess) {
     return (
-      <View className=" flex-1  justify-center mb-4 gap-8 p-8">
+      <View className=" flex-1 bg-background justify-center mb-4 gap-8 p-8">
         <MailIcon className="absolute top-36 right-0  size-80 text-muted-foreground opacity-35" />
         <Text className="font-bold text-[20px] text-muted-foreground text-center mt-8 justify-center">
           Success! We've sent you an email. Please check your inbox and follow
@@ -114,10 +92,10 @@ export default function ForgotPasswordScreen() {
           <Button
             variant="default"
             size={"lg"}
-            className="rounded-full mx-2"
+            className="rounded-full mb-10"
             disabled={!emailState.value}
-            onPress={handleSendEmailToResetPassword}
-            // onPress={onForgotPassword}
+            // onPress={handleSendEmailToResetPassword}
+            onPress={onForgotPassword}
           >
             <Text className="text-background text-base font-medium">
               {`Submit`}

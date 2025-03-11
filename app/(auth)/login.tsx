@@ -1,13 +1,10 @@
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { CheckBox, UnCheckBox } from "@/components/common/icons";
-import { AuthIllustration } from "@/components/svg-assets/auth-illustration";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { exactDesign } from "@/utils";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import * as Updates from "expo-updates";
-import * as Application from "expo-application";
 import { Link } from "expo-router";
 import LottieView from "lottie-react-native";
 import {
@@ -22,7 +19,6 @@ import {
   Image,
   Linking,
   Modal,
-  ScrollView,
   TextInput,
   TouchableOpacity,
   View
@@ -73,7 +69,7 @@ export default function LoginScreen() {
       <Animated.ScrollView
         style={translateStyle}
         className="bg-background"
-        contentContainerClassName="gap-4 p-6 justify-center flex-1"
+        contentContainerClassName="gap-8 p-8 justify-center flex-1"
         automaticallyAdjustKeyboardInsets
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
@@ -81,18 +77,18 @@ export default function LoginScreen() {
         {/* Illustration */}
         <Image
           source={require("@/assets/images/logo-transparent.png")}
-          className="h-[200px] w-[300px] rounded-full opacity-30 absolute top-12 right-0 items-center text-primary"
+          className="h-[300px] w-[300px] rounded-full opacity-30 absolute top-12 right-0 items-center text-primary"
         />
         {/* Welcome */}
         <View className="z-10">
           <View className="flex flex-col gap-2">
-            <Text className="font-bold text-[42px] text-muted-foreground">
+            <Text className="font-bold text-[44px] text-muted-foreground">
               Welcome to
             </Text>
-            <Text className="font-bold text-[40px] text-primary">
+            <Text className="font-bold text-[44px] text-primary">
               OtherSide
             </Text>
-            <Text className="text-muted-foreground text-[16px]">
+            <Text className="text-muted-foreground text-[18px]">
               Keep up with the newest news, updates, and announcements from us
             </Text>
           </View>
@@ -193,7 +189,7 @@ export default function LoginScreen() {
             <Button
               variant="default"
               size={"lg"}
-              className="rounded-full mx-2"
+              className="rounded-full mx-2 mt-4"
               disabled={!usernameState.value || !passwordState.value}
               onPress={onLogin}
             >
@@ -238,9 +234,6 @@ export default function LoginScreen() {
             </Text>
           </View>
         </View>
-        <Text>{`${Application.nativeApplicationVersion} - ${
-          Updates.updateId ?? "Embedded"
-        }`}</Text>
       </Animated.ScrollView>
 
       <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>

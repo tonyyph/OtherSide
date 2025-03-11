@@ -1,6 +1,7 @@
 import { forgotPassword } from "@/api";
 import { actionWithLoading, validateUsername } from "@/utils";
 import { AxiosError } from "axios";
+import { useState } from "react";
 import { Alert, Keyboard } from "react-native";
 import { useMemoFunc, useValidateInput } from "../commons";
 
@@ -9,6 +10,7 @@ export const useForgotPassword = () => {
     defaultValue: "",
     validate: validateUsername
   });
+  const [registerSuccess, setRegisterSuccess] = useState(false);
 
   const onForgotPassword = useMemoFunc(
     actionWithLoading(async () => {
@@ -17,18 +19,24 @@ export const useForgotPassword = () => {
       };
 
       try {
-        console.log("emailState.value", emailState.value);
         const { data: messages } = await forgotPassword({
           email: emailState.value
         });
-        console.log("messages", messages);
+        if (!!messages) {
+          setRegisterSuccess(true);
+        }
       } catch (error) {
-        console.log("error:", error);
+        console.log(
+          "error:",
+          (error as AxiosError<RestfulApiError>).response?.data?.message
+        );
 
-        setError((error as AxiosError<RestfulApiError>).response?.data?.error);
+        setError(
+          (error as AxiosError<RestfulApiError>).response?.data?.message
+        );
         Alert.alert(
           "Authentication failed",
-          "Your email is incorrect. Please check and try again.",
+          `${(error as AxiosError<RestfulApiError>).response?.data?.message}`,
           [
             {
               text: "OK",
@@ -45,6 +53,7 @@ export const useForgotPassword = () => {
 
   return {
     emailState,
-    onForgotPassword
+    onForgotPassword,
+    registerSuccess
   };
 };

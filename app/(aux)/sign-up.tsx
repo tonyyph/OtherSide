@@ -1,22 +1,21 @@
+import { BottomSheet } from "@/components/common/bottom-sheet";
 import { DatePicker } from "@/components/common/date-picker";
 import { Button } from "@/components/ui/button";
 import { Radio } from "@/components/ui/radio";
 import { Text } from "@/components/ui/text";
 import { useSignUp } from "@/hooks/auth/useSignUp";
 import { formatDateShort } from "@/lib/date";
-import { Trans, t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Link, router } from "expo-router";
 import {
   BadgeCheckIcon,
-  CaseLowerIcon,
-  CaseSensitiveIcon,
   KeyIcon,
   MailIcon,
   UserRoundPlusIcon
 } from "lucide-react-native";
+import { useEffect, useRef } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { Linking, ScrollView, TextInput, View } from "react-native";
+import { Image, Linking, ScrollView, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SignUpScreen() {
@@ -31,6 +30,7 @@ export default function SignUpScreen() {
     emailAddressState,
     registerSuccess
   } = useSignUp();
+  const sheetRef = useRef<BottomSheetModal>(null);
 
   const { top, bottom } = useSafeAreaInsets();
   const form = useForm({
@@ -38,6 +38,10 @@ export default function SignUpScreen() {
       date: new Date()
     }
   });
+
+  useEffect(() => {
+    !!passwordState.error && sheetRef.current?.present();
+  }, [passwordState.error]);
 
   if (registerSuccess) {
     return (
@@ -117,16 +121,13 @@ export default function SignUpScreen() {
                 </Text>
                 <View className="border border-border rounded-lg relative">
                   <TextInput
-                    className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
+                    className="pl-4 pr-10 rounded-lg bg-background h-12 text-white"
                     placeholder={`ex: Tony .D`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
                     value={firstNameState.value}
                     onChangeText={firstNameState.onChangeText}
                   />
-                  <View className="absolute top-4 left-3">
-                    <CaseSensitiveIcon className="size-5 text-muted-foreground" />
-                  </View>
                 </View>
               </View>
 
@@ -139,16 +140,13 @@ export default function SignUpScreen() {
                 </Text>
                 <View className="border border-border rounded-lg relative">
                   <TextInput
-                    className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
+                    className="pl-4 pr-10 rounded-lg bg-background h-12 text-white"
                     placeholder={`ex: Phan`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
                     value={lastNameState.value}
                     onChangeText={lastNameState.onChangeText}
                   />
-                  <View className="absolute top-4 left-3">
-                    <CaseLowerIcon className="size-5 text-muted-foreground" />
-                  </View>
                 </View>
               </View>
             </View>
@@ -328,6 +326,36 @@ export default function SignUpScreen() {
           </View>
         </View>
       </ScrollView>
+      <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
+        <BottomSheetView>
+          <View className="p-4">
+            <View className="items-center mb-5 px-6 pb-4">
+              <Image
+                source={require("@/assets/images/warning.png")}
+                className="w-[64px] h-[64px] self-center mb-4"
+              />
+              <Text className="!text-xl !text-white mb-2 font-semiBold text-center">
+                Sign Up failed
+              </Text>
+              <Text className="!text-lg !text-foreground mb-2 text-center">
+                {passwordState.error}
+              </Text>
+            </View>
+            <Button
+              variant="default"
+              className="rounded-full mx-4 mb-8"
+              onPress={() => {
+                sheetRef?.current?.close();
+                passwordState.setState({ error: "", valid: true });
+              }}
+            >
+              <Text className="text-background text-base font-medium">
+                {`Try again`}
+              </Text>
+            </Button>
+          </View>
+        </BottomSheetView>
+      </BottomSheet>
     </FormProvider>
   );
 }
