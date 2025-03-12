@@ -4,13 +4,11 @@ import { ArticleItem } from "@/components/article/article-item";
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { useArticle } from "@/hooks/article/useArticle";
-import { useRef, useState } from "react";
-import { useProfile } from "@/hooks/profile/useProfile";
+import { useState } from "react";
 
 export default function HomeScreen() {
   const [isContentLoaded, setIsContentLoaded] = useState(false);
-  const { articles } = useArticle();
-  useProfile();
+  const { articles } = useArticle({ limit: "30" });
 
   const renderHorizontalItem = ({ item }: { item: any }) => {
     return <ArticleItem item={item} />;

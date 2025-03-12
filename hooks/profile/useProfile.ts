@@ -1,9 +1,10 @@
 import { getUserProfile } from "@/api";
 import { useUserAuthenticateStore } from "@/stores";
 import { authenStore } from "@/stores/authenStore";
+import { useUserProfileStore } from "@/stores/user-profile/store";
 import { userStore } from "@/stores/userStore";
 import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 type userProps = {
   id?: number;
@@ -20,6 +21,11 @@ export const useProfile = () => {
   const [data, setData] = useState<userProps>();
   const [loading, setLoading] = useState(true);
   const { setIsLoggedIn } = useUserAuthenticateStore();
+  const { isUpdateProfile, setIsUpdateProfile } = useUserProfileStore();
+
+  useLayoutEffect(() => {
+    setIsUpdateProfile(true);
+  }, []);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -37,12 +43,13 @@ export const useProfile = () => {
           (error as AxiosError<RestfulApiError>).response?.data?.message
         );
       } finally {
+        setIsUpdateProfile(false);
         setLoading(false);
       }
     };
 
-    fetchUserProfile();
-  }, []);
+    !!isUpdateProfile && fetchUserProfile();
+  }, [isUpdateProfile]);
 
   return {
     userProfile: data,

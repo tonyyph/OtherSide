@@ -8,6 +8,7 @@ import {
   deleteLikes,
   getEngagementArt
 } from "@/api";
+import { useUserBookmarkStore } from "@/stores/user-bookmark/store";
 import { AxiosError } from "axios";
 import { useState } from "react";
 import { useMemoFunc } from "../commons";
@@ -15,6 +16,7 @@ import { useMemoFunc } from "../commons";
 export const useEngagement = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<ArticleEngagementResponse>();
+  const { setIsBookmarked } = useUserBookmarkStore();
 
   const getEngagementArticles = useMemoFunc(async (id: string) => {
     try {
@@ -86,11 +88,9 @@ export const useEngagement = () => {
     setLoading(true);
     try {
       const { data: session } = await createBookmarks(id);
-
-      console.log(" onBookmark 💯 session:", session);
-
       if (!!session) {
         getEngagementArticles(id);
+        setIsBookmarked(true);
       }
     } catch (error) {
       console.log(
@@ -123,6 +123,7 @@ export const useEngagement = () => {
     setLoading(true);
     try {
       const { data: session } = await deleteDisLikes(id);
+
       if (!!session) {
         getEngagementArticles(id);
       }
@@ -142,6 +143,7 @@ export const useEngagement = () => {
       const { data: session } = await deleteBookmarks(id);
       if (!!session) {
         getEngagementArticles(id);
+        setIsBookmarked(true);
       }
     } catch (error) {
       console.log(

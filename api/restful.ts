@@ -78,7 +78,6 @@ export const refreshToken = async (data: RefreshTokenRequest) => {
 export const getUserProfile = async () => {
   const cookie = authenStore.getState().cookie;
 
-  console.log("LOADING USER PROFILE");
   return await axios.get<GetProfileResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/me`,
     {
@@ -132,10 +131,8 @@ export const changePassword = async (data: ChangePasswordRequest) => {
 
 export const getArticles = async (data: GetArticlesRequest) => {
   const cookie = authenStore.getState().cookie;
-
-  console.log("LOAD ARTICLES FROM API RESPONSE");
   return await axios.get<GetArticlesResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/articles?limit=${data?.limit}&skip=${data?.skip}`,
+    `${process.env.EXPO_PUBLIC_API_URL}/articles?limit=${data?.limit}&skip=${data?.skip}&random=${data?.random}`,
     {
       headers: {
         accept: "*/*",
@@ -313,6 +310,46 @@ export const deleteComments = async (commentId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/engagement/comment/${commentId}`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const getCategories = async () => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.get<GetCategoriesResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/categories`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const saveCategories = async (id: string) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.post<DeleteResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/categories/${id}/save`,
+    {},
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const unSaveCategories = async (id: string) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.delete<DeleteResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/categories/${id}/unsave`,
     {
       headers: {
         accept: "*/*",

@@ -176,7 +176,7 @@ export function ProfileCard() {
             className="flex-row gap-1 self-start rounded-md"
           >
             {true && <CrownIcon className="size-4 text-primary-foreground" />}
-            <Text className="font-medium text-sm text-center">{`Free`}</Text>
+            <Text className="font-medium text-sm text-center">{`Premium`}</Text>
           </Badge>
         </View>
       </TouchableOpacity>

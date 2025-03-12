@@ -116,6 +116,7 @@ type ChangePasswordResponse = {
 type GetArticlesRequest = {
   skip?: string;
   limit?: string;
+  random?: boolean;
 };
 
 type Category = {};
@@ -123,7 +124,7 @@ type Category = {};
 type Article = {
   isBookmarked: boolean;
   isUnRead: boolean;
-  createdAt: string;
+  createdAt: Date;
   leftPerspective: {
     id: number;
     title: string;
@@ -228,3 +229,12 @@ type ArticleEngagementResponse = {
   dislikesCount: number;
   bookmarksCount: number;
 };
+
+type CategoryS = {
+  id: number;
+  name: string;
+  description: string;
+  isSaved: boolean;
+};
+
+type GetCategoriesResponse = CategoryS[];

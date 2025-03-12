@@ -1,4 +1,5 @@
 import { updateUserProfile } from "@/api";
+import { useUserProfileStore } from "@/stores/user-profile/store";
 import { userStore } from "@/stores/userStore";
 import { actionWithLoading, validateLetter, validateUsername } from "@/utils";
 import { useEffect, useRef, useState } from "react";
@@ -8,6 +9,7 @@ export const useUpdateProfile = () => {
   const [updateProfileSuccess, setUpdateProfileSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
   const userProfile = userStore.getState().userProfile;
+  const { setIsUpdateProfile } = useUserProfileStore();
 
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
 
@@ -75,6 +77,7 @@ export const useUpdateProfile = () => {
               updatedAt: session.updatedAt
             }
           });
+          setIsUpdateProfile(true);
           setUpdateProfileSuccess(true);
         }
       } catch (error) {

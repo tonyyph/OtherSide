@@ -33,7 +33,16 @@ export const validateLetter = (email?: string, required?: boolean) => {
   return { error: "", valid: false };
 };
 
+export const validateDate = (date?: number, required?: boolean) => {
+  return { error: "", valid: false };
+};
 export const validatePassword = (password?: string, required?: boolean) => {
+  if (!password) {
+    return { error: "Password is required.", valid: false };
+  }
+  if (password.length < 6) {
+    return { error: "Password is too short.", valid: false };
+  }
   return { error: "", valid: true };
 };
 

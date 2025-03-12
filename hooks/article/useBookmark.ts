@@ -1,10 +1,16 @@
 import { getBookmarks } from "@/api";
+import { useUserBookmarkStore } from "@/stores/user-bookmark/store";
 import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 export const useBookmark = () => {
   const [data, setData] = useState<GetEngagementResponse>();
   const [loading, setLoading] = useState(true);
+  const { isBookmarked, setIsBookmarked } = useUserBookmarkStore();
+
+  useLayoutEffect(() => {
+    setIsBookmarked(true);
+  }, []);
 
   useEffect(() => {
     const fetchBookmarks = async () => {
@@ -17,11 +23,12 @@ export const useBookmark = () => {
         );
       } finally {
         setLoading(false);
+        setIsBookmarked(false);
       }
     };
 
-    fetchBookmarks();
-  }, []);
+    !!isBookmarked && fetchBookmarks();
+  }, [isBookmarked]);
 
   return {
     bookmarks: data,

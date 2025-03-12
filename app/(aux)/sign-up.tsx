@@ -1,24 +1,36 @@
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { DatePicker } from "@/components/common/date-picker";
 import { Button } from "@/components/ui/button";
+import { LoadingScreen } from "@/components/ui/loading";
 import { Radio } from "@/components/ui/radio";
 import { Text } from "@/components/ui/text";
 import { useSignUp } from "@/hooks/auth/useSignUp";
-import { formatDateShort } from "@/lib/date";
+import { formatDateShort, formatDateTimeShort } from "@/lib/date";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Link, router } from "expo-router";
 import {
   BadgeCheckIcon,
+  EyeIcon,
+  EyeOffIcon,
   KeyIcon,
   MailIcon,
   UserRoundPlusIcon
 } from "lucide-react-native";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { Image, Linking, ScrollView, TextInput, View } from "react-native";
+import {
+  Image,
+  Linking,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SignUpScreen() {
+  const [securePassword, setSecurePassword] = useState(true);
+  const [secureConfirmPassword, setSecureConfirmPassword] = useState(true);
   const {
     onSignUp,
     passwordState,
@@ -28,20 +40,23 @@ export default function SignUpScreen() {
     genderState,
     birthDayState,
     emailAddressState,
-    registerSuccess
+    registerSuccess,
+    loading
   } = useSignUp();
-  const sheetRef = useRef<BottomSheetModal>(null);
 
+  const sheetRef = useRef<BottomSheetModal>(null);
+  const onPressSecurePassword = () => {
+    setSecurePassword((prev) => !prev);
+  };
+  const onPressSecureConfirmPassword = () => {
+    setSecureConfirmPassword((prev) => !prev);
+  };
   const { top, bottom } = useSafeAreaInsets();
   const form = useForm({
     defaultValues: {
       date: new Date()
     }
   });
-
-  useEffect(() => {
-    !!passwordState.error && sheetRef.current?.present();
-  }, [passwordState.error]);
 
   if (registerSuccess) {
     return (
@@ -84,6 +99,8 @@ export default function SignUpScreen() {
 
   return (
     <FormProvider {...form}>
+      <LoadingScreen loading={loading} />
+
       <ScrollView
         className="bg-background"
         contentContainerClassName="gap-4 px-6 justify-center"
@@ -177,9 +194,6 @@ export default function SignUpScreen() {
               <View className="flex-1 justify-center">
                 <Text className="text-sm font-medium text-foreground mb-1">
                   Gender{" "}
-                  {/* <Text className="font-regular text-red-400 group-active:text-red-400">
-                    *
-                  </Text> */}
                 </Text>
                 <View className="flex flex-row items-center gap-2 h-12">
                   <View className="flex flex-row items-center gap-2 justify-center">
@@ -216,11 +230,12 @@ export default function SignUpScreen() {
                     name="date"
                     rules={{ required: true }}
                     control={form.control}
+                    defaultValue={new Date()}
                     render={({ field: { onChange, value } }) => (
                       <DatePicker
                         value={value}
                         onChange={(val) => {
-                          birthDayState.onChangeText(formatDateShort(val));
+                          birthDayState.onChangeText(formatDateTimeShort(val));
                           onChange(val);
                         }}
                         minimumDate={
@@ -244,16 +259,26 @@ export default function SignUpScreen() {
               </Text>
               <View className="border border-border rounded-lg relative">
                 <TextInput
-                  className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
+                  className="px-10 rounded-lg bg-background h-12 text-white"
                   placeholder={`Enter your password`}
                   placeholderTextColor={"gray"}
-                  secureTextEntry
+                  secureTextEntry={securePassword}
                   value={passwordState.value}
                   onChangeText={passwordState.onChangeText}
                 />
                 <View className="absolute top-4 left-3">
                   <KeyIcon className="size-5 text-muted-foreground" />
                 </View>
+                <TouchableOpacity
+                  onPress={onPressSecurePassword}
+                  className="absolute top-3.5 right-3"
+                >
+                  {securePassword ? (
+                    <EyeOffIcon className="size-5 text-muted-foreground" />
+                  ) : (
+                    <EyeIcon className="size-5 text-muted-foreground" />
+                  )}
+                </TouchableOpacity>
               </View>
             </View>
             <View className="my-1">
@@ -268,13 +293,23 @@ export default function SignUpScreen() {
                   className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
                   placeholder={`Enter your confirm password`}
                   placeholderTextColor={"gray"}
-                  secureTextEntry
+                  secureTextEntry={secureConfirmPassword}
                   value={confirmPasswordState.value}
                   onChangeText={confirmPasswordState.onChangeText}
                 />
                 <View className="absolute top-4 left-3">
                   <KeyIcon className="size-5 text-muted-foreground" />
                 </View>
+                <TouchableOpacity
+                  onPress={onPressSecureConfirmPassword}
+                  className="absolute top-3.5 right-3"
+                >
+                  {secureConfirmPassword ? (
+                    <EyeOffIcon className="size-5 text-muted-foreground" />
+                  ) : (
+                    <EyeIcon className="size-5 text-muted-foreground" />
+                  )}
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -295,8 +330,9 @@ export default function SignUpScreen() {
                 !firstNameState.value ||
                 !lastNameState.value
               }
-              // onPress={handleSignUp}
-              onPress={onSignUp}
+              onPress={() => {
+                onSignUp(sheetRef);
+              }}
             >
               <Text className="text-background text-base font-medium">
                 {`Sign Up`}

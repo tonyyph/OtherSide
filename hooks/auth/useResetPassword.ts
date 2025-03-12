@@ -17,7 +17,6 @@ export const useResetPassword = () => {
       };
 
       try {
-        console.log("passwordState.value", passwordState.value);
         const { data: messages } = await resetPassword({
           token: "TOKEN HERE",
           newPassword: passwordState.value

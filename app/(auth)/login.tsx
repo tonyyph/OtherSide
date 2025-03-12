@@ -1,6 +1,7 @@
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { CheckBox, UnCheckBox } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
+import { LoadingScreen } from "@/components/ui/loading";
 import { Text } from "@/components/ui/text";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { exactDesign } from "@/utils";
@@ -33,7 +34,6 @@ export default function LoginScreen() {
   const [isRemember, setIsRemember] = useState(false);
   const [securePassword, setSecurePassword] = useState(true);
   const sheetRef = useRef<BottomSheetModal>(null);
-  const { bottom } = useSafeAreaInsets();
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
     return {
@@ -45,27 +45,9 @@ export default function LoginScreen() {
     setSecurePassword((prev) => !prev);
   };
 
-  useEffect(() => {
-    !!passwordState.error && sheetRef.current?.present();
-  }, [passwordState.error]);
-
   return (
     <View className="flex-1">
-      <Modal
-        visible={loading}
-        animationType="fade"
-        transparent
-        className="bg-overlay"
-      >
-        <View className="flex-1 justify-center bg-overlay items-center">
-          <LottieView
-            style={{ width: exactDesign(160), height: exactDesign(160) }}
-            source={require("@/assets/json/loading.json")}
-            autoPlay
-            loop
-          />
-        </View>
-      </Modal>
+      <LoadingScreen loading={loading} />
       <Animated.ScrollView
         style={translateStyle}
         className="bg-background"
@@ -108,7 +90,7 @@ export default function LoginScreen() {
               <View className="border-2 border-border rounded-lg relative">
                 <TextInput
                   className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
-                  placeholder={`Enter your username`}
+                  placeholder={`Enter your email`}
                   placeholderTextColor={"gray"}
                   autoCapitalize="none"
                   value={usernameState.value}
@@ -170,7 +152,7 @@ export default function LoginScreen() {
               )}
             </View>
             {/* Remember and Forget password */}
-            <View className=" flex flex-row justify-between mb-4">
+            <View className=" flex flex-row justify-between items-center mb-4">
               <View className="flex-row items-center gap-x-1">
                 <TouchableOpacity
                   onPress={() => setIsRemember((prev) => !prev)}
@@ -191,7 +173,9 @@ export default function LoginScreen() {
               size={"lg"}
               className="rounded-full mx-2 mt-4"
               disabled={!usernameState.value || !passwordState.value}
-              onPress={onLogin}
+              onPress={() => {
+                onLogin(sheetRef);
+              }}
             >
               <Text className="text-background text-base font-medium">
                 {`Login`}
@@ -247,14 +231,17 @@ export default function LoginScreen() {
               <Text className="!text-xl !text-white mb-2 font-semiBold text-center">
                 Invalid email or password
               </Text>
-              <Text className="!text-lg !text-foreground mb-2 text-center">
+              <Text className="!text-lg !text-foreground mb-2 mx-4 text-center">
                 Your email or password is incorrect. Please check and try again.
               </Text>
             </View>
             <Button
               variant="default"
-              className="rounded-full mx-4"
-              onPress={() => sheetRef?.current?.close()}
+              className="rounded-full mx-4 mb-8"
+              onPress={() => {
+                sheetRef?.current?.close();
+                passwordState.setState({ error: "", valid: true });
+              }}
             >
               <Text className="text-background text-base font-medium">
                 {`Try again`}

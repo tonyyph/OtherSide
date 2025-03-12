@@ -1,7 +1,8 @@
 import { loginWithUsername } from "@/api";
 import { useUserAuthenticateStore } from "@/stores";
 import { authenStore } from "@/stores/authenStore";
-import { actionWithLoading, validatePassword, validateUsername } from "@/utils";
+import { validatePassword, validateUsername } from "@/utils";
+import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { AxiosError } from "axios";
 import { useState } from "react";
 import { useMemoFunc, useValidateInput } from "../commons";
@@ -22,7 +23,8 @@ export const useLogin = () => {
   const cookieRefreshState = useValidateInput({ defaultValue: "" });
 
   const onLogin = useMemoFunc(
-    actionWithLoading(async () => {
+    async (sheetRef: React.RefObject<BottomSheetModalMethods>) => {
+      passwordState.setState({ error: "", valid: true });
       const setError = (error: string = "Invalid password") => {
         passwordState.setState((prev) => ({ ...prev, error }));
       };
@@ -42,10 +44,11 @@ export const useLogin = () => {
         setError(
           (error as AxiosError<RestfulApiError>).response?.data?.message
         );
+        sheetRef.current?.present();
       } finally {
         setLoading(false);
       }
-    })
+    }
   );
 
   return {

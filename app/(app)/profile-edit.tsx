@@ -5,20 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Radio } from "@/components/ui/radio";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Text } from "@/components/ui/text";
-import { useProfile } from "@/hooks/profile/useProfile";
 import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";
 import { formatDateShort } from "@/lib/date";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { router } from "expo-router";
-import {
-  CaseLowerIcon,
-  CaseSensitiveIcon,
-  MailIcon,
-  UserRoundPenIcon
-} from "lucide-react-native";
-import { useEffect, useRef, useState } from "react";
+import { MailIcon, UserRoundPenIcon } from "lucide-react-native";
+import { useRef } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Image, ScrollView, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -49,9 +42,9 @@ export default function EditProfileScreen() {
       <View className="bg-background flex-1 p-6 gap-4 justify-between">
         <View className="flex-1">
           <UserRoundPenIcon className="absolute top-0 right-0 size-80 text-muted-foreground opacity-30" />
-          <View className="bg-background self-center mb-10 border border-blue-200 rounded-full">
+          {/* <View className="bg-background self-center mb-10 border border-blue-200 rounded-full">
             <Skeleton className="m-[2px] h-28 w-28 rounded-full self-center" />
-          </View>
+          </View> */}
           <View className="flex-row gap-2 mb-6">
             <View className="flex-1 gap-2">
               <Skeleton className="h-4 w-2/3 rounded-full" />
@@ -91,13 +84,13 @@ export default function EditProfileScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View className="bg-background self-center mb-2 border border-blue-200 rounded-full">
+        {/* <View className="bg-background self-center mb-2 border border-blue-200 rounded-full">
           <UserAvatar
             imageUrl="https://media.licdn.com/dms/image/v2/C4E0BAQHRcd8MW8NoEQ/company-logo_200_200/company-logo_200_200/0/1631373100497?e=2147483647&v=beta&t=1pTjV_f6c_HEPpm-zTeobA6HYV_YNV4aLrGLGBB0K-w"
             fallbackClassName="bg-background"
             className="h-28 w-28"
           />
-        </View>
+        </View> */}
         {/* Illustration */}
         <UserRoundPenIcon className="absolute top-0 right-0 size-80 text-muted-foreground opacity-30" />
         {/* Input Field */}
@@ -216,7 +209,7 @@ export default function EditProfileScreen() {
           </View>
         </View>
 
-        <View className="justify-end bottom-16">
+        <View className="justify-end mb-4">
           {/* Login Button */}
           <Button
             variant="default"

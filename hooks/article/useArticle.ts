@@ -7,7 +7,7 @@ type Category = {};
 type Article = {
   isBookmarked: boolean;
   isUnRead: boolean;
-  createdAt: string;
+  createdAt: Date;
   leftPerspective: {
     id: number;
     title: string;
@@ -30,7 +30,7 @@ type Article = {
   };
 };
 
-export const useArticle = () => {
+export const useArticle = ({ limit }: { limit: string }) => {
   const [data, setData] = useState<Article[]>();
   const [loading, setLoading] = useState(true);
 
@@ -38,8 +38,9 @@ export const useArticle = () => {
     const fetchArticles = async () => {
       try {
         const { data: session } = await getArticles({
-          limit: "100",
-          skip: "0"
+          limit: limit,
+          skip: "0",
+          random: true
         });
 
         setData(session?.articles);

@@ -76,6 +76,14 @@ export function formatDateTimeShort(date?: Date) {
   return format(date, "yyyy-MM-dd");
 }
 
+export function formatDateTimeWithHourShort(date?: Date) {
+  if (!date) {
+    return "";
+  }
+
+  return format(date, "yyyy-MM-dd HH:mm");
+}
+
 const shortenAmPm = (text: string): string => {
   const shortened = (text || "").replace(/ AM/g, "am").replace(/ PM/g, "pm");
   const withoutDoubleZero = shortened.includes("m")

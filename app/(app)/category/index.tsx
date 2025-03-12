@@ -1,37 +1,20 @@
 import { CategoryItem } from "@/components/category/category-item";
 import { AddNewButton } from "@/components/common/add-new-button";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Text } from "@/components/ui/text";
-import { t } from "@lingui/macro";
+import { useCategory } from "@/hooks/article/useCategory";
 import { useLingui } from "@lingui/react";
-import { Link, useNavigation, useRouter } from "expo-router";
-import { PlusIcon } from "lucide-react-native";
-import { useEffect } from "react";
+import { useNavigation, useRouter } from "expo-router";
 import { SectionList } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function CategoriesScreen() {
-  const { i18n } = useLingui();
-  const router = useRouter();
   const { bottom } = useSafeAreaInsets();
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Link href={"/"} asChild>
-          <Button size="icon" variant="ghost">
-            <PlusIcon className="size-6 text-foreground" />
-          </Button>
-        </Link>
-      )
-    });
-  }, []);
+  const { categories = [], loading } = useCategory();
 
   const sections = [
-    { key: "EXPLORE", title: `Explore`, data: [] },
-    { key: "TOPIC", title: `Topic`, data: [] }
+    { key: "CATEGORY", title: `Category`, data: categories }
+    // { key: "EXPLORE", title: `Explore`, data: [] },
   ];
 
   return (

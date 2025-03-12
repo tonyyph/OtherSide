@@ -46,10 +46,12 @@ import {
   View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useProfile } from "@/hooks/profile/useProfile";
 
 export default function ProfileScreen() {
   const { i18n } = useLingui();
   const { getColor } = useColorPalette();
+  useProfile();
 
   const { bottom, top } = useSafeAreaInsets();
   const { language } = useLocale();

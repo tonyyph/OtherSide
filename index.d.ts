@@ -60,6 +60,3 @@ type IconProps = {
   iconColor?: string;
 } & import("react-native-svg").SvgProps;
 type IconName = import("./components/commons").IconNameType;
-
-declare type NavigationProps<T extends keyof NavigationStackParamList> =
-  ScreenProps<T>["navigation"];
