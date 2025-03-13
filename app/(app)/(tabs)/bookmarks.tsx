@@ -5,35 +5,13 @@ import { useBookmark } from "@/hooks/article/useBookmark";
 import { formatDateTime } from "@/lib/date";
 import { BookmarkXIcon } from "lucide-react-native";
 import React from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function BookmarksScreen() {
   const { top, bottom } = useSafeAreaInsets();
 
   const { bookmarks, loading } = useBookmark();
-
-  const DeleteButton = ({
-    onDelete,
-    canDelete
-  }: {
-    onDelete: () => void;
-    canDelete: boolean;
-  }) => {
-    return (
-      <View className="flex-row p-3 self-end rounded-full">
-        <TouchableOpacity
-          onPress={onDelete}
-          disabled={!canDelete}
-          className="bg-red-500 py-3 px-5 rounded-full items-center justify-center"
-        >
-          <Text className="text-sm text-white font-semiBold">
-            {"Dismiss All"}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
 
   if (loading) {
     return (
@@ -80,12 +58,8 @@ export default function BookmarksScreen() {
         {React.Children.toArray(
           bookmarks?.map?.((item: any) => (
             <VerticalNews
-              title={item?.article?.title}
-              side={item?.article?.perspectiveType}
-              content={item?.article?.content}
+              item={item?.article}
               timestamp={formatDateTime(item?.createdAt)}
-              imgUrl={item?.article?.imageUrl}
-              isBookmarked={true}
             />
           ))
         )}

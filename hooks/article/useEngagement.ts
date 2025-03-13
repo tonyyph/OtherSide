@@ -8,6 +8,7 @@ import {
   deleteLikes,
   getEngagementArt
 } from "@/api";
+import { useUserArticleStore } from "@/stores/user-article/store";
 import { useUserBookmarkStore } from "@/stores/user-bookmark/store";
 import { AxiosError } from "axios";
 import { useState } from "react";
@@ -17,7 +18,7 @@ export const useEngagement = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<ArticleEngagementResponse>();
   const { setIsBookmarked } = useUserBookmarkStore();
-
+  const { setIsArticled } = useUserArticleStore();
   const getEngagementArticles = useMemoFunc(async (id: string) => {
     try {
       const { data: session } = await getEngagementArt(id);
@@ -155,6 +156,26 @@ export const useEngagement = () => {
     }
   });
 
+  const onDeleteBookmarkDetail = useMemoFunc(async (id: string) => {
+    setLoading(true);
+    try {
+      const { data: session } = await deleteBookmarks(id);
+
+      if (!!session) {
+        getEngagementArticles(id);
+        setIsArticled(true);
+        setIsBookmarked(true);
+      }
+    } catch (error) {
+      console.log(
+        "error",
+        (error as AxiosError<RestfulApiError>).response?.data?.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  });
+
   return {
     onReactionLike,
     onReactionDisLike,
@@ -163,6 +184,7 @@ export const useEngagement = () => {
     onDeleteBookmark,
     onDeleteLike,
     onDeleteDisLike,
+    onDeleteBookmarkDetail,
     getEngagementArticles,
     loading,
     data

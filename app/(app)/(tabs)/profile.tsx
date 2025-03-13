@@ -142,6 +142,11 @@ export default function ProfileScreen() {
                 }
               />
             </Link>
+          </View>
+        </View>
+        <View className="gap-2 mt-4">
+          <Text className="mx-6 text-muted-foreground">{`App settings`}</Text>
+          <View>
             <Link href="/change-password" asChild>
               <MenuItem
                 label={`Change Password`}
@@ -151,20 +156,16 @@ export default function ProfileScreen() {
                 }
               />
             </Link>
-          </View>
-        </View>
-        <View className="gap-2 mt-4">
-          <Text className="mx-6 text-muted-foreground">{`App settings`}</Text>
-          <View>
-            <Link href="/appearance" asChild>
+            {/* <Link href="/appearance" asChild>
               <MenuItem
                 label={`Appearance`}
                 icon={SwatchBookIcon}
+                disabled
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />
                 }
               />
-            </Link>
+            </Link> */}
             <Link href="/language" asChild>
               <MenuItem
                 label={`Language`}

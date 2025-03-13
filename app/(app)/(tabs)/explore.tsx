@@ -13,8 +13,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ExploreScreen() {
   const { top, bottom } = useSafeAreaInsets();
-  const { categories, loading } = useCategory();
-  const { articles } = useArticle({ limit: "5" });
+  const { categories, onSaveCategory, onUnSaveCategory } = useCategory();
+  const { articles, loading } = useArticle({ limit: "5" });
 
   const ThreeOfCategories = useMemo(
     () => getMaxItem?.(categories, 3),
@@ -73,7 +73,7 @@ export default function ExploreScreen() {
                   See all
                 </Text>
                 <ChevronRight className="size-5 text-muted-foreground" />
-              </View>{" "}
+              </View>
             </Button>
           </Link>
         </View>
@@ -106,17 +106,21 @@ export default function ExploreScreen() {
                 size="sm"
                 variant="ghost"
                 onPress={() => {
-                  alert("Saved");
+                  !!category?.isSaved
+                    ? onUnSaveCategory(category?.id)
+                    : onSaveCategory?.(category?.id);
                 }}
                 className={cn(
-                  "h-10 border border-blue-400 w-[78px]",
-                  category?.isSaved ? "bg-blue-400" : "bg-transparent"
+                  "h-10 w-[78px]",
+                  category?.isSaved ? "bg-blue-300" : "bg-white"
                 )}
               >
                 <Text
                   className={cn(
-                    "text-blue-400 font-bold",
-                    category?.isSaved ? "text-background" : "text-blue-400"
+                    "text-blue-300 font-bold",
+                    category?.isSaved
+                      ? "text-background"
+                      : "text-muted-foreground"
                   )}
                 >
                   {category?.isSaved ? `Saved` : `Save`}

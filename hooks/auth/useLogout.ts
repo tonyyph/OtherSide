@@ -10,9 +10,6 @@ export const useLogout = () => {
   const onLogout = useMemoFunc(async () => {
     try {
       const { data: session } = await logout();
-
-      console.log(" onLogout 💯 session:", session);
-
       if (session) {
         authenStore.setState({ cookie: undefined });
         userStore.setState({ userProfile: undefined });

@@ -1,6 +1,7 @@
 import { getArticles } from "@/api";
+import { useUserArticleStore } from "@/stores/user-article/store";
 import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 type Category = {};
 
@@ -33,6 +34,11 @@ type Article = {
 export const useArticle = ({ limit }: { limit: string }) => {
   const [data, setData] = useState<Article[]>();
   const [loading, setLoading] = useState(true);
+  const { isArticled, setIsArticled } = useUserArticleStore();
+
+  useLayoutEffect(() => {
+    setIsArticled(true);
+  }, []);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -50,11 +56,12 @@ export const useArticle = ({ limit }: { limit: string }) => {
         );
       } finally {
         setLoading(false);
+        setIsArticled(false);
       }
     };
 
-    fetchArticles();
-  }, []);
+    !!isArticled && fetchArticles();
+  }, [isArticled]);
 
   return {
     articles: data,

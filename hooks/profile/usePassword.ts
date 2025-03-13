@@ -52,7 +52,6 @@ export const usePassword = () => {
           newPassword: newPasswordState.value
         });
         if (session) {
-          console.log("onChangePassword 💯 session:", session);
           setChangePasswordSuccess(true);
         }
       } catch (error) {

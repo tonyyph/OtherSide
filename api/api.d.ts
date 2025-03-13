@@ -231,7 +231,7 @@ type ArticleEngagementResponse = {
 };
 
 type CategoryS = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   isSaved: boolean;

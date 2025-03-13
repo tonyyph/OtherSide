@@ -1,8 +1,8 @@
 import { forgotPassword } from "@/api";
-import { actionWithLoading, validateUsername } from "@/utils";
+import { validateUsername } from "@/utils";
+import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { AxiosError } from "axios";
 import { useState } from "react";
-import { Alert, Keyboard } from "react-native";
 import { useMemoFunc, useValidateInput } from "../commons";
 
 export const useForgotPassword = () => {
@@ -11,9 +11,8 @@ export const useForgotPassword = () => {
     validate: validateUsername
   });
   const [registerSuccess, setRegisterSuccess] = useState(false);
-
   const onForgotPassword = useMemoFunc(
-    actionWithLoading(async () => {
+    async (sheetRef: React.RefObject<BottomSheetModalMethods>) => {
       const setError = (error: string = "Invalid email") => {
         emailState.setState((prev) => ({ ...prev, error }));
       };
@@ -34,21 +33,10 @@ export const useForgotPassword = () => {
         setError(
           (error as AxiosError<RestfulApiError>).response?.data?.message
         );
-        Alert.alert(
-          "Authentication failed",
-          `${(error as AxiosError<RestfulApiError>).response?.data?.message}`,
-          [
-            {
-              text: "OK",
-              onPress: () => {
-                Keyboard.dismiss();
-              }
-            }
-          ]
-        );
+        sheetRef.current?.present();
       } finally {
       }
-    })
+    }
   );
 
   return {

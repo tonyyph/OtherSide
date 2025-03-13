@@ -1,36 +1,20 @@
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
-import { Bookmark, BookmarkCheckIcon, ClockIcon } from "lucide-react-native";
-import { Image, Text, View } from "react-native";
-import { BookmarkFilled } from "../common/icons";
+import { useEngagement } from "@/hooks/article/useEngagement";
+import { ClockIcon, EllipsisIcon } from "lucide-react-native";
+import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 
 type VerticalNewsProps = {
-  title?: string;
-  authorName?: string;
+  item?: any;
   timestamp?: string;
-  side?: string;
-  authorAvatar?: string;
-  imgUrl?: string;
-  isBookmarked?: boolean;
-  content?: string;
 };
-export function VerticalNews({
-  title,
-  timestamp,
-  side = "Left",
-  imgUrl,
-  isBookmarked = false,
-  content
-}: VerticalNewsProps) {
-  const { i18n } = useLingui();
-
+export function VerticalNews({ item, timestamp }: VerticalNewsProps) {
+  const { onDeleteBookmarkDetail, data } = useEngagement();
   return (
-    <View className="flex flex-row items-center px-6 my-2">
-      <View className="flex gap-3 flex-row">
+    <View className="flex-1 flex-row items-center px-6 gap-2 my-2">
+      <View className="flex-1 gap-3 flex-row">
         <Image
           source={{
             uri:
-              imgUrl ??
+              item?.imageUrl ??
               "https://reliasoftware.com/images/careers/relia-software-office.webp"
           }}
           className="h-[120px] w-[120px] border border-border rounded-lg"
@@ -40,12 +24,15 @@ export function VerticalNews({
           <View className="flex flex-row items-center gap-2">
             <View
               style={{
-                backgroundColor: side === "Right" ? "#ef4444" : "#3b82f6"
+                backgroundColor:
+                  (item?.perspectiveType ?? "Left") === "Right"
+                    ? "#ef4444"
+                    : "#3b82f6"
               }}
               className="rounded-full px-3 py-[2px] self-start items-center justify-center"
             >
               <Text className="!text-xs !text-blue-50 font-semiBold">
-                {side ?? "Left"}
+                {item?.perspectiveType ?? "Left"}
               </Text>
             </View>
             <View className="flex-1 flex-row justify-between items-center gap-2">
@@ -55,26 +42,42 @@ export function VerticalNews({
                   {timestamp}
                 </Text>
               </View>
-              <View className="flex">
-                {isBookmarked ? (
-                  <BookmarkFilled className="size-5 text-blue-600" />
-                ) : (
-                  <Bookmark className="size-5 text-foreground" />
-                )}
-              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  Alert.alert(
+                    `Are you sure you want to remove this bookmark?`,
+                    "",
+                    [
+                      {
+                        text: `Cancel`,
+                        style: "cancel"
+                      },
+                      {
+                        text: `Confirm`,
+                        style: "destructive",
+                        onPress: async () => {
+                          onDeleteBookmarkDetail(item?.id);
+                        }
+                      }
+                    ]
+                  );
+                }}
+              >
+                <EllipsisIcon className="size-6 text-muted-foreground" />
+              </TouchableOpacity>
             </View>
           </View>
           <Text
             numberOfLines={2}
             className="text-white text-medium font-medium mt-3"
           >
-            {title}
+            {item?.title ?? ""}
           </Text>
           <Text
             numberOfLines={2}
             className="text-foreground text-xs font-medium mt-3"
           >
-            {content}
+            {item?.content ?? ""}
           </Text>
         </View>
       </View>

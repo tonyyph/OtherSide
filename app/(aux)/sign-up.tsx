@@ -1,13 +1,15 @@
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { DatePicker } from "@/components/common/date-picker";
+import { KeyboardSpacer } from "@/components/common/keyboard-spacer";
 import { Button } from "@/components/ui/button";
 import { LoadingScreen } from "@/components/ui/loading";
 import { Radio } from "@/components/ui/radio";
 import { Text } from "@/components/ui/text";
 import { useSignUp } from "@/hooks/auth/useSignUp";
-import { formatDateShort, formatDateTimeShort } from "@/lib/date";
+import { formatDateTimeShort } from "@/lib/date";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Link, router } from "expo-router";
+import { debounce } from "lodash";
 import {
   BadgeCheckIcon,
   EyeIcon,
@@ -16,10 +18,11 @@ import {
   MailIcon,
   UserRoundPlusIcon
 } from "lucide-react-native";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import {
   Image,
+  Keyboard,
   Linking,
   ScrollView,
   TextInput,
@@ -330,9 +333,10 @@ export default function SignUpScreen() {
                 !firstNameState.value ||
                 !lastNameState.value
               }
-              onPress={() => {
+              onPress={debounce(() => {
                 onSignUp(sheetRef);
-              }}
+                Keyboard.dismiss();
+              }, 500)}
             >
               <Text className="text-background text-base font-medium">
                 {`Sign Up`}
@@ -362,6 +366,8 @@ export default function SignUpScreen() {
           </View>
         </View>
       </ScrollView>
+      <KeyboardSpacer value={40} />
+
       <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
         <BottomSheetView>
           <View className="p-4">
