@@ -45,8 +45,8 @@ export const useArticle = ({ limit }: { limit: string }) => {
       try {
         const { data: session } = await getArticles({
           limit: limit,
-          skip: "0",
-          random: true
+          skip: "0"
+          // random: true
         });
 
         setData(session?.articles);

@@ -182,33 +182,31 @@ export default function LoginScreen() {
               </View>
             </View>
           </View>
-          {/* Private policy and term of use */}
-          <View className="px-4 justify-end bg-background">
-            <View className="justify-end">
-              <Text className="mx-auto text-center text-muted-foreground text-xs">
-                By continuing, you acknowledge that you understand and agree to
-                our{" "}
-                <Link href="/(aux)/privacy-policy">
-                  <Text className="text-primary text-xs">Privacy Policy</Text>
-                </Link>{" "}
-                and{" "}
-                <Text
-                  className="text-primary text-xs"
-                  onPress={() =>
-                    Linking.openURL(
-                      "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-                    )
-                  }
-                >
-                  Terms of Use
-                </Text>
-              </Text>
-            </View>
-          </View>
         </View>
       </KeyboardAwareScrollView>
       <KeyboardSpacer value={100} />
-
+      {/* Private policy and term of use */}
+      <View className="flex-1 px-8 justify-end bg-background">
+        <View className="justify-end">
+          <Text className="mx-auto text-center text-muted-foreground text-xs">
+            By continuing, you acknowledge that you understand and agree to our{" "}
+            <Link href="/(aux)/privacy-policy">
+              <Text className="text-primary text-xs">Privacy Policy</Text>
+            </Link>{" "}
+            and{" "}
+            <Text
+              className="text-primary text-xs"
+              onPress={() =>
+                Linking.openURL(
+                  "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+                )
+              }
+            >
+              Terms of Use
+            </Text>
+          </Text>
+        </View>
+      </View>
       <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
         <BottomSheetView>
           <View className="p-4">

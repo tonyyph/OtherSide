@@ -40,78 +40,79 @@ export default function ForgotPasswordScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background mb-6">
+    <View className="flex-1 bg-background">
       <ScrollView
-        className="bg-background"
+        className="bg-bg-background"
         scrollEnabled={false}
-        contentContainerClassName="gap-4 p-8 justify-center flex-1"
+        contentContainerClassName="gap-4 p-8 justify-between flex-1"
         automaticallyAdjustKeyboardInsets
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
         {/* Welcome */}
-        <View className="z-10">
-          <View className="gap-2">
-            <Text className="font-bold text-[44px] text-muted-foreground">
-              Forgot
-            </Text>
-            <Text className="font-bold text-[44px] text-primary">
-              Password?
-            </Text>
-            <Text className="text-muted-foreground text-[19px]">
-              Don’t worry! it happens. Please enter the address associated with
-              your account.
-            </Text>
-          </View>
-        </View>
-        {/* Illustration */}
-        <SquareAsterisk className="absolute top-16 right-0 size-80 text-muted-foreground opacity-30" />
-        {/* Input Field */}
-        <View className="flex-1">
-          <View className="flex-1 flex-col gap-3">
-            {/* Username Field */}
-            <View className="mt-4">
-              <Text className="text-sm font-medium text-foreground mb-1">
-                Email Address{" "}
-                <Text className="font-regular text-red-400 group-active:text-red-400">
-                  *
-                </Text>
+        <View className="justify-between">
+          <View className="z-10">
+            <View className="gap-2">
+              <Text className="font-bold text-[40px] text-muted-foreground">
+                Forgot
               </Text>
-              <View className="border-2 border-border rounded-lg relative">
-                <TextInput
-                  className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
-                  placeholder={`Enter your email address`}
-                  placeholderTextColor={"gray"}
-                  autoCapitalize="none"
-                  value={emailState.value}
-                  onChangeText={emailState.onChangeText}
-                />
-                <View className="absolute top-3.5 left-3">
-                  <User className="size-5 text-muted-foreground" />
+              <Text className="font-bold text-[40px] text-primary">
+                Password?
+              </Text>
+              <Text className="text-muted-foreground text-[16px]">
+                Don’t worry! it happens. Please enter the address associated
+                with your account.
+              </Text>
+            </View>
+          </View>
+          {/* Illustration */}
+          <SquareAsterisk className="absolute top-16 right-0 size-80 text-muted-foreground opacity-30" />
+          {/* Input Field */}
+          <View className="justify-end">
+            <View className="flex-col gap-3">
+              {/* Username Field */}
+              <View className="mt-4">
+                <Text className="text-sm font-medium text-foreground mb-1">
+                  Email Address{" "}
+                  <Text className="font-regular text-red-400 group-active:text-red-400">
+                    *
+                  </Text>
+                </Text>
+                <View className="border-2 border-border rounded-lg relative">
+                  <TextInput
+                    className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
+                    placeholder={`Enter your email address`}
+                    placeholderTextColor={"gray"}
+                    autoCapitalize="none"
+                    value={emailState.value}
+                    onChangeText={emailState.onChangeText}
+                  />
+                  <View className="absolute top-3.5 left-3">
+                    <User className="size-5 text-muted-foreground" />
+                  </View>
                 </View>
               </View>
             </View>
           </View>
         </View>
-        <View className="justify-end">
-          {/* Submit Button */}
-          <Button
-            variant="default"
-            size={"lg"}
-            className="rounded-full"
-            disabled={!emailState.value}
-            onPress={debounce(() => {
-              onForgotPassword(sheetRef);
-              Keyboard.dismiss();
-            }, 500)}
-          >
-            <Text className="text-background text-base font-medium">
-              {`Submit`}
-            </Text>
-          </Button>
-        </View>
-        <KeyboardSpacer />
+        {/* Submit Button */}
+        <Button
+          variant="default"
+          size={"lg"}
+          className="rounded-full mb-10"
+          disabled={!emailState.value}
+          onPress={debounce(() => {
+            onForgotPassword(sheetRef);
+            Keyboard.dismiss();
+          }, 500)}
+        >
+          <Text className="text-background text-base font-medium">
+            {`Submit`}
+          </Text>
+        </Button>
       </ScrollView>
+      <KeyboardSpacer />
+
       <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
         <BottomSheetView>
           <View className="p-4">

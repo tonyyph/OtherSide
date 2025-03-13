@@ -36,6 +36,7 @@ import { Icon } from "../common/icon";
 import { KeyboardSpacer } from "../common/keyboard-spacer";
 import { toast } from "../common/toast";
 import { Text } from "../ui/text";
+import { ScrollView } from "react-native-gesture-handler";
 
 export const ArticleItem = ({ item }: any) => {
   const { height } = useWindowDimensions();
@@ -49,6 +50,14 @@ export const ArticleItem = ({ item }: any) => {
       transform: [{ translateY: -keyboard.height.value }]
     };
   });
+
+  // ScrollView ref
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  // Scroll to End function
+  const scrollToEnd = () => {
+    scrollViewRef.current?.scrollToEnd({ animated: true });
+  };
   const {
     onReactionLike,
     onReactionDisLike,
@@ -230,7 +239,13 @@ export const ArticleItem = ({ item }: any) => {
       </Pressable>
       <BottomSheet ref={sheetRef} index={0} snapPoints={["80%"]}>
         <Animated.View className="gap-3 flex-1 justify-between">
-          <BottomSheetScrollView style={{ flex: 1 }}>
+          <BottomSheetScrollView
+            onContentSizeChange={() => {
+              scrollToEnd();
+            }}
+            ref={scrollViewRef}
+            style={{ flex: 1 }}
+          >
             <ArticleDetailScreen id={item?.id} commentData={data?.comments} />
             <KeyboardSpacer />
           </BottomSheetScrollView>

@@ -2,10 +2,10 @@
   "expo": {
     "name": "OtherSide India",
     "slug": "otherside-india",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "orientation": "portrait",
     "icon": "./assets/images/appstore.png",
-    "scheme": "myapp",
+    "scheme": "otherside-india",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
