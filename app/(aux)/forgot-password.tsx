@@ -1,5 +1,4 @@
 import { BottomSheet } from "@/components/common/bottom-sheet";
-import { KeyboardSpacer } from "@/components/common/keyboard-spacer";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { useForgotPassword } from "@/hooks/auth/useForgotPassword";
@@ -13,10 +12,9 @@ import { Image, Keyboard, ScrollView, TextInput, View } from "react-native";
 export default function ForgotPasswordScreen() {
   const { onForgotPassword, emailState, registerSuccess } = useForgotPassword();
   const sheetRef = useRef<BottomSheetModal>(null);
-
   if (!!registerSuccess) {
     return (
-      <View className=" flex-1 bg-background justify-center mb-4 gap-8 p-8">
+      <View className=" flex-1 bg-background justify-center gap-8 p-8">
         <MailIcon className="absolute top-36 right-0  size-80 text-muted-foreground opacity-35" />
         <Text className="font-bold text-[20px] text-muted-foreground text-center mt-8 justify-center">
           Success! We've sent you an email. Please check your inbox and follow
@@ -50,7 +48,7 @@ export default function ForgotPasswordScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Welcome */}
-        <View className="justify-between">
+        <View className="">
           <View className="z-10">
             <View className="gap-2">
               <Text className="font-bold text-[40px] text-muted-foreground">
@@ -92,26 +90,24 @@ export default function ForgotPasswordScreen() {
                   </View>
                 </View>
               </View>
+              <Button
+                variant="default"
+                size={"lg"}
+                className="rounded-full my-12"
+                disabled={!emailState.value}
+                onPress={debounce(() => {
+                  onForgotPassword(sheetRef);
+                  Keyboard.dismiss();
+                }, 500)}
+              >
+                <Text className="text-background text-base font-medium">
+                  {`Submit`}
+                </Text>
+              </Button>
             </View>
           </View>
         </View>
-        {/* Submit Button */}
-        <Button
-          variant="default"
-          size={"lg"}
-          className="rounded-full mb-10"
-          disabled={!emailState.value}
-          onPress={debounce(() => {
-            onForgotPassword(sheetRef);
-            Keyboard.dismiss();
-          }, 500)}
-        >
-          <Text className="text-background text-base font-medium">
-            {`Submit`}
-          </Text>
-        </Button>
       </ScrollView>
-      <KeyboardSpacer />
 
       <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
         <BottomSheetView>

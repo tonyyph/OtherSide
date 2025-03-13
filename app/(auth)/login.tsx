@@ -1,6 +1,5 @@
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { CheckBox, UnCheckBox } from "@/components/common/icons";
-import { KeyboardSpacer } from "@/components/common/keyboard-spacer";
 import { Button } from "@/components/ui/button";
 import { LoadingScreen } from "@/components/ui/loading";
 import { Text } from "@/components/ui/text";
@@ -41,7 +40,7 @@ export default function LoginScreen() {
         className={"flex-grow bg-background"}
         keyboardShouldPersistTaps={"handled"}
       >
-        <View className="bg-background gap-8 p-8 justify-center flex-1">
+        <View className="bg-background gap-2 p-8 justify-center flex-1">
           {/* Illustration */}
           <Image
             source={require("@/assets/images/logo-transparent.png")}
@@ -50,13 +49,13 @@ export default function LoginScreen() {
           {/* Welcome */}
           <View className="z-10">
             <View className="flex flex-col gap-2">
-              <Text className="font-bold text-[44px] text-muted-foreground">
+              <Text className="font-bold text-[40px] text-muted-foreground">
                 Welcome to
               </Text>
-              <Text className="font-bold text-[44px] text-primary">
+              <Text className="font-bold text-[40px] text-primary">
                 OtherSide
               </Text>
-              <Text className="text-muted-foreground text-[18px]">
+              <Text className="text-muted-foreground text-[16px]">
                 Keep up with the newest news, updates, and announcements from us
               </Text>
             </View>
@@ -184,7 +183,6 @@ export default function LoginScreen() {
           </View>
         </View>
       </KeyboardAwareScrollView>
-      <KeyboardSpacer value={100} />
       {/* Private policy and term of use */}
       <View className="flex-1 px-8 justify-end bg-background">
         <View className="justify-end">

@@ -1,20 +1,9 @@
 import { Text } from "@/components/ui/text";
 import { useEngagement } from "@/hooks/article/useEngagement";
-import { formatDateTime, formatDateTimeShort } from "@/lib/date";
-import React, { useEffect, useRef, useState } from "react";
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  Keyboard,
-  ScrollView,
-  TouchableWithoutFeedback,
-  View
-} from "react-native";
-import Animated, {
-  useAnimatedKeyboard,
-  useAnimatedStyle
-} from "react-native-reanimated";
+import { formatDateTimeShort } from "@/lib/date";
+import React, { useEffect } from "react";
+import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
+import Animated from "react-native-reanimated";
 function getRandomAvatarUrl() {
   const urls = ["https://i.pravatar.cc/150?img=2"];
   return urls[Math.floor(Math.random() * urls.length)];
@@ -44,7 +33,7 @@ export default function ArticleDetailScreen({
             comments?.map((comment, index) => (
               <View>
                 <View className="flex flex-row items-center gap-4">
-                  <View className=" flex-1 mb-2">
+                  <View className=" flex-1 pb-2">
                     <Text className="text-sm font-medium ita text-white">
                       {comment?.user?.email}
                     </Text>
