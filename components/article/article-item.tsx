@@ -41,7 +41,6 @@ import { ScrollView } from "react-native-gesture-handler";
 export const ArticleItem = ({ item }: any) => {
   const { height } = useWindowDimensions();
   const { setHideTabBarStatus } = useUserSettingsStore();
-  const { top, bottom } = useSafeAreaInsets();
   const [content, setContent] = useState("");
   const sheetRef = useRef<BottomSheetModal>(null);
   const keyboard = useAnimatedKeyboard();
@@ -51,13 +50,12 @@ export const ArticleItem = ({ item }: any) => {
     };
   });
 
-  // ScrollView ref
   const scrollViewRef = useRef<ScrollView>(null);
 
-  // Scroll to End function
   const scrollToEnd = () => {
     scrollViewRef.current?.scrollToEnd({ animated: true });
   };
+
   const {
     onReactionLike,
     onReactionDisLike,
@@ -68,8 +66,6 @@ export const ArticleItem = ({ item }: any) => {
     onDeleteLike,
     data
   } = useEngagement();
-
-  const snapPoints = useMemo(() => ["25%", "50%", "50%"], []);
 
   async function handleShare({ title }: { title: string }) {
     try {

@@ -14,7 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function ExploreScreen() {
   const { top, bottom } = useSafeAreaInsets();
   const { categories, onSaveCategory, onUnSaveCategory } = useCategory();
-  const { articles, loading } = useArticle({ limit: "5" });
+  const { articles, loading } = useArticle({ limit: "5", isRandom: true });
 
   const ThreeOfCategories = useMemo(
     () => getMaxItem?.(categories, 3),

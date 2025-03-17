@@ -31,7 +31,13 @@ type Article = {
   };
 };
 
-export const useArticle = ({ limit }: { limit: string }) => {
+export const useArticle = ({
+  limit,
+  isRandom = false
+}: {
+  limit: string;
+  isRandom?: boolean;
+}) => {
   const [data, setData] = useState<Article[]>();
   const [loading, setLoading] = useState(true);
   const { isArticled, setIsArticled } = useUserArticleStore();
@@ -45,8 +51,8 @@ export const useArticle = ({ limit }: { limit: string }) => {
       try {
         const { data: session } = await getArticles({
           limit: limit,
-          skip: "0"
-          // random: true
+          skip: "0",
+          random: isRandom
         });
 
         setData(session?.articles);

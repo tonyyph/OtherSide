@@ -1,74 +1,124 @@
-import { CategoryItem } from "@/components/category/category-item";
-import { AddNewButton } from "@/components/common/add-new-button";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Text } from "@/components/ui/text";
 import { useCategory } from "@/hooks/article/useCategory";
 import { cn } from "@/lib/utils";
-import { useLingui } from "@lingui/react";
-import { useNavigation, useRouter } from "expo-router";
-import React from "react";
-import { Image, SectionList, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import React, { memo, useCallback, useEffect, useState } from "react";
+import { Image, View, FlatList, ListRenderItem } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+const ITEM_HEIGHT = 72; // Ensure a fixed height to stabilize scrolling
+
+const CategoryItem = memo(
+  ({
+    category,
+    toggleCategorySave
+  }: {
+    category: CategoryS;
+    toggleCategorySave: (id: string, isSaved: boolean) => Promise<void>;
+  }) => {
+    const [isSaved, setIsSaved] = useState(category.isSaved);
+
+    const handlePress = useCallback(async () => {
+      const newSavedState = !isSaved;
+      setIsSaved(newSavedState); // Optimistically update UI
+      await toggleCategorySave(category.id, newSavedState);
+    }, [category.id, isSaved, toggleCategorySave]);
+
+    return (
+      <View
+        className="flex flex-row items-center justify-between px-6 my-2"
+        style={{ height: ITEM_HEIGHT }}
+      >
+        <View className="flex flex-row items-center gap-3">
+          <Image
+            source={{
+              uri:
+                category.image ??
+                "https://media.istockphoto.com/id/1342234724/vector/secret-product-icon.jpg?s=612x612&w=0&k=20&c=N4eaLPkYL19bzSYUYaOX1OqXHCaMBBLYDSgt3hvXsl0="
+            }}
+            className="h-[48px] w-[48px] rounded-full border border-border"
+            resizeMode="center"
+          />
+          <View className="w-[180px]">
+            <Text className="text-foreground text-base/8 font-medium">
+              {category.name}
+            </Text>
+            {category.description && (
+              <Text
+                numberOfLines={2}
+                className="text-muted-foreground text-sm/6 font-medium flex-1"
+              >
+                {category.description}
+              </Text>
+            )}
+          </View>
+        </View>
+        <Button
+          size="sm"
+          variant="ghost"
+          onPress={handlePress}
+          className={cn("h-10 w-[78px]", isSaved ? "bg-blue-300" : "bg-white")}
+        >
+          <Text
+            className={cn(
+              "text-blue-300 font-bold",
+              isSaved ? "text-background" : "text-muted-foreground"
+            )}
+          >
+            {isSaved ? `Saved` : `Save`}
+          </Text>
+        </Button>
+      </View>
+    );
+  }
+);
 
 export default function CategoriesScreen() {
   const { categories = [], onUnSaveCategory, onSaveCategory } = useCategory();
+  const { bottom } = useSafeAreaInsets();
+
+  // Local state to prevent re-renders
+  const [localCategories, setLocalCategories] = useState(categories);
+
+  useEffect(() => {
+    setLocalCategories(categories);
+  }, [categories]);
+
+  // Efficiently toggle save state without triggering full re-render
+  const toggleCategorySave = useCallback(
+    async (id: string, isSaved: boolean) => {
+      setLocalCategories((prevCategories) =>
+        prevCategories.map((cat) => (cat.id === id ? { ...cat, isSaved } : cat))
+      );
+      isSaved ? await onSaveCategory(id) : await onUnSaveCategory(id);
+    },
+    [onSaveCategory, onUnSaveCategory]
+  );
+
+  const renderItem: ListRenderItem<CategoryS> = useCallback(
+    ({ item }) => (
+      <CategoryItem category={item} toggleCategorySave={toggleCategorySave} />
+    ),
+    [toggleCategorySave]
+  );
 
   return (
-    <ScrollView className="flex-1 bg-background py-4 gap-4">
-      {React.Children.toArray(
-        categories?.map((category, index) => (
-          <View className="flex flex-row items-center justify-between px-6 my-2">
-            <View className="flex flex-row items-center gap-3">
-              <Image
-                source={{
-                  uri: "https://media.istockphoto.com/id/1342234724/vector/secret-product-icon.jpg?s=612x612&w=0&k=20&c=N4eaLPkYL19bzSYUYaOX1OqXHCaMBBLYDSgt3hvXsl0="
-                }}
-                className="h-[48px] w-[48px] rounded-full border border-border"
-                resizeMode="center"
-              />
-              <View className="w-[180px]">
-                <Text className="text-foreground text-base/8 font-medium">
-                  {category?.name}
-                </Text>
-                {category?.description && (
-                  <Text
-                    numberOfLines={2}
-                    className="text-muted-foreground text-sm/6 font-medium flex-1"
-                  >
-                    {category?.description}
-                  </Text>
-                )}
-              </View>
-            </View>
-            <Button
-              size="sm"
-              variant="ghost"
-              onPress={() => {
-                !!category?.isSaved
-                  ? onUnSaveCategory(category?.id)
-                  : onSaveCategory?.(category?.id);
-              }}
-              className={cn(
-                "h-10 w-[78px]",
-                category?.isSaved ? "bg-blue-300" : "bg-white"
-              )}
-            >
-              <Text
-                className={cn(
-                  "text-blue-300 font-bold",
-                  category?.isSaved
-                    ? "text-background"
-                    : "text-muted-foreground"
-                )}
-              >
-                {category?.isSaved ? `Saved` : `Save`}
-              </Text>
-            </Button>
-          </View>
-        ))
-      )}
-    </ScrollView>
+    <FlatList
+      data={localCategories} // Use local state instead of global to prevent full re-renders
+      className="flex-1 bg-background"
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={renderItem}
+      removeClippedSubviews={true}
+      initialNumToRender={10}
+      maxToRenderPerBatch={10}
+      updateCellsBatchingPeriod={50}
+      windowSize={5}
+      getItemLayout={(_, index) => ({
+        length: ITEM_HEIGHT,
+        offset: ITEM_HEIGHT * index,
+        index
+      })} // Stabilize scrolling
+      contentContainerStyle={{ paddingBottom: bottom * 2, paddingTop: 16 }}
+    />
   );
 }

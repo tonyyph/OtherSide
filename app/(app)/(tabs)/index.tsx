@@ -1,14 +1,11 @@
 import { FlatList, View } from "react-native";
-
 import { ArticleItem } from "@/components/article/article-item";
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { useArticle } from "@/hooks/article/useArticle";
-import { useState } from "react";
 
 export default function HomeScreen() {
-  const [isContentLoaded, setIsContentLoaded] = useState(false);
-  const { articles } = useArticle({ limit: "30" });
+  const { articles, loading } = useArticle({ limit: "5", isRandom: false });
 
   const renderHorizontalItem = ({ item }: { item: any }) => {
     return <ArticleItem item={item} />;
@@ -29,9 +26,10 @@ export default function HomeScreen() {
         createdAt: item?.createdAt
       }
     ];
+
     return (
       <View className="flex-1">
-        {!isContentLoaded && <HomeSkeleton />}
+        {loading && <HomeSkeleton />}
         <FlatList
           data={customData}
           horizontal
@@ -39,11 +37,6 @@ export default function HomeScreen() {
           keyExtractor={(item, index) => `${item.id}-${index}`}
           pagingEnabled
           showsVerticalScrollIndicator={false}
-          onContentSizeChange={(contentHeight) => {
-            if (contentHeight > 0) {
-              setIsContentLoaded(true);
-            }
-          }}
         />
       </View>
     );

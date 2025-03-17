@@ -233,6 +233,7 @@ type ArticleEngagementResponse = {
 type CategoryS = {
   id: string;
   name: string;
+  image?: string;
   description: string;
   isSaved: boolean;
 };

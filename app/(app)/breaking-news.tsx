@@ -1,5 +1,4 @@
 import { Text } from "@/components/ui/text";
-import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { ClockIcon } from "lucide-react-native";
 import { Image, ScrollView, View } from "react-native";
