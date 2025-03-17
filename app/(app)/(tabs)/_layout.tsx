@@ -1,7 +1,5 @@
 import { TabBar } from "@/components/common/tab-bar";
 import { useColorPalette } from "@/hooks/use-color-palette";
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import { Tabs } from "expo-router";
 import { BarChartBigIcon } from "lucide-react-native";
 import { useWindowDimensions } from "react-native";
@@ -9,7 +7,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TabLayout() {
   const { getColor } = useColorPalette();
-  const { i18n } = useLingui();
   const { width } = useWindowDimensions();
   const { bottom } = useSafeAreaInsets();
 

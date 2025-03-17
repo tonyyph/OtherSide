@@ -1,7 +1,6 @@
 import { getArticles } from "@/api";
-import { useUserArticleStore } from "@/stores/user-article/store";
 import { AxiosError } from "axios";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Category = {};
 
@@ -43,11 +42,6 @@ export const useArticle = ({
   const [data, setData] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
-  const { isArticled, setIsArticled } = useUserArticleStore();
-
-  useLayoutEffect(() => {
-    setIsArticled(true);
-  }, []);
 
   const fetchArticles = async (pageNum: number, append = false) => {
     try {
@@ -71,13 +65,12 @@ export const useArticle = ({
     } finally {
       if (!append) setLoading(false);
       setIsFetchingMore(false);
-      setIsArticled(false);
     }
   };
 
   useEffect(() => {
-    if (isArticled) fetchArticles(1);
-  }, [isArticled]);
+    fetchArticles(1);
+  }, []);
 
   const fetchMore = ({ pages }: { pages: number }) => {
     if (!isFetchingMore) {
@@ -87,7 +80,7 @@ export const useArticle = ({
 
   return {
     articles: data,
-    loading,
+    loading: loading,
     fetchMore,
     loadingMore: isFetchingMore
   };

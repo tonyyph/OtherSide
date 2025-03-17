@@ -3,7 +3,7 @@ import { ArticleItem } from "@/components/article/article-item";
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { useArticle } from "@/hooks/article/useArticle";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 export default function HomeScreen() {
   const [page, setPage] = useState(1);
@@ -13,47 +13,49 @@ export default function HomeScreen() {
     isRandom: false
   });
 
-  const loadMore = () => {
-    if (!loading) {
+  const loadMore = useCallback(() => {
+    if (!loadingMore) {
       setPage((prev) => prev + 1);
       fetchMore({ pages: page + 1 });
     }
-  };
+  }, [loadingMore, page, fetchMore]);
 
-  const renderHorizontalItem = ({ item }: { item: any }) => {
+  const renderHorizontalItem = useCallback(({ item }: { item: any }) => {
     return <ArticleItem item={item} />;
-  };
+  }, []);
 
-  const renderItem = ({ item }: { item: any }) => {
-    const customData = [
-      {
-        ...item?.leftPerspective,
-        side: "Left",
-        isBookmarked: item?.isBookmarked,
-        createdAt: item?.createdAt
-      },
-      {
-        ...item?.rightPerspective,
-        side: "Right",
-        isBookmarked: item?.isBookmarked,
-        createdAt: item?.createdAt
-      }
-    ];
+  const renderItem = useCallback(
+    ({ item }: { item: any }) => {
+      const customData = [
+        {
+          ...item?.leftPerspective,
+          side: "Left",
+          isBookmarked: item?.isBookmarked,
+          createdAt: item?.createdAt
+        },
+        {
+          ...item?.rightPerspective,
+          side: "Right",
+          isBookmarked: item?.isBookmarked,
+          createdAt: item?.createdAt
+        }
+      ];
 
-    return (
-      <View className="flex-1">
-        {loading && <HomeSkeleton />}
-        <FlatList
-          data={customData}
-          horizontal
-          renderItem={renderHorizontalItem}
-          keyExtractor={(item, index) => `${item.id}-${index}`}
-          pagingEnabled
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
-    );
-  };
+      return (
+        <View className="flex-1">
+          <FlatList
+            data={customData}
+            horizontal
+            renderItem={renderHorizontalItem}
+            keyExtractor={(item, index) => `${item.id}-${index}`}
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+      );
+    },
+    [loading, renderHorizontalItem]
+  );
 
   return (
     <View className="flex-1 bg-background">
@@ -62,7 +64,6 @@ export default function HomeScreen() {
         renderItem={renderItem}
         keyExtractor={(item, index) => `${item.createdAt}-${index}`}
         pagingEnabled
-        ListEmptyComponent={() => <HomeSkeleton />}
         showsVerticalScrollIndicator={false}
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}
