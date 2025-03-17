@@ -33,44 +33,62 @@ type Article = {
 
 export const useArticle = ({
   limit,
+  page,
   isRandom = false
 }: {
   limit: string;
+  page: number;
   isRandom?: boolean;
 }) => {
-  const [data, setData] = useState<Article[]>();
+  const [data, setData] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
   const { isArticled, setIsArticled } = useUserArticleStore();
 
   useLayoutEffect(() => {
     setIsArticled(true);
   }, []);
 
+  const fetchArticles = async (pageNum: number, append = false) => {
+    try {
+      if (!append) setLoading(true);
+      else setIsFetchingMore(true);
+
+      const skip = (pageNum - 1) * parseInt(limit, 10);
+      const { data: session } = await getArticles({
+        limit,
+        skip: skip.toString(),
+        random: isRandom
+      });
+
+      setData((prevData) =>
+        append ? [...prevData, ...session?.articles] : session?.articles
+      );
+    } catch (error) {
+      console.log(
+        (error as AxiosError<RestfulApiError>).response?.data?.message
+      );
+    } finally {
+      if (!append) setLoading(false);
+      setIsFetchingMore(false);
+      setIsArticled(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const { data: session } = await getArticles({
-          limit: limit,
-          skip: "0",
-          random: isRandom
-        });
-
-        setData(session?.articles);
-      } catch (error) {
-        console.log(
-          (error as AxiosError<RestfulApiError>).response?.data?.message
-        );
-      } finally {
-        setLoading(false);
-        setIsArticled(false);
-      }
-    };
-
-    !!isArticled && fetchArticles();
+    if (isArticled) fetchArticles(1);
   }, [isArticled]);
+
+  const fetchMore = ({ pages }: { pages: number }) => {
+    if (!isFetchingMore) {
+      fetchArticles(pages + 1, true);
+    }
+  };
 
   return {
     articles: data,
-    loading: loading
+    loading,
+    fetchMore,
+    loadingMore: isFetchingMore
   };
 };

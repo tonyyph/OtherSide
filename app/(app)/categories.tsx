@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
+import { useActionCategory } from "@/hooks/article/useActionCategory";
 import { useCategory } from "@/hooks/article/useCategory";
 import { cn } from "@/lib/utils";
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { Image, View, FlatList, ListRenderItem } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const ITEM_HEIGHT = 72; // Ensure a fixed height to stabilize scrolling
+const ITEM_HEIGHT = 72;
 
 const CategoryItem = memo(
   ({
@@ -74,17 +75,18 @@ const CategoryItem = memo(
 );
 
 export default function CategoriesScreen() {
-  const { categories = [], onUnSaveCategory, onSaveCategory } = useCategory();
+  const { categories = [] } = useCategory();
+
+  const { onUnSaveCategory, onSaveCategory } = useActionCategory();
+
   const { bottom } = useSafeAreaInsets();
 
-  // Local state to prevent re-renders
   const [localCategories, setLocalCategories] = useState(categories);
 
   useEffect(() => {
     setLocalCategories(categories);
   }, [categories]);
 
-  // Efficiently toggle save state without triggering full re-render
   const toggleCategorySave = useCallback(
     async (id: string, isSaved: boolean) => {
       setLocalCategories((prevCategories) =>
@@ -104,21 +106,20 @@ export default function CategoriesScreen() {
 
   return (
     <FlatList
-      data={localCategories} // Use local state instead of global to prevent full re-renders
-      className="flex-1 bg-background"
+      data={localCategories}
+      className="flex-1 bg-background z-10"
       keyExtractor={(item) => item.id.toString()}
       renderItem={renderItem}
       removeClippedSubviews={true}
       initialNumToRender={10}
       maxToRenderPerBatch={10}
-      updateCellsBatchingPeriod={50}
       windowSize={5}
       getItemLayout={(_, index) => ({
         length: ITEM_HEIGHT,
         offset: ITEM_HEIGHT * index,
         index
-      })} // Stabilize scrolling
-      contentContainerStyle={{ paddingBottom: bottom * 2, paddingTop: 16 }}
+      })}
+      ListFooterComponent={() => <View style={{ height: bottom * 5 }} />}
     />
   );
 }

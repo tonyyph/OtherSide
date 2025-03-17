@@ -133,7 +133,7 @@ export default function ProfileScreen() {
         <View className="mt-4 gap-2">
           <Text className="mx-6 text-muted-foreground">{`General`}</Text>
           <View>
-            <Link href="/category" asChild>
+            <Link href="/categories" asChild>
               <MenuItem
                 label={`Categories`}
                 icon={ShapesIcon}

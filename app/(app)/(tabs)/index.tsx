@@ -1,11 +1,24 @@
-import { FlatList, View } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import { ArticleItem } from "@/components/article/article-item";
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { useArticle } from "@/hooks/article/useArticle";
+import { useState } from "react";
 
 export default function HomeScreen() {
-  const { articles, loading } = useArticle({ limit: "5", isRandom: false });
+  const [page, setPage] = useState(1);
+  const { articles, loading, fetchMore, loadingMore } = useArticle({
+    limit: "10",
+    page,
+    isRandom: false
+  });
+
+  const loadMore = () => {
+    if (!loading) {
+      setPage((prev) => prev + 1);
+      fetchMore({ pages: page + 1 });
+    }
+  };
 
   const renderHorizontalItem = ({ item }: { item: any }) => {
     return <ArticleItem item={item} />;
@@ -43,7 +56,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <View className=" flex-1 bg-background">
+    <View className="flex-1 bg-background">
       <FlatList
         data={articles}
         renderItem={renderItem}
@@ -51,6 +64,13 @@ export default function HomeScreen() {
         pagingEnabled
         ListEmptyComponent={() => <HomeSkeleton />}
         showsVerticalScrollIndicator={false}
+        onEndReached={loadMore}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={
+          loadingMore ? (
+            <ActivityIndicator size="large" color="#ffffff" />
+          ) : null
+        }
       />
       <FooterGradient />
     </View>

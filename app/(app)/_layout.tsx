@@ -73,7 +73,7 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="category/index"
+          name="categories"
           options={{
             headerTitle: `Categories`
           }}
@@ -84,10 +84,6 @@ export default function AuthenticatedLayout() {
             presentation: "modal",
             headerTitle: `Change Password`
           }}
-        />
-        <Stack.Screen
-          name="explore-categories"
-          options={{ headerTitle: `Explore Categories` }}
         />
         <Stack.Screen
           name="notifications"

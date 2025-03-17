@@ -143,7 +143,7 @@ export const ArticleItem = ({ item }: any) => {
             <View className="flex-1 bg-background rounded-t-2xl bottom-3 gap-4 px-4">
               <View
                 className="gap-4 flex-1"
-                style={{ maxHeight: height * 0.44 }}
+                style={{ maxHeight: height / 2.5 }}
               >
                 <View className="flex-row justify-between mt-4 gap-x-4">
                   <View
@@ -166,6 +166,7 @@ export const ArticleItem = ({ item }: any) => {
                 </View>
                 {!!item.content ? (
                   <Text
+                    numberOfLines={20}
                     ellipsizeMode="tail"
                     className="flex-1 text-muted-foreground text-lg font-medium"
                   >
