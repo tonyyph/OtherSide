@@ -24,7 +24,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/playstore-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1A1825"
       },
       "package": "com.cuongphan2.OtherSide",
       "permissions": [
