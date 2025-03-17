@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
-import { useActionCategory } from "@/hooks/article/useActionCategory";
 import { useCategory } from "@/hooks/article/useCategory";
 import { cn } from "@/lib/utils";
 import React, { memo, useCallback, useEffect, useState } from "react";
@@ -75,9 +74,7 @@ const CategoryItem = memo(
 );
 
 export default function CategoriesScreen() {
-  const { categories = [] } = useCategory();
-
-  const { onUnSaveCategory, onSaveCategory } = useActionCategory();
+  const { categories = [], onUnSaveCategory, onSaveCategory } = useCategory();
 
   const { bottom } = useSafeAreaInsets();
 

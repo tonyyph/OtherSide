@@ -1,7 +1,6 @@
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useActionCategory } from "@/hooks/article/useActionCategory";
 import { useArticle } from "@/hooks/article/useArticle";
 import { useCategory } from "@/hooks/article/useCategory";
 import { formatDateTime } from "@/lib/date";
@@ -14,8 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ExploreScreen() {
   const { top, bottom } = useSafeAreaInsets();
-  const { categories } = useCategory();
-  const { onSaveCategory, onUnSaveCategory } = useActionCategory();
+  const { categories, onSaveCategory, onUnSaveCategory } = useCategory();
   const { articles, loading } = useArticle({
     limit: "5",
     isRandom: true,
