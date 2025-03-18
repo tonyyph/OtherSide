@@ -1,9 +1,9 @@
-import { ActivityIndicator, FlatList, View } from "react-native";
 import { ArticleItem } from "@/components/article/article-item";
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { useArticle } from "@/hooks/article/useArticle";
-import { useState, useCallback, useMemo } from "react";
+import { useCallback, useState } from "react";
+import { ActivityIndicator, FlatList, View } from "react-native";
 
 export default function HomeScreen() {
   const [page, setPage] = useState(1);
@@ -27,19 +27,19 @@ export default function HomeScreen() {
   const renderItem = useCallback(
     ({ item }: { item: any }) => {
       const customData = [
-        {
-          ...item?.leftPerspective,
+        item?.leftPerspective && {
+          ...item.leftPerspective,
           side: "Left",
           isBookmarked: item?.isBookmarked,
           createdAt: item?.createdAt
         },
-        {
-          ...item?.rightPerspective,
+        item?.rightPerspective && {
+          ...item.rightPerspective,
           side: "Right",
           isBookmarked: item?.isBookmarked,
           createdAt: item?.createdAt
         }
-      ];
+      ].filter(Boolean);
 
       return (
         <View className="flex-1">
@@ -65,6 +65,7 @@ export default function HomeScreen() {
         keyExtractor={(item, index) => `${item.createdAt}-${index}`}
         pagingEnabled
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => <HomeSkeleton />}
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}
         ListFooterComponent={
