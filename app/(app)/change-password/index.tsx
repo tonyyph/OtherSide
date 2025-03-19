@@ -7,14 +7,27 @@ import { useLingui } from "@lingui/react";
 import { router } from "expo-router";
 import { debounce } from "lodash";
 import LottieView from "lottie-react-native";
-import { CircleAlertIcon, KeyRoundIcon } from "lucide-react-native";
-import { useEffect, useRef } from "react";
-import { Keyboard, Text, TextInput, View } from "react-native";
+import {
+  CircleAlertIcon,
+  EyeIcon,
+  EyeOffIcon,
+  KeyRoundIcon
+} from "lucide-react-native";
+import { useEffect, useRef, useState } from "react";
+import {
+  Keyboard,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ChangePasswordScreen() {
-  const { i18n } = useLingui();
+  const [secureOldPassword, setSecureOldPassword] = useState(true);
+  const [secureNewPassword, setSecureNewPassword] = useState(true);
+  const [secureConfirmPassword, setSecureConfirmPassword] = useState(true);
   const sheetRef = useRef<BottomSheetModal>(null);
   const { bottom } = useSafeAreaInsets();
 
@@ -25,6 +38,17 @@ export default function ChangePasswordScreen() {
     onChangePassword,
     changePasswordSuccess
   } = usePassword();
+
+  const onPressSecureOldPassword = () => {
+    setSecureOldPassword((prev) => !prev);
+  };
+
+  const onPressSecureNewPassword = () => {
+    setSecureNewPassword((prev) => !prev);
+  };
+  const onPressSecureConfirmPassword = () => {
+    setSecureConfirmPassword((prev) => !prev);
+  };
 
   useEffect(() => {
     if (changePasswordSuccess) {
@@ -72,57 +96,87 @@ export default function ChangePasswordScreen() {
                     className="px-4 rounded-lg bg-background h-12 text-white"
                     placeholder={`Enter your password`}
                     placeholderTextColor={"gray"}
-                    secureTextEntry
+                    secureTextEntry={secureOldPassword}
                     value={passwordState.value}
                     onChangeText={passwordState.onChangeText}
                   />
+                  <TouchableOpacity
+                    onPress={onPressSecureOldPassword}
+                    className="absolute top-3.5 right-3"
+                  >
+                    {secureOldPassword ? (
+                      <EyeOffIcon className="size-5 text-muted-foreground" />
+                    ) : (
+                      <EyeIcon className="size-5 text-muted-foreground" />
+                    )}
+                  </TouchableOpacity>
                 </View>
               </View>
-              <View className="my-3">
-                <Text className="text-sm font-medium text-foreground mb-2">
-                  New Password{" "}
-                  <Text className="font-regular text-red-400 group-active:text-red-400">
-                    *
-                  </Text>
+            </View>
+            <View className="my-3">
+              <Text className="text-sm font-medium text-foreground mb-2">
+                New Password{" "}
+                <Text className="font-regular text-red-400 group-active:text-red-400">
+                  *
                 </Text>
-                <View className="border border-foreground rounded-lg relative">
-                  <TextInput
-                    className="px-4 rounded-lg bg-background h-12 text-white"
-                    placeholder={`Enter your password`}
-                    placeholderTextColor={"gray"}
-                    secureTextEntry
-                    value={newPasswordState.value}
-                    onChangeText={newPasswordState.onChangeText}
-                  />
-                </View>
+              </Text>
+              <View className="border border-foreground rounded-lg relative">
+                <TextInput
+                  className="px-4 rounded-lg bg-background h-12 text-white"
+                  placeholder={`Enter your password`}
+                  placeholderTextColor={"gray"}
+                  secureTextEntry={secureNewPassword}
+                  value={newPasswordState.value}
+                  onChangeText={newPasswordState.onChangeText}
+                />
+                <TouchableOpacity
+                  onPress={onPressSecureNewPassword}
+                  className="absolute top-3.5 right-3"
+                >
+                  {secureNewPassword ? (
+                    <EyeOffIcon className="size-5 text-muted-foreground" />
+                  ) : (
+                    <EyeIcon className="size-5 text-muted-foreground" />
+                  )}
+                </TouchableOpacity>
               </View>
-              <View className="my-3">
-                <Text className="text-sm font-medium text-foreground mb-2">
-                  Confirm Password{" "}
-                  <Text className="font-regular text-red-400 group-active:text-red-400">
-                    *
-                  </Text>
+            </View>
+            <View className="my-3">
+              <Text className="text-sm font-medium text-foreground mb-2">
+                Confirm Password{" "}
+                <Text className="font-regular text-red-400 group-active:text-red-400">
+                  *
                 </Text>
-                <View className="border border-foreground rounded-lg relative">
-                  <TextInput
-                    className="px-4 rounded-lg bg-background h-12 text-white"
-                    placeholder={`Enter your confirm password`}
-                    placeholderTextColor={"gray"}
-                    secureTextEntry
-                    value={confirmNewPasswordState.value}
-                    onChangeText={confirmNewPasswordState.onChangeText}
-                  />
-                </View>
-                {!!confirmNewPasswordState.error && (
-                  <View className="flex flex-row items-center gap-x-2 mt-2">
-                    <CircleAlertIcon className="size-4 text-red-400" />
-                    <Text className="text-red-400 text-sm font-medium">
-                      {confirmNewPasswordState.error?.charAt(0).toUpperCase() +
-                        confirmNewPasswordState.error?.slice(1)}
-                    </Text>
-                  </View>
-                )}
+              </Text>
+              <View className="border border-foreground rounded-lg relative">
+                <TextInput
+                  className="px-4 rounded-lg bg-background h-12 text-white"
+                  placeholder={`Enter your confirm password`}
+                  placeholderTextColor={"gray"}
+                  secureTextEntry={secureConfirmPassword}
+                  value={confirmNewPasswordState.value}
+                  onChangeText={confirmNewPasswordState.onChangeText}
+                />
+                <TouchableOpacity
+                  onPress={onPressSecureConfirmPassword}
+                  className="absolute top-3.5 right-3"
+                >
+                  {secureConfirmPassword ? (
+                    <EyeOffIcon className="size-5 text-muted-foreground" />
+                  ) : (
+                    <EyeIcon className="size-5 text-muted-foreground" />
+                  )}
+                </TouchableOpacity>
               </View>
+              {!!confirmNewPasswordState.error && (
+                <View className="flex flex-row items-center gap-x-2 mt-2">
+                  <CircleAlertIcon className="size-4 text-red-400" />
+                  <Text className="text-red-400 text-sm font-medium">
+                    {confirmNewPasswordState.error?.charAt(0).toUpperCase() +
+                      confirmNewPasswordState.error?.slice(1)}
+                  </Text>
+                </View>
+              )}
             </View>
           </View>
         </View>

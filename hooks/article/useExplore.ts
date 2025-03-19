@@ -1,17 +1,21 @@
 import { getCategories, saveCategories, unSaveCategories } from "@/api";
 import { useUserExploreStore } from "@/stores/user-explore/store";
 import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useMemoFunc } from "../commons";
 
-export const useCategory = () => {
+export const useExplore = () => {
   const [data, setData] = useState<CategoryS[]>();
   const [loading, setLoading] = useState(true);
-  const { setIsUpdateCategory } = useUserExploreStore();
+  const { setIsUpdateCategory, isUpdateCategory } = useUserExploreStore();
+
+  useLayoutEffect(() => {
+    setIsUpdateCategory(true);
+  }, []);
 
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    !!isUpdateCategory && fetchCategories();
+  }, [isUpdateCategory]);
 
   const onSaveCategory = useMemoFunc(async (id: string) => {
     setLoading(true);
@@ -19,7 +23,6 @@ export const useCategory = () => {
       const { data: session } = await saveCategories(id);
       if (!!session) {
         fetchCategories();
-        setIsUpdateCategory(true);
       }
     } catch (error) {
       console.log(
@@ -37,7 +40,6 @@ export const useCategory = () => {
       const { data: session } = await unSaveCategories(id);
       if (!!session) {
         fetchCategories();
-        setIsUpdateCategory(true);
       }
     } catch (error) {
       console.log(
@@ -60,6 +62,7 @@ export const useCategory = () => {
       );
     } finally {
       setLoading(false);
+      setIsUpdateCategory(false);
     }
   };
 

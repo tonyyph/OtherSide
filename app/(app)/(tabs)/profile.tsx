@@ -74,7 +74,7 @@ export default function ProfileScreen() {
   }, [userProfile]);
 
   async function handleCopyVersion() {
-    toast.success(`Copied version to clipboard`);
+    toast.success(`Copied version ${Application.nativeApplicationVersion}`);
   }
 
   const onRefresh = () => {
@@ -273,7 +273,6 @@ export default function ProfileScreen() {
         <TouchableOpacity
           activeOpacity={0.8}
           className="items-center gap-3"
-          onPressIn={Haptics.selectionAsync}
           onLongPress={handleCopyVersion}
         >
           <Image
