@@ -11,6 +11,7 @@
         "simulator": true
       },
       "channel": "development-simulator",
+      "node": "20.18.1",
       "env": {
         "APP_VARIANT": "development",
         "EXPO_PUBLIC_API_URL": "https://api-otherside.simpletest.xyz",
@@ -21,6 +22,7 @@
     "development": {
       "developmentClient": true,
       "channel": "development",
+      "node": "20.18.1",
       "env": {
         "APP_VARIANT": "development",
         "EXPO_PUBLIC_API_URL": "https://api-otherside.simpletest.xyz",
@@ -31,6 +33,7 @@
     "preview": {
       "distribution": "internal",
       "channel": "preview",
+      "node": "20.18.1",
       "env": {
         "APP_VARIANT": "development",
         "EXPO_PUBLIC_API_URL": "https://api-otherside.simpletest.xyz",
@@ -47,6 +50,7 @@
         "image": "latest"
       },
       "channel": "development",
+      "node": "20.18.1",
       "env": {
         "APP_VARIANT": "development",
         "EXPO_PUBLIC_API_URL": "https://api-otherside.simpletest.xyz",
