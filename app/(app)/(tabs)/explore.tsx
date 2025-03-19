@@ -2,7 +2,6 @@ import { FooterGradient } from "@/components/common/footer-gradient";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useArticle } from "@/hooks/article/useArticle";
-import { useCategory } from "@/hooks/article/useCategory";
 import { useExplore } from "@/hooks/article/useExplore";
 import { formatDateTime } from "@/lib/date";
 import { cn, getMaxItem } from "@/lib/utils";

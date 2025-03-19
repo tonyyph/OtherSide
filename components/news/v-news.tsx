@@ -7,7 +7,7 @@ type VerticalNewsProps = {
   timestamp?: string;
 };
 export function VerticalNews({ item, timestamp }: VerticalNewsProps) {
-  const { onDeleteBookmarkDetail, data } = useEngagement();
+  const { onDeleteBookmarkDetail } = useEngagement();
   return (
     <View className="flex-1 flex-row items-center px-6 gap-2 my-2">
       <View className="flex-1 gap-3 flex-row">

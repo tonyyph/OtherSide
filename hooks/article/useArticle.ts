@@ -1,9 +1,7 @@
 import { getArticles } from "@/api";
-import { useUserAuthenticateStore } from "@/stores";
-import { authenStore } from "@/stores/authenStore";
-import { userStore } from "@/stores/userStore";
+import { useUserArticleStore } from "@/stores/user-article/store";
 import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 type Category = {};
 
@@ -45,7 +43,15 @@ export const useArticle = ({
   const [data, setData] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
-  const { setIsLoggedIn } = useUserAuthenticateStore();
+  const { isArticled, setIsArticled } = useUserArticleStore();
+
+  useLayoutEffect(() => {
+    setIsArticled(true);
+  }, []);
+
+  useEffect(() => {
+    if (isArticled) fetchArticles(1);
+  }, [isArticled]);
 
   const fetchArticles = async (pageNum: number, append = false) => {
     try {
@@ -63,21 +69,15 @@ export const useArticle = ({
         append ? [...prevData, ...session?.articles] : session?.articles
       );
     } catch (error) {
-      authenStore.setState({ cookie: undefined });
-      userStore.setState({ userProfile: undefined });
-      setIsLoggedIn(false);
       console.log(
         (error as AxiosError<RestfulApiError>).response?.data?.message
       );
     } finally {
       if (!append) setLoading(false);
       setIsFetchingMore(false);
+      setIsArticled(false);
     }
   };
-
-  useEffect(() => {
-    fetchArticles(1);
-  }, []);
 
   const fetchMore = ({ pages }: { pages: number }) => {
     if (!isFetchingMore) {
@@ -87,7 +87,7 @@ export const useArticle = ({
 
   return {
     articles: data,
-    loading: loading,
+    loading,
     fetchMore,
     loadingMore: isFetchingMore
   };

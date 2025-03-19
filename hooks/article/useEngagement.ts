@@ -30,6 +30,7 @@ export const useEngagement = () => {
         (error as AxiosError<RestfulApiError>).response?.data?.message
       );
     } finally {
+      setIsArticled(false);
       setLoading(false);
     }
   });
