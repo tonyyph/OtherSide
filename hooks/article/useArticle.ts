@@ -46,7 +46,7 @@ export const useArticle = ({
   const { isArticled, setIsArticled } = useUserArticleStore();
 
   useLayoutEffect(() => {
-    setIsArticled(true);
+    fetchArticles(1);
   }, []);
 
   useEffect(() => {
