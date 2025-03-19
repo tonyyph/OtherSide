@@ -12,7 +12,9 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "ota-update": "eas update --clear-cache --channel development",
+    "build-ios": "eas build -p ios --auto-submit"
   },
   "jest": {
     "preset": "jest-expo"
