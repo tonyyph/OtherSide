@@ -1,4 +1,6 @@
 import { getArticles } from "@/api";
+import { useUserAuthenticateStore } from "@/stores";
+import { authenStore } from "@/stores/authenStore";
 import { useUserArticleStore } from "@/stores/user-article/store";
 import { AxiosError } from "axios";
 import { useEffect, useLayoutEffect, useState } from "react";
@@ -44,6 +46,7 @@ export const useArticle = ({
   const [loading, setLoading] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const { isArticled, setIsArticled } = useUserArticleStore();
+  const { setIsLoggedIn } = useUserAuthenticateStore();
 
   useLayoutEffect(() => {
     fetchArticles(1);
@@ -72,6 +75,10 @@ export const useArticle = ({
       console.log(
         (error as AxiosError<RestfulApiError>).response?.data?.message
       );
+      setIsLoggedIn(false);
+      authenStore.setState({
+        cookie: undefined
+      });
     } finally {
       if (!append) setLoading(false);
       setIsFetchingMore(false);
