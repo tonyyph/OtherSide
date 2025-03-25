@@ -7,8 +7,6 @@ interface UserStore {
   userProfile?: {
     email: string;
     firstName: string;
-    lastName: string;
-    birthday: string;
     gender: string;
     id: number;
     createdAt: string;

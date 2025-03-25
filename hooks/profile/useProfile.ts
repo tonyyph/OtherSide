@@ -32,7 +32,6 @@ export const useProfile = () => {
       try {
         const { data: session } = await getUserProfile();
         userStore.setState({ userProfile: session });
-
         setData(session);
       } catch (error) {
         setIsLoggedIn(false);

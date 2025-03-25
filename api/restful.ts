@@ -9,8 +9,6 @@ export const signUpWithEmail = async (data: SignUpRequest) => {
       password: data.password,
       confirmPassword: data.confirmPassword,
       firstName: data.firstName,
-      lastName: data.lastName,
-      birthday: data.birthday,
       gender: data.gender,
       language: "en"
     }
@@ -97,10 +95,8 @@ export const updateUserProfile = async (data: UpdateProfileRequest) => {
     {
       email: data.email,
       firstName: data.firstName,
-      lastName: data.lastName,
-      birthday: data.birthday,
       gender: data.gender,
-      language: "en"
+      language: data?.language
     },
     {
       headers: {

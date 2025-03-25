@@ -5,8 +5,6 @@ type SignUpRequest = {
   password: string;
   confirmPassword: string;
   firstName: string;
-  lastName: string;
-  birthday: string;
   gender: string;
 };
 
@@ -72,9 +70,8 @@ type RestfulApiError = {
 type UpdateProfileRequest = {
   email?: string;
   firstName?: string;
-  lastName?: string;
-  birthday?: string;
   gender?: string;
+  language?: string;
 };
 
 type UpdateProfileResponse = {

@@ -1,27 +1,20 @@
 import { BottomSheet } from "@/components/common/bottom-sheet";
-import { DatePicker } from "@/components/common/date-picker";
-import { UserAvatar } from "@/components/common/user-avatar";
 import { Button } from "@/components/ui/button";
 import { Radio } from "@/components/ui/radio";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Text } from "@/components/ui/text";
 import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";
-import { formatDateShort } from "@/lib/date";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { useLingui } from "@lingui/react";
 import { router } from "expo-router";
 import { MailIcon, UserRoundPenIcon } from "lucide-react-native";
 import { useRef } from "react";
-import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Image, ScrollView, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function EditProfileScreen() {
   const {
     firstNameState,
-    lastNameState,
     genderState,
-    birthDayState,
     loading,
     emailAddressState,
     onUpdateProfile
@@ -29,13 +22,6 @@ export default function EditProfileScreen() {
 
   const sheetRef = useRef<BottomSheetModal>(null);
   const { bottom } = useSafeAreaInsets();
-
-  const { i18n } = useLingui();
-  const form = useForm({
-    defaultValues: {
-      date: new Date()
-    }
-  });
 
   if (loading) {
     return (
@@ -76,7 +62,7 @@ export default function EditProfileScreen() {
   }
 
   return (
-    <FormProvider {...form}>
+    <View className="flex-1">
       <ScrollView
         className="bg-background"
         contentContainerClassName="gap-4 p-8 justify-center flex-1"
@@ -100,7 +86,7 @@ export default function EditProfileScreen() {
             <View className="flex flex-row justify-between gap-2">
               <View className="my-1 flex-1">
                 <Text className="text-sm font-medium text-foreground mb-1">
-                  First Name
+                  Name
                 </Text>
                 <View className="border border-border rounded-lg relative">
                   <TextInput
@@ -110,22 +96,6 @@ export default function EditProfileScreen() {
                     autoCapitalize="none"
                     value={firstNameState.value}
                     onChangeText={firstNameState.onChangeText}
-                  />
-                </View>
-              </View>
-
-              <View className="my-1 flex-1">
-                <Text className="text-sm font-medium text-foreground mb-1">
-                  Last Name
-                </Text>
-                <View className="border border-border rounded-lg relative">
-                  <TextInput
-                    className="pl-4 pr-10 rounded-lg bg-background h-12 text-white"
-                    placeholder={`ex: Phan`}
-                    placeholderTextColor={"gray"}
-                    autoCapitalize="none"
-                    value={lastNameState.value}
-                    onChangeText={lastNameState.onChangeText}
                   />
                 </View>
               </View>
@@ -178,34 +148,6 @@ export default function EditProfileScreen() {
                 </View>
               </View>
             </View>
-
-            <View className="flex-1">
-              <Text className="text-sm font-medium text-foreground mb-1">
-                Birthday
-              </Text>
-              <View className="rounded-lg">
-                <Controller
-                  name="date"
-                  rules={{ required: true }}
-                  control={form.control}
-                  render={({ field: { onChange, value } }) => (
-                    <DatePicker
-                      value={new Date(birthDayState.value ?? "1990-01-01")}
-                      onChange={(val) => {
-                        birthDayState.onChangeText(formatDateShort(val));
-                        onChange(val);
-                      }}
-                      minimumDate={
-                        new Date(Date.now() - 365 * 24 * 60 * 60 * 1000 * 100)
-                      }
-                      maximumDate={
-                        new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
-                      }
-                    />
-                  )}
-                />
-              </View>
-            </View>
           </View>
         </View>
 
@@ -254,6 +196,6 @@ export default function EditProfileScreen() {
           </View>
         </BottomSheetView>
       </BottomSheet>
-    </FormProvider>
+    </View>
   );
 }

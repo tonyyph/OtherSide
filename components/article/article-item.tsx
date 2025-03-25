@@ -37,6 +37,7 @@ import { KeyboardSpacer } from "../common/keyboard-spacer";
 import { toast } from "../common/toast";
 import { Text } from "../ui/text";
 import { ScrollView } from "react-native-gesture-handler";
+import Tooltip from "../ui/tooltip";
 
 export const ArticleItem = ({ item }: any) => {
   const { height } = useWindowDimensions();
@@ -143,7 +144,7 @@ export const ArticleItem = ({ item }: any) => {
             <View className="flex-1 bg-background rounded-t-2xl bottom-3 gap-4 px-4">
               <View
                 className="gap-4 flex-1"
-                style={{ maxHeight: height / 2.5 }}
+                style={{ maxHeight: height / 2.3 }}
               >
                 <View className="flex-row justify-between mt-4 gap-x-4">
                   <View
@@ -179,7 +180,7 @@ export const ArticleItem = ({ item }: any) => {
 
               <View className="flex flex-row items-center gap-2">
                 <View
-                  className="h-[4px] bg-green-500"
+                  className="h-[4px] bg-green-500 rounded-full"
                   style={{
                     flex:
                       like === 0 && dislike === 0
@@ -188,7 +189,7 @@ export const ArticleItem = ({ item }: any) => {
                   }}
                 />
                 <View
-                  className="h-[4px] bg-red-500"
+                  className="h-[4px] bg-red-500 rounded-full"
                   style={{
                     flex:
                       like === 0 && dislike === 0
@@ -197,7 +198,11 @@ export const ArticleItem = ({ item }: any) => {
                   }}
                 />
               </View>
-
+              <View className="items-start">
+                <Tooltip content="1 point = £0.10">
+                  <Text>1234</Text>
+                </Tooltip>
+              </View>
               <View className="flex flex-row justify-between gap-2">
                 <View className="flex flex-row items-center gap-2">
                   <CalendarClock className="size-6 text-muted-foreground" />
@@ -208,7 +213,15 @@ export const ArticleItem = ({ item }: any) => {
                 <View className="flex flex-row items-center gap-3">
                   <View className="flex flex-row items-center gap-1">
                     <TouchableOpacity onPress={() => onReactionLike(item?.id)}>
-                      <ThumbsUp className="size-6 text-green-500" />
+                      <ThumbsUp
+                        fill={
+                          (data?.likesCount ?? 0) > item?.likeCount
+                            ? "#12d85a"
+                            : "none"
+                        }
+                        strokeWidth={1}
+                        className="size-6 text-green-400"
+                      />
                     </TouchableOpacity>
                     <Text className="text-foreground text-sm">{like}</Text>
                   </View>
@@ -216,7 +229,15 @@ export const ArticleItem = ({ item }: any) => {
                     <TouchableOpacity
                       onPress={() => onReactionDisLike(item?.id)}
                     >
-                      <ThumbsDown className="size-6 text-red-500" />
+                      <ThumbsDown
+                        fill={
+                          (data?.dislikesCount ?? 0) > item?.dislikeCount
+                            ? "#ef4444"
+                            : "none"
+                        }
+                        strokeWidth={1}
+                        className="size-6 text-red-400"
+                      />
                     </TouchableOpacity>
                     <Text className="text-foreground text-sm">{dislike}</Text>
                   </View>

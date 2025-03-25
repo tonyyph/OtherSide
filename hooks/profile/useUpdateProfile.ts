@@ -22,27 +22,15 @@ export const useUpdateProfile = () => {
     validate: validateLetter
   });
 
-  const lastNameState = useValidateInput({
-    defaultValue: userProfile?.lastName,
-    validate: validateLetter
-  });
-
   const genderState = useValidateInput({
     defaultValue: userProfile?.gender,
-    validate: validateLetter
-  });
-
-  const birthDayState = useValidateInput({
-    defaultValue: userProfile?.birthday,
     validate: validateLetter
   });
 
   useEffect(() => {
     if (!!userProfile) {
       firstNameState.onChangeText(userProfile?.firstName || "");
-      lastNameState.onChangeText(userProfile?.lastName || "");
       genderState.onChangeText(userProfile?.gender || "");
-      birthDayState.onChangeText(userProfile?.birthday || "");
       emailAddressState.onChangeText(userProfile?.email || "");
       hideTimer.current = setTimeout(() => {
         setLoading(false);
@@ -59,9 +47,8 @@ export const useUpdateProfile = () => {
         const { data: session } = await updateUserProfile({
           email: emailAddressState.value,
           firstName: firstNameState.value,
-          lastName: lastNameState.value,
-          birthday: birthDayState.value,
-          gender: genderState.value
+          gender: genderState.value,
+          language: "en"
         });
         if (session) {
           userStore.setState({
@@ -69,8 +56,6 @@ export const useUpdateProfile = () => {
               id: session.id,
               email: session.email,
               firstName: session.firstName,
-              lastName: session.lastName,
-              birthday: session.birthday,
               gender: session.gender,
               language: session.language,
               createdAt: session.createdAt,
@@ -93,9 +78,7 @@ export const useUpdateProfile = () => {
     loading,
     updateProfileSuccess,
     firstNameState,
-    lastNameState,
     genderState,
-    birthDayState,
     emailAddressState,
     onUpdateProfile,
     setUpdateProfileSuccess

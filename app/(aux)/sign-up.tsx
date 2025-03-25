@@ -1,11 +1,9 @@
 import { BottomSheet } from "@/components/common/bottom-sheet";
-import { DatePicker } from "@/components/common/date-picker";
 import { Button } from "@/components/ui/button";
 import { LoadingScreen } from "@/components/ui/loading";
 import { Radio } from "@/components/ui/radio";
 import { Text } from "@/components/ui/text";
 import { useSignUp } from "@/hooks/auth/useSignUp";
-import { formatDateTimeShort } from "@/lib/date";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Link, router } from "expo-router";
 import { debounce } from "lodash";
@@ -15,10 +13,10 @@ import {
   EyeOffIcon,
   KeyIcon,
   MailIcon,
+  UserIcon,
   UserRoundPlusIcon
 } from "lucide-react-native";
 import { useRef, useState } from "react";
-import { Controller, FormProvider, useForm } from "react-hook-form";
 import {
   Image,
   Keyboard,
@@ -38,9 +36,7 @@ export default function SignUpScreen() {
     passwordState,
     confirmPasswordState,
     firstNameState,
-    lastNameState,
     genderState,
-    birthDayState,
     emailAddressState,
     registerSuccess,
     loading
@@ -54,11 +50,6 @@ export default function SignUpScreen() {
     setSecureConfirmPassword((prev) => !prev);
   };
   const { top, bottom } = useSafeAreaInsets();
-  const form = useForm({
-    defaultValues: {
-      date: new Date()
-    }
-  });
 
   if (registerSuccess) {
     return (
@@ -100,7 +91,7 @@ export default function SignUpScreen() {
   }
 
   return (
-    <FormProvider {...form}>
+    <View className="flex-1">
       <LoadingScreen loading={loading} />
 
       <View className=" flex-1 bg-background gap-3">
@@ -114,13 +105,13 @@ export default function SignUpScreen() {
           {/* Welcome */}
           <View className="z-10">
             <View className="">
-              <Text className="font-bold text-[32px] text-muted-foreground">
+              <Text className="font-bold text-[44px] text-muted-foreground">
                 Create
               </Text>
-              <Text className="font-bold text-[32px] text-primary">
+              <Text className="font-bold text-[44px] text-primary">
                 your account
               </Text>
-              <Text className="text-muted-foreground text-[16px]">
+              <Text className="text-muted-foreground text-[19px]">
                 Register to get started with us and explore about our app.
               </Text>
             </View>
@@ -129,48 +120,60 @@ export default function SignUpScreen() {
           <UserRoundPlusIcon className="absolute top-0 right-0 size-80 text-muted-foreground opacity-30" />
           {/* Input Field */}
           <View className="flex-1">
-            <View className="flex-1 flex-col gap-2">
+            <View className="flex flex-row justify-between gap-4 items-center ">
               {/* Username Field */}
-              <View className="flex flex-row justify-between gap-2">
-                <View className=" flex-1">
-                  <Text className="text-sm font-medium text-foreground mb-1">
-                    First Name{" "}
-                    <Text className="font-regular text-red-400 group-active:text-red-400">
-                      *
-                    </Text>
+              <View className="flex-1">
+                <Text className="text-sm font-medium text-foreground mb-1">
+                  Name{" "}
+                  <Text className="font-regular text-red-400 group-active:text-red-400">
+                    *
                   </Text>
-                  <View className="border border-border rounded-lg relative">
-                    <TextInput
-                      className="pl-4 pr-10 rounded-lg bg-background h-12 text-white"
-                      placeholder={`ex: Tony .D`}
-                      placeholderTextColor={"gray"}
-                      autoCapitalize="none"
-                      value={firstNameState.value}
-                      onChangeText={firstNameState.onChangeText}
-                    />
-                  </View>
-                </View>
-
-                <View className=" flex-1">
-                  <Text className="text-sm font-medium text-foreground mb-1">
-                    Last Name{" "}
-                    <Text className="font-regular text-red-400 group-active:text-red-400">
-                      *
-                    </Text>
-                  </Text>
-                  <View className="border border-border rounded-lg relative">
-                    <TextInput
-                      className="pl-4 pr-10 rounded-lg bg-background h-12 text-white"
-                      placeholder={`ex: Phan`}
-                      placeholderTextColor={"gray"}
-                      autoCapitalize="none"
-                      value={lastNameState.value}
-                      onChangeText={lastNameState.onChangeText}
-                    />
+                </Text>
+                <View className="border border-border rounded-lg relative">
+                  <TextInput
+                    className="px-10 rounded-lg bg-background h-12 text-white"
+                    placeholder={`ex: Tony .D`}
+                    placeholderTextColor={"gray"}
+                    autoCapitalize="none"
+                    value={firstNameState.value}
+                    onChangeText={firstNameState.onChangeText}
+                  />
+                  <View className="absolute top-4 left-3">
+                    <UserIcon className="size-5 text-muted-foreground" />
                   </View>
                 </View>
               </View>
-
+              <View className="flex-shrink justify-center">
+                <Text className="text-sm font-medium text-foreground mb-1">
+                  Gender{" "}
+                </Text>
+                <View className="flex flex-row items-center gap-2 h-12">
+                  <View className="flex flex-row items-center gap-2 justify-center">
+                    <Radio
+                      selected={genderState.value === "male" ? true : false}
+                      onPress={() => {
+                        genderState.onChangeText("male");
+                      }}
+                    />
+                    <Text className="text-sm font-medium text-foreground">
+                      {"Male"}
+                    </Text>
+                  </View>
+                  <View className="flex flex-row items-center gap-2 justify-center">
+                    <Radio
+                      selected={genderState.value === "female" ? true : false}
+                      onPress={() => {
+                        genderState.onChangeText("female");
+                      }}
+                    />
+                    <Text className="text-sm font-medium text-foreground">
+                      {"Female"}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View className="flex-1 flex-col gap-2">
               <View className="">
                 <Text className="text-sm font-medium text-foreground mb-1">
                   Email Address{" "}
@@ -193,70 +196,6 @@ export default function SignUpScreen() {
                 </View>
               </View>
 
-              <View className="flex flex-row justify-between gap-4 items-center ">
-                <View className="flex-1 justify-center">
-                  <Text className="text-sm font-medium text-foreground mb-1">
-                    Gender{" "}
-                  </Text>
-                  <View className="flex flex-row items-center gap-2 h-12">
-                    <View className="flex flex-row items-center gap-2 justify-center">
-                      <Radio
-                        selected={genderState.value === "male" ? true : false}
-                        onPress={() => {
-                          genderState.onChangeText("male");
-                        }}
-                      />
-                      <Text className="text-sm font-medium text-foreground">
-                        {"Male"}
-                      </Text>
-                    </View>
-                    <View className="flex flex-row items-center gap-2 justify-center">
-                      <Radio
-                        selected={genderState.value === "female" ? true : false}
-                        onPress={() => {
-                          genderState.onChangeText("female");
-                        }}
-                      />
-                      <Text className="text-sm font-medium text-foreground">
-                        {"Female"}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-
-                <View className="flex-1">
-                  <Text className="text-sm font-medium text-foreground mb-1">
-                    Birthday{" "}
-                  </Text>
-                  <View className="rounded-lg">
-                    <Controller
-                      name="date"
-                      rules={{ required: true }}
-                      control={form.control}
-                      defaultValue={new Date()}
-                      render={({ field: { onChange, value } }) => (
-                        <DatePicker
-                          value={value}
-                          onChange={(val) => {
-                            birthDayState.onChangeText(
-                              formatDateTimeShort(val)
-                            );
-                            onChange(val);
-                          }}
-                          minimumDate={
-                            new Date(
-                              Date.now() - 365 * 24 * 60 * 60 * 1000 * 100
-                            )
-                          }
-                          maximumDate={
-                            new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
-                          }
-                        />
-                      )}
-                    />
-                  </View>
-                </View>
-              </View>
               <View className="">
                 <Text className="text-sm font-medium text-foreground mb-1">
                   Password{" "}
@@ -321,18 +260,17 @@ export default function SignUpScreen() {
               </View>
             </View>
           </View>
-          <View className="bg-background mt-4">
+          <View className="bg-background mt-8">
             {/* Login Button */}
             <Button
               variant="default"
               size={"lg"}
-              className="rounded-full mx-2"
+              className="rounded-full"
               disabled={
                 !emailAddressState.value ||
                 !passwordState.value ||
                 !confirmPasswordState.value ||
-                !firstNameState.value ||
-                !lastNameState.value
+                !firstNameState.value
               }
               onPress={debounce(() => {
                 onSignUp(sheetRef);
@@ -399,6 +337,6 @@ export default function SignUpScreen() {
           </View>
         </BottomSheetView>
       </BottomSheet>
-    </FormProvider>
+    </View>
   );
 }

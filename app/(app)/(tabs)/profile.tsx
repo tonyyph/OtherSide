@@ -1,5 +1,4 @@
 import * as Application from "expo-application";
-import * as Haptics from "expo-haptics";
 
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { FooterGradient } from "@/components/common/footer-gradient";
@@ -12,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";
 import { useLogout } from "@/hooks/auth/useLogout";
+import { useProfile } from "@/hooks/profile/useProfile";
 import { useColorPalette } from "@/hooks/use-color-palette";
 import { useLocale } from "@/locales/provider";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
@@ -32,8 +32,7 @@ import {
   MessageSquareQuoteIcon,
   ScrollTextIcon,
   ShapesIcon,
-  Share2Icon,
-  SwatchBookIcon
+  Share2Icon
 } from "lucide-react-native";
 import { useLayoutEffect, useRef, useState } from "react";
 import {
@@ -46,7 +45,6 @@ import {
   View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useProfile } from "@/hooks/profile/useProfile";
 
 export default function ProfileScreen() {
   const { i18n } = useLingui();
@@ -118,7 +116,7 @@ export default function ProfileScreen() {
   return (
     <View className="flex-1 bg-background" style={{ paddingTop: top }}>
       <ScrollView
-        contentContainerClassName="py-4 gap-4"
+        contentContainerClassName="py-6 gap-4"
         refreshControl={
           <RefreshControl
             refreshing={false}

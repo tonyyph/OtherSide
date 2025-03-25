@@ -1,9 +1,7 @@
 import { signUpWithEmail } from "@/api";
-import { formatDateTimeShort } from "@/lib/date";
 import { validateEmail, validateLetter, validatePassword } from "@/utils";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { AxiosError } from "axios";
-import { isEmpty } from "lodash";
 import { useState } from "react";
 import { useMemoFunc, useValidateInput } from "../commons";
 
@@ -26,16 +24,8 @@ export const useSignUp = () => {
     defaultValue: "",
     validate: validateLetter
   });
-  const lastNameState = useValidateInput({
-    defaultValue: "",
-    validate: validateLetter
-  });
   const genderState = useValidateInput({
     defaultValue: "male",
-    validate: validateLetter
-  });
-  const birthDayState = useValidateInput({
-    defaultValue: formatDateTimeShort(new Date()),
     validate: validateLetter
   });
 
@@ -82,10 +72,6 @@ export const useSignUp = () => {
           password: passwordState.value,
           confirmPassword: confirmPasswordState.value,
           firstName: firstNameState.value,
-          lastName: lastNameState.value,
-          birthday: isEmpty(birthDayState.value)
-            ? birthDayState?.defaultValue
-            : birthDayState.value,
           gender: genderState.value
         });
         if (!!session && session?.confirmationToken) {
@@ -122,9 +108,7 @@ export const useSignUp = () => {
     passwordState,
     confirmPasswordState,
     firstNameState,
-    lastNameState,
     genderState,
-    birthDayState,
     onSignUp,
     registerSuccess,
     loading
