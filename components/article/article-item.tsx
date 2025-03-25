@@ -6,12 +6,13 @@ import { exactDesign } from "@/utils";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import {
   CalendarClock,
+  CircleAlertIcon,
   MessageCircle,
   Rows4Icon,
   SendIcon,
   Share2Icon,
   ThumbsDown,
-  ThumbsUp
+  ThumbsUp,
 } from "lucide-react-native";
 import { useMemo, useRef, useState } from "react";
 import {
@@ -24,11 +25,11 @@ import {
   TextInput,
   TouchableOpacity,
   useWindowDimensions,
-  View
+  View,
 } from "react-native";
 import Animated, {
   useAnimatedKeyboard,
-  useAnimatedStyle
+  useAnimatedStyle,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BottomSheet } from "../common/bottom-sheet";
@@ -38,16 +39,25 @@ import { toast } from "../common/toast";
 import { Text } from "../ui/text";
 import { ScrollView } from "react-native-gesture-handler";
 import Tooltip from "../ui/tooltip";
+import LottieView from "lottie-react-native";
+import { useUserAGuidingStore } from "@/stores/user-guiding/store";
 
 export const ArticleItem = ({ item }: any) => {
   const { height } = useWindowDimensions();
   const { setHideTabBarStatus } = useUserSettingsStore();
+  const {
+    isEnableStepOne,
+    isEnableStepTwo,
+    setIsEnableStepTwo,
+    setIsEnableStepOne,
+  } = useUserAGuidingStore();
+
   const [content, setContent] = useState("");
   const sheetRef = useRef<BottomSheetModal>(null);
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: -keyboard.height.value }]
+      transform: [{ translateY: -keyboard.height.value }],
     };
   });
 
@@ -65,13 +75,13 @@ export const ArticleItem = ({ item }: any) => {
     onDeleteBookmark,
     onDeleteDisLike,
     onDeleteLike,
-    data
+    data,
   } = useEngagement();
 
   async function handleShare({ title }: { title: string }) {
     try {
       await Share.share({
-        message: `${title} ${"https://othersideindia.com"} -via OtherSide India`
+        message: `${title} ${"https://othersideindia.com"} -via OtherSide India`,
       });
     } catch (error: any) {
       toast.error(error.message);
@@ -113,7 +123,7 @@ export const ArticleItem = ({ item }: any) => {
           className={" flex-1 gap-3 justify-between"}
           style={{
             height: Platform.OS === "ios" ? height : height - 24,
-            width: Dimensions.get("window").width
+            width: Dimensions.get("window").width,
           }}
         >
           <View className="flex-1">
@@ -121,7 +131,7 @@ export const ArticleItem = ({ item }: any) => {
               source={{
                 uri:
                   item.imageUrl ??
-                  "https://reliasoftware.com/images/careers/relia-software-office.webp"
+                  "https://reliasoftware.com/images/careers/relia-software-office.webp",
               }}
               // className="h-[360px]"
               style={{ height: exactDesign(360) }}
@@ -150,7 +160,7 @@ export const ArticleItem = ({ item }: any) => {
                   <View
                     style={{
                       backgroundColor:
-                        item?.side === "Right" ? "#ef4444" : "#3b82f6"
+                        item?.side === "Right" ? "#ef4444" : "#3b82f6",
                     }}
                     className="rounded-full px-3 py-[2px] self-start top-1 items-center justify-center"
                   >
@@ -165,6 +175,67 @@ export const ArticleItem = ({ item }: any) => {
                     {item.title ?? "Missing Title"}
                   </Text>
                 </View>
+                {isEnableStepOne && !!item?.content && (
+                  <View className="items-start absolute">
+                    <Tooltip
+                      isVisible={isEnableStepOne}
+                      onClose={() => {
+                        setIsEnableStepOne(false);
+                        setTimeout(() => {
+                          setIsEnableStepTwo(true);
+                        }, 1000);
+                      }}
+                      content={`To move to the next article, simply swipe up. If you want to go back to the previous one, just swipe down. Happy reading!`}
+                    >
+                      <LottieView
+                        style={{
+                          width: 120,
+                          height: 120,
+                          backgroundColor: "white",
+                          alignSelf: "center",
+                          padding: 12,
+                          borderRadius: 12,
+                          shadowColor: "#000",
+                          shadowOffset: { width: 0, height: 2 },
+                          shadowOpacity: 0.2,
+                          shadowRadius: 4,
+                        }}
+                        source={require("@/assets/json/intro-swipe.json")}
+                        autoPlay
+                        loop
+                      />
+                    </Tooltip>
+                  </View>
+                )}
+                {isEnableStepTwo && !!item?.content && (
+                  <View className="items-end absolute">
+                    <Tooltip
+                      isVisible={isEnableStepTwo}
+                      onClose={() => {
+                        setIsEnableStepTwo(false);
+                      }}
+                      content={`To view a different approach to the article, swipe left. If you want to return, simply swipe right.`}
+                    >
+                      <LottieView
+                        style={{
+                          width: 120,
+                          height: 120,
+                          backgroundColor: "white",
+                          alignSelf: "center",
+                          padding: 12,
+                          borderRadius: 12,
+                          shadowColor: "#000",
+                          shadowOffset: { width: 0, height: 2 },
+                          shadowOpacity: 0.2,
+                          shadowRadius: 4,
+                        }}
+                        source={require("@/assets/json/intro-hswipe.json")}
+                        autoPlay
+                        loop
+                      />
+                    </Tooltip>
+                  </View>
+                )}
                 {!!item.content ? (
                   <Text
                     numberOfLines={20}
@@ -185,7 +256,7 @@ export const ArticleItem = ({ item }: any) => {
                     flex:
                       like === 0 && dislike === 0
                         ? 1
-                        : like / totalReactionCount
+                        : like / totalReactionCount,
                   }}
                 />
                 <View
@@ -194,14 +265,9 @@ export const ArticleItem = ({ item }: any) => {
                     flex:
                       like === 0 && dislike === 0
                         ? 1
-                        : dislike / totalReactionCount
+                        : dislike / totalReactionCount,
                   }}
                 />
-              </View>
-              <View className="items-start">
-                <Tooltip content="1 point = £0.10">
-                  <Text>1234</Text>
-                </Tooltip>
               </View>
               <View className="flex flex-row justify-between gap-2">
                 <View className="flex flex-row items-center gap-2">
@@ -210,6 +276,7 @@ export const ArticleItem = ({ item }: any) => {
                     {formatDateTime?.(item?.createdAt) ?? null}
                   </Text>
                 </View>
+
                 <View className="flex flex-row items-center gap-3">
                   <View className="flex flex-row items-center gap-1">
                     <TouchableOpacity onPress={() => onReactionLike(item?.id)}>

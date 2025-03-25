@@ -3,10 +3,14 @@ import { Button } from "@/components/ui/button";
 import { LoadingScreen } from "@/components/ui/loading";
 import { Radio } from "@/components/ui/radio";
 import { Text } from "@/components/ui/text";
+import Tooltip from "@/components/ui/tooltip";
 import { useSignUp } from "@/hooks/auth/useSignUp";
+import { useUserAuthenticateStore } from "@/stores";
+import { useUserAGuidingStore } from "@/stores/user-guiding/store";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Link, router } from "expo-router";
 import { debounce } from "lodash";
+import LottieView from "lottie-react-native";
 import {
   BadgeCheckIcon,
   EyeIcon,
@@ -14,7 +18,7 @@ import {
   KeyIcon,
   MailIcon,
   UserIcon,
-  UserRoundPlusIcon
+  UserRoundPlusIcon,
 } from "lucide-react-native";
 import { useRef, useState } from "react";
 import {
@@ -24,13 +28,19 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SignUpScreen() {
   const [securePassword, setSecurePassword] = useState(true);
   const [secureConfirmPassword, setSecureConfirmPassword] = useState(true);
+  const { setIsLoggedIn } = useUserAuthenticateStore();
+
+  const { isFirstTimeSignUp, setIsFirstTimeSignUp } = useUserAGuidingStore();
+
+  console.log(" SignUpScreen :100: isFirstTimeSignUp:", isFirstTimeSignUp);
+
   const {
     onSignUp,
     passwordState,
@@ -39,7 +49,7 @@ export default function SignUpScreen() {
     genderState,
     emailAddressState,
     registerSuccess,
-    loading
+    loading,
   } = useSignUp();
 
   const sheetRef = useRef<BottomSheetModal>(null);
@@ -173,7 +183,7 @@ export default function SignUpScreen() {
                 </View>
               </View>
             </View>
-            <View className="flex-1 flex-col gap-2">
+            <View className="flex-1 flex-col gap-3 mt-4">
               <View className="">
                 <Text className="text-sm font-medium text-foreground mb-1">
                   Email Address{" "}
@@ -203,7 +213,41 @@ export default function SignUpScreen() {
                     *
                   </Text>
                 </Text>
-                <View className="border border-border rounded-lg relative">
+                {isFirstTimeSignUp && (
+                  <View className="items-start absolute">
+                    <Tooltip
+                      isVisible={isFirstTimeSignUp}
+                      onClose={() => {
+                        setIsFirstTimeSignUp(false);
+                      }}
+                      content={`Password validation requirements might include the following:\n
+  ● Minimum length (e.g., 6 characters)
+  ● At least one uppercase letter
+  ● At least one lowercase letter
+  ● At least one number
+  ● At least one special character (e.g., !, @, #, $)`}
+                    >
+                      <LottieView
+                        style={{
+                          width: 120,
+                          height: 120,
+                          backgroundColor: "#1A1825",
+                          alignSelf: "center",
+                          padding: 12,
+                          borderRadius: 12,
+                          shadowColor: "#000",
+                          shadowOffset: { width: 0, height: 2 },
+                          shadowOpacity: 0.2,
+                          shadowRadius: 4,
+                        }}
+                        source={require("@/assets/json/password-validate.json")}
+                        autoPlay
+                        loop
+                      />
+                    </Tooltip>
+                  </View>
+                )}
+                <View className="border flex-1 border-border rounded-lg relative">
                   <TextInput
                     className="px-10 rounded-lg bg-background h-12 text-white"
                     placeholder={`Enter your password`}
