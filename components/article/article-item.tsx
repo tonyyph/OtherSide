@@ -2,19 +2,20 @@ import ArticleDetailScreen from "@/app/(app)/article-comment";
 import { useEngagement } from "@/hooks/article/useEngagement";
 import { formatDateTime } from "@/lib/date";
 import { useUserSettingsStore } from "@/stores";
+import { useUserAGuidingStore } from "@/stores/user-guiding/store";
 import { exactDesign } from "@/utils";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import LottieView from "lottie-react-native";
 import {
   CalendarClock,
-  CircleAlertIcon,
   MessageCircle,
   Rows4Icon,
   SendIcon,
   Share2Icon,
   ThumbsDown,
-  ThumbsUp,
+  ThumbsUp
 } from "lucide-react-native";
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   Dimensions,
   ImageBackground,
@@ -25,31 +26,28 @@ import {
   TextInput,
   TouchableOpacity,
   useWindowDimensions,
-  View,
+  View
 } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedKeyboard,
-  useAnimatedStyle,
+  useAnimatedStyle
 } from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BottomSheet } from "../common/bottom-sheet";
 import { Icon } from "../common/icon";
 import { KeyboardSpacer } from "../common/keyboard-spacer";
 import { toast } from "../common/toast";
 import { Text } from "../ui/text";
-import { ScrollView } from "react-native-gesture-handler";
 import Tooltip from "../ui/tooltip";
-import LottieView from "lottie-react-native";
-import { useUserAGuidingStore } from "@/stores/user-guiding/store";
 
-export const ArticleItem = ({ item }: any) => {
+export const ArticleItem = ({ item, contentHeight = 2.3 }: any) => {
   const { height } = useWindowDimensions();
   const { setHideTabBarStatus } = useUserSettingsStore();
   const {
     isEnableStepOne,
     isEnableStepTwo,
     setIsEnableStepTwo,
-    setIsEnableStepOne,
+    setIsEnableStepOne
   } = useUserAGuidingStore();
 
   const [content, setContent] = useState("");
@@ -57,7 +55,7 @@ export const ArticleItem = ({ item }: any) => {
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: -keyboard.height.value }],
+      transform: [{ translateY: -keyboard.height.value }]
     };
   });
 
@@ -75,13 +73,14 @@ export const ArticleItem = ({ item }: any) => {
     onDeleteBookmark,
     onDeleteDisLike,
     onDeleteLike,
-    data,
+    data
   } = useEngagement();
 
   async function handleShare({ title }: { title: string }) {
     try {
       await Share.share({
-        message: `${title} ${"https://othersideindia.com"} -via OtherSide India`,
+        message: `${title} ${"https://otherside-jet.vercel.app/get-app"} -via OtherSide India`,
+        url: `https://otherside-jet.vercel.app/get-app`
       });
     } catch (error: any) {
       toast.error(error.message);
@@ -123,7 +122,7 @@ export const ArticleItem = ({ item }: any) => {
           className={" flex-1 gap-3 justify-between"}
           style={{
             height: Platform.OS === "ios" ? height : height - 24,
-            width: Dimensions.get("window").width,
+            width: Dimensions.get("window").width
           }}
         >
           <View className="flex-1">
@@ -131,7 +130,7 @@ export const ArticleItem = ({ item }: any) => {
               source={{
                 uri:
                   item.imageUrl ??
-                  "https://reliasoftware.com/images/careers/relia-software-office.webp",
+                  "https://reliasoftware.com/images/careers/relia-software-office.webp"
               }}
               // className="h-[360px]"
               style={{ height: exactDesign(360) }}
@@ -154,13 +153,13 @@ export const ArticleItem = ({ item }: any) => {
             <View className="flex-1 bg-background rounded-t-2xl bottom-3 gap-4 px-4">
               <View
                 className="gap-4 flex-1"
-                style={{ maxHeight: height / 2.3 }}
+                style={{ maxHeight: height / contentHeight }}
               >
                 <View className="flex-row justify-between mt-4 gap-x-4">
                   <View
                     style={{
                       backgroundColor:
-                        item?.side === "Right" ? "#ef4444" : "#3b82f6",
+                        item?.side === "Right" ? "#ef4444" : "#3b82f6"
                     }}
                     className="rounded-full px-3 py-[2px] self-start top-1 items-center justify-center"
                   >
@@ -198,7 +197,7 @@ export const ArticleItem = ({ item }: any) => {
                           shadowColor: "#000",
                           shadowOffset: { width: 0, height: 2 },
                           shadowOpacity: 0.2,
-                          shadowRadius: 4,
+                          shadowRadius: 4
                         }}
                         source={require("@/assets/json/intro-swipe.json")}
                         autoPlay
@@ -227,7 +226,7 @@ export const ArticleItem = ({ item }: any) => {
                           shadowColor: "#000",
                           shadowOffset: { width: 0, height: 2 },
                           shadowOpacity: 0.2,
-                          shadowRadius: 4,
+                          shadowRadius: 4
                         }}
                         source={require("@/assets/json/intro-hswipe.json")}
                         autoPlay
@@ -256,7 +255,7 @@ export const ArticleItem = ({ item }: any) => {
                     flex:
                       like === 0 && dislike === 0
                         ? 1
-                        : like / totalReactionCount,
+                        : like / totalReactionCount
                   }}
                 />
                 <View
@@ -265,7 +264,7 @@ export const ArticleItem = ({ item }: any) => {
                     flex:
                       like === 0 && dislike === 0
                         ? 1
-                        : dislike / totalReactionCount,
+                        : dislike / totalReactionCount
                   }}
                 />
               </View>
@@ -282,7 +281,8 @@ export const ArticleItem = ({ item }: any) => {
                     <TouchableOpacity onPress={() => onReactionLike(item?.id)}>
                       <ThumbsUp
                         fill={
-                          (data?.likesCount ?? 0) > item?.likeCount
+                          (data?.likesCount ?? 0) >= item?.likeCount &&
+                          item?.likeCount !== 0
                             ? "#12d85a"
                             : "none"
                         }
@@ -298,7 +298,8 @@ export const ArticleItem = ({ item }: any) => {
                     >
                       <ThumbsDown
                         fill={
-                          (data?.dislikesCount ?? 0) > item?.dislikeCount
+                          (data?.dislikesCount ?? 0) > item?.dislikeCount &&
+                          item?.dislikeCount !== 0
                             ? "#ef4444"
                             : "none"
                         }

@@ -5,10 +5,10 @@ import { useArticle } from "@/hooks/article/useArticle";
 import { useExplore } from "@/hooks/article/useExplore";
 import { formatDateTime } from "@/lib/date";
 import { cn, getMaxItem } from "@/lib/utils";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { ChevronRight, ClockIcon } from "lucide-react-native";
 import React, { useMemo } from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ExploreScreen() {
@@ -140,7 +140,15 @@ export default function ExploreScreen() {
         </View>
         {React.Children.toArray(
           articles?.map((article, index) => (
-            <View className="flex flex-row items-center px-4 mb-6">
+            <Pressable
+              onPress={() => {
+                router.push({
+                  pathname: "/(app)/article-details",
+                  params: { articleString: JSON.stringify(article, null, 2) }
+                });
+              }}
+              className="flex flex-row items-center mx-4 mb-6"
+            >
               <View className=" flex-1 gap-3 justify-between">
                 <Image
                   source={{
@@ -165,7 +173,7 @@ export default function ExploreScreen() {
                   </View>
                 </View>
               </View>
-            </View>
+            </Pressable>
           ))
         )}
         <View style={{ height: bottom * 2.5 }} />

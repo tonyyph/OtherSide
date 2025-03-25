@@ -44,10 +44,7 @@ export default function AuthenticatedLayout() {
             headerShown: false
           }}
         />
-        <Stack.Screen
-          name="breaking-news"
-          options={{ headerTitle: `Breaking News` }}
-        />
+        <Stack.Screen name="article-details" options={{ headerShown: false }} />
         <Stack.Screen
           name="article-comment"
           options={{

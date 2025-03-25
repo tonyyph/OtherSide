@@ -1,27 +1,17 @@
 import { ArticleItem } from "@/components/article/article-item";
-import { FooterGradient } from "@/components/common/footer-gradient";
-import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
-import { useArticle } from "@/hooks/article/useArticle";
-import { useCallback, useState } from "react";
-import { ActivityIndicator, FlatList, View } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
+import { ArrowLeftIcon } from "lucide-react-native";
+import { useCallback } from "react";
+import { FlatList, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function HomeScreen() {
-  const [page, setPage] = useState(1);
-  const { articles, loading, fetchMore, loadingMore } = useArticle({
-    limit: "10",
-    page,
-    isRandom: false
-  });
-
-  const loadMore = useCallback(() => {
-    if (!loadingMore) {
-      setPage((prev) => prev + 1);
-      fetchMore({ pages: page + 1 });
-    }
-  }, [loadingMore, page, fetchMore]);
+export default function ArticleDetailScreen() {
+  const { articleString } = useLocalSearchParams();
+  const articles = JSON.parse(articleString.toString());
+  const { bottom, top } = useSafeAreaInsets();
 
   const renderHorizontalItem = useCallback(({ item }: { item: any }) => {
-    return <ArticleItem item={item} />;
+    return <ArticleItem item={item} contentHeight={2} />;
   }, []);
 
   const renderItem = useCallback(
@@ -54,27 +44,26 @@ export default function HomeScreen() {
         </View>
       );
     },
-    [loading, renderHorizontalItem]
+    [renderHorizontalItem]
   );
 
   return (
     <View className="flex-1 bg-background">
+      <View
+        className="p-2 rounded-full border border-blue-100 z-10 left-6 absolute bg-white"
+        style={{ top: top }}
+      >
+        <TouchableOpacity onPress={router.back}>
+          <ArrowLeftIcon className="text-background size-5" />
+        </TouchableOpacity>
+      </View>
       <FlatList
-        data={articles}
+        data={[articles]}
         renderItem={renderItem}
         keyExtractor={(item, index) => `${item.createdAt}-${index}`}
-        pagingEnabled
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={() => <HomeSkeleton />}
-        onEndReached={loadMore}
         onEndReachedThreshold={0.5}
-        ListFooterComponent={
-          loadingMore && loading ? (
-            <ActivityIndicator size="large" color="#ffffff" />
-          ) : null
-        }
       />
-      <FooterGradient />
     </View>
   );
 }
