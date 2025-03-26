@@ -73,6 +73,38 @@ export const useUpdateProfile = () => {
     })
   );
 
+  const handleDeleteAccount = useMemoFunc(
+    actionWithLoading(async () => {
+      try {
+        const { data: session } = await updateUserProfile({
+          email: emailAddressState.value,
+          firstName: firstNameState.value,
+          gender: genderState.value,
+          language: "en"
+        });
+        if (session) {
+          userStore.setState({
+            userProfile: {
+              id: session.id,
+              email: session.email,
+              firstName: session.firstName,
+              gender: session.gender,
+              language: session.language,
+              createdAt: session.createdAt,
+              updatedAt: session.updatedAt
+            }
+          });
+          setIsUpdateProfile(true);
+          setUpdateProfileSuccess(true);
+        }
+      } catch (error) {
+        console.log("error:", error);
+      } finally {
+        setLoading(false);
+      }
+    })
+  );
+
   return {
     userProfile,
     loading,
@@ -81,6 +113,7 @@ export const useUpdateProfile = () => {
     genderState,
     emailAddressState,
     onUpdateProfile,
+    handleDeleteAccount,
     setUpdateProfileSuccess
   };
 };

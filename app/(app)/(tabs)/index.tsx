@@ -20,9 +20,12 @@ export default function HomeScreen() {
     }
   }, [loadingMore, page, fetchMore]);
 
-  const renderHorizontalItem = useCallback(({ item }: { item: any }) => {
-    return <ArticleItem item={item} />;
-  }, []);
+  const renderHorizontalItem = useCallback(
+    ({ item }: { item: any }) => {
+      return <ArticleItem item={item} />;
+    },
+    [articles]
+  );
 
   const renderItem = useCallback(
     ({ item }: { item: any }) => {
@@ -69,7 +72,7 @@ export default function HomeScreen() {
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}
         ListFooterComponent={
-          loadingMore && loading ? (
+          loadingMore ? (
             <ActivityIndicator size="large" color="#ffffff" />
           ) : null
         }

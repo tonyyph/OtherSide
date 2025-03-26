@@ -11,7 +11,7 @@ export default function ArticleDetailScreen() {
   const { bottom, top } = useSafeAreaInsets();
 
   const renderHorizontalItem = useCallback(({ item }: { item: any }) => {
-    return <ArticleItem item={item} contentHeight={2} />;
+    return <ArticleItem item={item} contentHeight={2.1} />;
   }, []);
 
   const renderItem = useCallback(

@@ -39,6 +39,7 @@ export const useEngagement = () => {
       const { data: session } = await createLikes(id);
       if (!!session) {
         getEngagementArticles(id);
+        setIsArticled(true);
       }
     } catch (error) {
       console.log(
@@ -55,6 +56,7 @@ export const useEngagement = () => {
       const { data: session } = await createDisLikes(id);
       if (!!session) {
         getEngagementArticles(id);
+        setIsArticled(true);
       }
     } catch (error) {
       console.log(
@@ -91,6 +93,7 @@ export const useEngagement = () => {
       const { data: session } = await createBookmarks(id);
       if (!!session) {
         getEngagementArticles(id);
+        setIsArticled(true);
         setIsBookmarked(true);
       }
     } catch (error) {
@@ -144,6 +147,7 @@ export const useEngagement = () => {
       const { data: session } = await deleteBookmarks(id);
       if (!!session) {
         getEngagementArticles(id);
+        setIsArticled(true);
         setIsBookmarked(true);
       }
     } catch (error) {

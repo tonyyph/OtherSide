@@ -18,7 +18,7 @@ import {
   KeyIcon,
   MailIcon,
   UserIcon,
-  UserRoundPlusIcon,
+  UserRoundPlusIcon
 } from "lucide-react-native";
 import { useRef, useState } from "react";
 import {
@@ -28,7 +28,7 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -49,7 +49,7 @@ export default function SignUpScreen() {
     genderState,
     emailAddressState,
     registerSuccess,
-    loading,
+    loading
   } = useSignUp();
 
   const sheetRef = useRef<BottomSheetModal>(null);
@@ -222,8 +222,6 @@ export default function SignUpScreen() {
                       }}
                       content={`Password validation requirements might include the following:\n
   ● Minimum length (e.g., 6 characters)
-  ● At least one uppercase letter
-  ● At least one lowercase letter
   ● At least one number
   ● At least one special character (e.g., !, @, #, $)`}
                     >
@@ -238,7 +236,7 @@ export default function SignUpScreen() {
                           shadowColor: "#000",
                           shadowOffset: { width: 0, height: 2 },
                           shadowOpacity: 0.2,
-                          shadowRadius: 4,
+                          shadowRadius: 4
                         }}
                         source={require("@/assets/json/password-validate.json")}
                         autoPlay

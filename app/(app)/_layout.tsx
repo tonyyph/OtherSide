@@ -66,7 +66,7 @@ export default function AuthenticatedLayout() {
           name="profile-edit"
           options={{
             presentation: "modal",
-            headerTitle: `Fill Your Profile`
+            headerTitle: `Edit profile`
           }}
         />
         <Stack.Screen

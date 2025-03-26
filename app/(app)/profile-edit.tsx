@@ -1,6 +1,7 @@
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { Button } from "@/components/ui/button";
 import { Radio } from "@/components/ui/radio";
+import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Text } from "@/components/ui/text";
 import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";
@@ -17,7 +18,8 @@ export default function EditProfileScreen() {
     genderState,
     loading,
     emailAddressState,
-    onUpdateProfile
+    onUpdateProfile,
+    handleDeleteAccount
   } = useUpdateProfile();
 
   const sheetRef = useRef<BottomSheetModal>(null);
@@ -31,16 +33,6 @@ export default function EditProfileScreen() {
           {/* <View className="bg-background self-center mb-10 border border-blue-200 rounded-full">
             <Skeleton className="m-[2px] h-28 w-28 rounded-full self-center" />
           </View> */}
-          <View className="flex-row gap-2 mb-6">
-            <View className="flex-1 gap-2">
-              <Skeleton className="h-4 w-2/3 rounded-full" />
-              <Skeleton className="h-10" />
-            </View>
-            <View className="flex-1 gap-2">
-              <Skeleton className="h-4 w-2/3 rounded-full" />
-              <Skeleton className="h-10 " />
-            </View>
-          </View>
           <View className="gap-2 mb-6">
             <Skeleton className="h-4 w-1/3 rounded-full" />
             <Skeleton className="h-10 " />
@@ -148,6 +140,23 @@ export default function EditProfileScreen() {
                 </View>
               </View>
             </View>
+            {/* <Separator className="mb-4" />
+            <View className="gap-3">
+              <Text className="font-medium text-base text-foreground">
+                {`Danger zone`}
+              </Text>
+              <Button
+                onPress={handleDeleteAccount}
+                variant="destructive-outline"
+                size="sm"
+                className="self-start"
+              >
+                <Text>{`Delete Otherside account`}</Text>
+              </Button>
+              <Text className="mb-4 text-muted-foreground text-sm">
+                {`All your data will be deleted`}
+              </Text>
+            </View> */}
           </View>
         </View>
 

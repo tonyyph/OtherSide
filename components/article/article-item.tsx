@@ -87,15 +87,11 @@ export const ArticleItem = ({ item, contentHeight = 2.3 }: any) => {
     }
   }
 
-  const like = !!data ? data.likesCount : item.likeCount;
-  const dislike = !!data ? data.dislikesCount : item.dislikeCount;
+  const like = item.likeCount;
+  const dislike = item.dislikeCount;
   const commentCount = !!data ? data.comments?.length : item.commentCount;
   const totalReactionCount = like + dislike;
-  const isBookmarked = !!data
-    ? data.bookmarksCount === 2 || data.bookmarksCount === 1
-      ? true
-      : false
-    : item.isBookmarked;
+  const isBookmarked = item.isBookmarked;
 
   const onPressComment = () => {
     sheetRef.current?.present();
@@ -280,12 +276,7 @@ export const ArticleItem = ({ item, contentHeight = 2.3 }: any) => {
                   <View className="flex flex-row items-center gap-1">
                     <TouchableOpacity onPress={() => onReactionLike(item?.id)}>
                       <ThumbsUp
-                        fill={
-                          (data?.likesCount ?? 0) >= item?.likeCount &&
-                          item?.likeCount !== 0
-                            ? "#12d85a"
-                            : "none"
-                        }
+                        fill={item?.isLike ? "#12d85a" : "none"}
                         strokeWidth={1}
                         className="size-6 text-green-400"
                       />
@@ -297,12 +288,7 @@ export const ArticleItem = ({ item, contentHeight = 2.3 }: any) => {
                       onPress={() => onReactionDisLike(item?.id)}
                     >
                       <ThumbsDown
-                        fill={
-                          (data?.dislikesCount ?? 0) > item?.dislikeCount &&
-                          item?.dislikeCount !== 0
-                            ? "#ef4444"
-                            : "none"
-                        }
+                        fill={item?.isDislike ? "#ef4444" : "none"}
                         strokeWidth={1}
                         className="size-6 text-red-400"
                       />
