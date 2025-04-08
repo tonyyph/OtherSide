@@ -97,7 +97,8 @@ export const updateUserProfile = async (data: UpdateProfileRequest) => {
       email: data.email,
       firstName: data.firstName,
       gender: data.gender,
-      language: data?.language
+      language: data?.language,
+      birthday: data?.birthday
     },
     {
       headers: {
@@ -111,7 +112,7 @@ export const updateUserProfile = async (data: UpdateProfileRequest) => {
 export const deleteAccount = async (password: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/me}`,
+    `${process.env.EXPO_PUBLIC_API_URL}/me`,
     {
       headers: {
         accept: "*/*",

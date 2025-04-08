@@ -1,7 +1,14 @@
-import { updateUserProfile } from "@/api";
+import { deleteAccount, updateUserProfile } from "@/api";
+import { useUserAuthenticateStore } from "@/stores";
+import { authenStore } from "@/stores/authenStore";
 import { useUserProfileStore } from "@/stores/user-profile/store";
 import { userStore } from "@/stores/userStore";
-import { actionWithLoading, validateLetter, validateUsername } from "@/utils";
+import {
+  actionWithLoading,
+  validateLetter,
+  validatePassword,
+  validateUsername
+} from "@/utils";
 import { useEffect, useRef, useState } from "react";
 import { useMemoFunc, useValidateInput } from "../commons";
 
@@ -10,6 +17,7 @@ export const useUpdateProfile = () => {
   const [loading, setLoading] = useState(true);
   const userProfile = userStore.getState().userProfile;
   const { setIsUpdateProfile } = useUserProfileStore();
+  const { setIsLoggedIn } = useUserAuthenticateStore();
 
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
 
@@ -27,11 +35,22 @@ export const useUpdateProfile = () => {
     validate: validateLetter
   });
 
+  const birthDayState = useValidateInput({
+    defaultValue: userProfile?.birthday,
+    validate: validateLetter
+  });
+
+  const passwordState = useValidateInput({
+    defaultValue: "",
+    validate: validatePassword
+  });
+
   useEffect(() => {
     if (!!userProfile) {
       firstNameState.onChangeText(userProfile?.firstName || "");
       genderState.onChangeText(userProfile?.gender || "");
       emailAddressState.onChangeText(userProfile?.email || "");
+      birthDayState.onChangeText(userProfile?.birthday || "");
       hideTimer.current = setTimeout(() => {
         setLoading(false);
       }, 500);
@@ -48,7 +67,8 @@ export const useUpdateProfile = () => {
           email: emailAddressState.value,
           firstName: firstNameState.value,
           gender: genderState.value,
-          language: "en"
+          language: "en",
+          birthday: birthDayState.value
         });
         if (session) {
           userStore.setState({
@@ -59,7 +79,8 @@ export const useUpdateProfile = () => {
               gender: session.gender,
               language: session.language,
               createdAt: session.createdAt,
-              updatedAt: session.updatedAt
+              updatedAt: session.updatedAt,
+              birthday: session.birthday
             }
           });
           setIsUpdateProfile(true);
@@ -76,26 +97,14 @@ export const useUpdateProfile = () => {
   const handleDeleteAccount = useMemoFunc(
     actionWithLoading(async () => {
       try {
-        const { data: session } = await updateUserProfile({
-          email: emailAddressState.value,
-          firstName: firstNameState.value,
-          gender: genderState.value,
-          language: "en"
-        });
+        const { data: session } = await deleteAccount(passwordState.value);
+
+        console.log(" actionWithLoading 💯 session:", session);
+
         if (session) {
-          userStore.setState({
-            userProfile: {
-              id: session.id,
-              email: session.email,
-              firstName: session.firstName,
-              gender: session.gender,
-              language: session.language,
-              createdAt: session.createdAt,
-              updatedAt: session.updatedAt
-            }
-          });
-          setIsUpdateProfile(true);
-          setUpdateProfileSuccess(true);
+          authenStore.setState({ cookie: undefined });
+          userStore.setState({ userProfile: undefined });
+          setIsLoggedIn(false);
         }
       } catch (error) {
         console.log("error:", error);
@@ -114,6 +123,8 @@ export const useUpdateProfile = () => {
     emailAddressState,
     onUpdateProfile,
     handleDeleteAccount,
-    setUpdateProfileSuccess
+    setUpdateProfileSuccess,
+    birthDayState,
+    passwordState
   };
 };

@@ -12,6 +12,7 @@ interface UserStore {
     createdAt: string;
     updatedAt: string;
     language: string;
+    birthday: string;
   };
 }
 

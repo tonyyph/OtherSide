@@ -1,13 +1,13 @@
-import { ArticleItem } from "@/components/article/article-item";
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { useArticle } from "@/hooks/article/useArticle";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
+import { ArticlePerspectiveRow } from "@/components/article/article-perspective-row";
 
 export default function HomeScreen() {
   const [page, setPage] = useState(1);
-  const { articles, loading, fetchMore, loadingMore } = useArticle({
+  const { articles, loadingMore, fetchMore } = useArticle({
     limit: "10",
     page,
     isRandom: false
@@ -20,45 +20,9 @@ export default function HomeScreen() {
     }
   }, [loadingMore, page, fetchMore]);
 
-  const renderHorizontalItem = useCallback(
-    ({ item }: { item: any }) => {
-      return <ArticleItem item={item} />;
-    },
-    [articles]
-  );
-
-  const renderItem = useCallback(
-    ({ item }: { item: any }) => {
-      const customData = [
-        item?.leftPerspective && {
-          ...item.leftPerspective,
-          side: "Left",
-          isBookmarked: item?.isBookmarked,
-          createdAt: item?.createdAt
-        },
-        item?.rightPerspective && {
-          ...item.rightPerspective,
-          side: "Right",
-          isBookmarked: item?.isBookmarked,
-          createdAt: item?.createdAt
-        }
-      ].filter(Boolean);
-
-      return (
-        <View className="flex-1">
-          <FlatList
-            data={customData}
-            horizontal
-            renderItem={renderHorizontalItem}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-      );
-    },
-    [loading, renderHorizontalItem]
-  );
+  const renderItem = useCallback(({ item }: { item: any }) => {
+    return <ArticlePerspectiveRow item={item} />;
+  }, []);
 
   return (
     <View className="flex-1 bg-background">

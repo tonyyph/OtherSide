@@ -7,6 +7,8 @@ import { exactDesign } from "@/utils";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import LottieView from "lottie-react-native";
 import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
   CalendarClock,
   MessageCircle,
   Rows4Icon,
@@ -39,8 +41,13 @@ import { KeyboardSpacer } from "../common/keyboard-spacer";
 import { toast } from "../common/toast";
 import { Text } from "../ui/text";
 import Tooltip from "../ui/tooltip";
+import { cn } from "@/lib/utils";
 
-export const ArticleItem = ({ item, contentHeight = 2.3 }: any) => {
+export const ArticleItem = ({
+  item,
+  contentHeight = 2.4,
+  onPressToPerspective
+}: any) => {
   const { height } = useWindowDimensions();
   const { setHideTabBarStatus } = useUserSettingsStore();
   const {
@@ -242,6 +249,28 @@ export const ArticleItem = ({ item, contentHeight = 2.3 }: any) => {
                 ) : (
                   <Rows4Icon className="size-[200px] text-muted-foreground self-center top-20" />
                 )}
+              </View>
+              <View
+                className={cn(
+                  "items-end px-1",
+                  item?.side === "Right" && "items-start"
+                )}
+              >
+                <TouchableOpacity
+                  onPress={onPressToPerspective}
+                  className="flex-row bg-primary items-center gap-1 py-1 px-2 rounded-full"
+                >
+                  {item?.side === "Right" ? (
+                    <ArrowLeftIcon className="text-black size-5" />
+                  ) : (
+                    <ArrowRightIcon className="text-black size-5" />
+                  )}
+                  <Text className="text-black text-sm font-medium">
+                    {item?.side === "Right"
+                      ? "Left Perspective"
+                      : "Right Perspective"}
+                  </Text>
+                </TouchableOpacity>
               </View>
 
               <View className="flex flex-row items-center gap-2">

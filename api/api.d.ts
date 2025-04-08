@@ -73,6 +73,7 @@ type UpdateProfileRequest = {
   firstName?: string;
   gender?: string;
   language?: string;
+  birthday?: string;
 };
 
 type UpdateProfileResponse = {
