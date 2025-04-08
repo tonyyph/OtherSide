@@ -10,7 +10,8 @@ export const signUpWithEmail = async (data: SignUpRequest) => {
       confirmPassword: data.confirmPassword,
       firstName: data.firstName,
       gender: data.gender,
-      language: "en"
+      language: "en",
+      birthday: data.birthday
     }
   );
 };

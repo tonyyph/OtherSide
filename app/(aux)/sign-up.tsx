@@ -1,10 +1,12 @@
 import { BottomSheet } from "@/components/common/bottom-sheet";
+import { DatePicker } from "@/components/common/date-picker";
 import { Button } from "@/components/ui/button";
 import { LoadingScreen } from "@/components/ui/loading";
 import { Radio } from "@/components/ui/radio";
 import { Text } from "@/components/ui/text";
 import Tooltip from "@/components/ui/tooltip";
 import { useSignUp } from "@/hooks/auth/useSignUp";
+import { formatDateTimeShort } from "@/lib/date";
 import { useUserAuthenticateStore } from "@/stores";
 import { useUserAGuidingStore } from "@/stores/user-guiding/store";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
@@ -13,6 +15,7 @@ import { debounce } from "lodash";
 import LottieView from "lottie-react-native";
 import {
   BadgeCheckIcon,
+  CircleAlertIcon,
   EyeIcon,
   EyeOffIcon,
   KeyIcon,
@@ -21,6 +24,7 @@ import {
   UserRoundPlusIcon
 } from "lucide-react-native";
 import { useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
   Image,
   Keyboard,
@@ -39,8 +43,6 @@ export default function SignUpScreen() {
 
   const { isFirstTimeSignUp, setIsFirstTimeSignUp } = useUserAGuidingStore();
 
-  console.log(" SignUpScreen :100: isFirstTimeSignUp:", isFirstTimeSignUp);
-
   const {
     onSignUp,
     passwordState,
@@ -49,8 +51,15 @@ export default function SignUpScreen() {
     genderState,
     emailAddressState,
     registerSuccess,
-    loading
+    loading,
+    birthDayState
   } = useSignUp();
+
+  const form = useForm({
+    defaultValues: {
+      date: new Date()
+    }
+  });
 
   const sheetRef = useRef<BottomSheetModal>(null);
   const onPressSecurePassword = () => {
@@ -130,7 +139,7 @@ export default function SignUpScreen() {
           <UserRoundPlusIcon className="absolute top-0 right-0 size-80 text-muted-foreground opacity-30" />
           {/* Input Field */}
           <View className="flex-1">
-            <View className="flex flex-row justify-between gap-4 items-center ">
+            <View className="flex flex-row justify-between gap-4 items-center">
               {/* Username Field */}
               <View className="flex-1">
                 <Text className="text-sm font-medium text-foreground mb-1">
@@ -183,15 +192,15 @@ export default function SignUpScreen() {
                 </View>
               </View>
             </View>
-            <View className="flex-1 flex-col gap-3 mt-4">
-              <View className="">
+            <View className="flex flex-row justify-between gap-4 items-center mt-3">
+              <View className="flex-1">
                 <Text className="text-sm font-medium text-foreground mb-1">
                   Email Address{" "}
                   <Text className="font-regular text-red-400 group-active:text-red-400">
                     *
                   </Text>
                 </Text>
-                <View className="border border-border rounded-lg relative">
+                <View className="border border-border rounded-lg">
                   <TextInput
                     className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
                     placeholder={`ex: tonyphan@example.com`}
@@ -205,7 +214,37 @@ export default function SignUpScreen() {
                   </View>
                 </View>
               </View>
+              <View className="flex-shrink justify-center">
+                <Text className="text-sm font-medium text-foreground mb-1">
+                  Birth Year{" "}
+                </Text>
+                <View className="rounded-lg">
+                  <Controller
+                    name="date"
+                    rules={{ required: true }}
+                    control={form.control}
+                    defaultValue={new Date()}
+                    render={({ field: { onChange, value } }) => (
+                      <DatePicker
+                        value={value}
+                        onChange={(val) => {
+                          birthDayState.onChangeText(formatDateTimeShort(val));
+                          onChange(val);
+                        }}
+                        minimumDate={
+                          new Date(Date.now() - 365 * 24 * 60 * 60 * 1000 * 100)
+                        }
+                        maximumDate={
+                          new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+                        }
+                      />
+                    )}
+                  />
+                </View>
+              </View>
+            </View>
 
+            <View className="flex-1 flex-col gap-3 mt-3">
               <View className="">
                 <Text className="text-sm font-medium text-foreground mb-1">
                   Password{" "}
@@ -299,6 +338,15 @@ export default function SignUpScreen() {
                     )}
                   </TouchableOpacity>
                 </View>
+                {!!confirmPasswordState.error && (
+                  <View className=" flex flex-row items-center gap-x-2 mt-1">
+                    <CircleAlertIcon className="size-4 text-red-400" />
+                    <Text className="text-red-400 text-sm font-medium">
+                      {confirmPasswordState.error?.charAt(0).toUpperCase() +
+                        confirmPasswordState.error?.slice(1)}
+                    </Text>
+                  </View>
+                )}
               </View>
             </View>
           </View>
@@ -312,7 +360,9 @@ export default function SignUpScreen() {
                 !emailAddressState.value ||
                 !passwordState.value ||
                 !confirmPasswordState.value ||
-                !firstNameState.value
+                !firstNameState.value ||
+                !!passwordState.error ||
+                !!confirmPasswordState.error
               }
               onPress={debounce(() => {
                 onSignUp(sheetRef);
@@ -361,7 +411,7 @@ export default function SignUpScreen() {
                 Sign Up failed
               </Text>
               <Text className="!text-lg !text-foreground mb-2 text-center">
-                {passwordState.error}
+                {confirmPasswordState.error}
               </Text>
             </View>
             <Button
@@ -369,7 +419,7 @@ export default function SignUpScreen() {
               className="rounded-full mx-4 mb-8"
               onPress={() => {
                 sheetRef?.current?.close();
-                passwordState.setState({ error: "", valid: true });
+                confirmPasswordState.setState({ error: "", valid: true });
               }}
             >
               <Text className="text-background text-base font-medium">

@@ -5,10 +5,19 @@ import { useArticle } from "@/hooks/article/useArticle";
 import { useExplore } from "@/hooks/article/useExplore";
 import { formatDateTime } from "@/lib/date";
 import { cn, getMaxItem } from "@/lib/utils";
+import { exactDesign } from "@/utils";
 import { Link, router } from "expo-router";
+import LottieView from "lottie-react-native";
 import { ChevronRight, ClockIcon } from "lucide-react-native";
 import React, { useMemo } from "react";
-import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  View
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ExploreScreen() {
@@ -20,10 +29,65 @@ export default function ExploreScreen() {
     page: 1
   });
 
-  const ThreeOfCategories = useMemo(
-    () => getMaxItem?.(categories, 3),
-    [categories]
+  const filterSaveCategories = categories?.filter(
+    (category) => category?.isSaved === true
   );
+
+  // const ThreeOfCategories = useMemo(
+  //   () => getMaxItem?.(categories, 3),
+  //   [categories]
+  // );
+
+  const renderItem = ({ item }: { item: CategoryS }) => {
+    return (
+      <View className="flex flex-row items-center justify-between px-4 my-2">
+        <View className="flex flex-row items-center gap-3">
+          <Image
+            source={{
+              uri: "https://media.istockphoto.com/id/1342234724/vector/secret-product-icon.jpg?s=612x612&w=0&k=20&c=N4eaLPkYL19bzSYUYaOX1OqXHCaMBBLYDSgt3hvXsl0="
+            }}
+            className="h-[48px] w-[48px] rounded-full border border-border"
+            resizeMode="center"
+          />
+          <View className="w-[180px]">
+            <Text className="text-foreground text-base/8 font-medium">
+              {item?.name}
+            </Text>
+            {item?.description && (
+              <Text
+                numberOfLines={2}
+                className="text-muted-foreground text-sm/6 font-medium flex-1"
+              >
+                {item?.description}
+              </Text>
+            )}
+          </View>
+        </View>
+        <Button
+          size="sm"
+          variant="ghost"
+          onPress={() => {
+            !!item?.isSaved
+              ? onUnSaveCategory(item?.id)
+              : onSaveCategory?.(item?.id);
+          }}
+          className={cn(
+            "h-10 w-[78px]",
+            item?.isSaved ? "bg-blue-300" : "bg-white"
+          )}
+        >
+          <Text
+            className={cn(
+              "text-blue-300 font-bold",
+              item?.isSaved ? "text-background" : "text-muted-foreground"
+            )}
+          >
+            {item?.isSaved ? `Saved` : `Save`}
+          </Text>
+        </Button>
+      </View>
+    );
+  };
 
   if (loading) {
     return (
@@ -81,58 +145,25 @@ export default function ExploreScreen() {
             </Button>
           </Link>
         </View>
-        {React.Children.toArray(
-          ThreeOfCategories?.map((category, index) => (
-            <View className="flex flex-row items-center justify-between px-4 my-2">
-              <View className="flex flex-row items-center gap-3">
-                <Image
-                  source={{
-                    uri: "https://media.istockphoto.com/id/1342234724/vector/secret-product-icon.jpg?s=612x612&w=0&k=20&c=N4eaLPkYL19bzSYUYaOX1OqXHCaMBBLYDSgt3hvXsl0="
-                  }}
-                  className="h-[48px] w-[48px] rounded-full border border-border"
-                  resizeMode="center"
+        <View className="max-h-[280px]">
+          <FlatList
+            data={filterSaveCategories}
+            renderItem={renderItem}
+            ListEmptyComponent={() => (
+              <View className="flex-1 justify-center self-center opacity-85 items-center gap-4">
+                <LottieView
+                  style={{ width: exactDesign(200), height: exactDesign(200) }}
+                  source={require("@/assets/json/empty_category.json")}
+                  autoPlay
+                  loop
                 />
-                <View className="w-[180px]">
-                  <Text className="text-foreground text-base/8 font-medium">
-                    {category?.name}
-                  </Text>
-                  {category?.description && (
-                    <Text
-                      numberOfLines={2}
-                      className="text-muted-foreground text-sm/6 font-medium flex-1"
-                    >
-                      {category?.description}
-                    </Text>
-                  )}
-                </View>
               </View>
-              <Button
-                size="sm"
-                variant="ghost"
-                onPress={() => {
-                  !!category?.isSaved
-                    ? onUnSaveCategory(category?.id)
-                    : onSaveCategory?.(category?.id);
-                }}
-                className={cn(
-                  "h-10 w-[78px]",
-                  category?.isSaved ? "bg-blue-300" : "bg-white"
-                )}
-              >
-                <Text
-                  className={cn(
-                    "text-blue-300 font-bold",
-                    category?.isSaved
-                      ? "text-background"
-                      : "text-muted-foreground"
-                  )}
-                >
-                  {category?.isSaved ? `Saved` : `Save`}
-                </Text>
-              </Button>
-            </View>
-          ))
-        )}
+            )}
+            keyExtractor={(item: any, index: any) => `${item.id}-${index}`}
+            showsVerticalScrollIndicator={false}
+            initialNumToRender={5}
+          />
+        </View>
         <View className="flex gap-3 flex-row items-center justify-between px-4 my-6">
           <Text className="text-foreground text-base font-bold">
             Popular News

@@ -13,7 +13,7 @@ import {
   KeyIcon,
   UserRoundIcon
 } from "lucide-react-native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Image,
   Keyboard,
@@ -23,12 +23,43 @@ import {
   View
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen() {
-  const [isRemember, setIsRemember] = useState(false);
   const [securePassword, setSecurePassword] = useState(true);
   const sheetRef = useRef<BottomSheetModal>(null);
   const { onLogin, usernameState, passwordState, loading } = useLogin();
+  const [rememberMe, setRememberMe] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const storedUsername = await AsyncStorage.getItem("username");
+      const storedPassword = await AsyncStorage.getItem("password");
+      const storedRememberMe = await AsyncStorage.getItem("rememberMe");
+
+      if (storedRememberMe === "true") {
+        usernameState.onChangeText(storedUsername || "");
+        passwordState.onChangeText(storedPassword || "");
+        setRememberMe(true);
+      }
+    })();
+  }, []);
+
+  const handleLogin = async () => {
+    if (rememberMe) {
+      await AsyncStorage.setItem("username", usernameState.value);
+      await AsyncStorage.setItem("password", passwordState.value);
+      await AsyncStorage.setItem("rememberMe", "true");
+    } else {
+      await AsyncStorage.removeItem("username");
+      await AsyncStorage.removeItem("password");
+      await AsyncStorage.setItem("rememberMe", "false");
+    }
+
+    onLogin(sheetRef);
+    Keyboard.dismiss();
+  };
+
   const onPressSecurePassword = () => {
     setSecurePassword((prev) => !prev);
   };
@@ -140,9 +171,9 @@ export default function LoginScreen() {
               <View className=" flex flex-row justify-between items-center mb-4">
                 <View className="flex-row items-center gap-x-1">
                   <TouchableOpacity
-                    onPress={() => setIsRemember((prev) => !prev)}
+                    onPress={() => setRememberMe((prev) => !prev)}
                   >
-                    {isRemember ? <CheckBox /> : <UnCheckBox />}
+                    {rememberMe ? <CheckBox /> : <UnCheckBox />}
                   </TouchableOpacity>
                   <Text className="text-sm text-foreground">{`Remember me`}</Text>
                 </View>
@@ -158,10 +189,7 @@ export default function LoginScreen() {
                 size={"lg"}
                 className="rounded-full mx-2 mt-4"
                 disabled={!usernameState.value || !passwordState.value}
-                onPress={() => {
-                  onLogin(sheetRef);
-                  Keyboard.dismiss();
-                }}
+                onPress={handleLogin}
               >
                 <Text className="text-background text-base font-medium">
                   {`Login`}

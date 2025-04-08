@@ -1,7 +1,9 @@
 import { signUpWithEmail } from "@/api";
+import { formatDateTimeShort } from "@/lib/date";
 import { validateEmail, validateLetter, validatePassword } from "@/utils";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { AxiosError } from "axios";
+import { isEmpty } from "lodash";
 import { useState } from "react";
 import { useMemoFunc, useValidateInput } from "../commons";
 
@@ -29,11 +31,16 @@ export const useSignUp = () => {
     validate: validateLetter
   });
 
+  const birthDayState = useValidateInput({
+    defaultValue: formatDateTimeShort(new Date()),
+    validate: validateLetter
+  });
+
   const onSignUp = useMemoFunc(
     async (sheetRef: React.RefObject<BottomSheetModalMethods>) => {
       setLoading(true);
       const setError = (error: string = "Invalid password") => {
-        passwordState.setState((prev) => ({ ...prev, error }));
+        confirmPasswordState.setState((prev) => ({ ...prev, error }));
       };
 
       if (
@@ -72,7 +79,10 @@ export const useSignUp = () => {
           password: passwordState.value,
           confirmPassword: confirmPasswordState.value,
           firstName: firstNameState.value,
-          gender: genderState.value
+          gender: genderState.value,
+          birthday: isEmpty(birthDayState.value)
+            ? birthDayState?.defaultValue
+            : birthDayState.value
         });
         if (!!session && session?.confirmationToken) {
           setRegisterSuccess(true);
@@ -111,6 +121,7 @@ export const useSignUp = () => {
     genderState,
     onSignUp,
     registerSuccess,
-    loading
+    loading,
+    birthDayState
   };
 };

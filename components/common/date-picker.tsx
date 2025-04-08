@@ -1,9 +1,7 @@
 import { useColorPalette } from "@/hooks/use-color-palette";
-import { formatDateTimeShort } from "@/lib/date";
+import { formatDateTimeOnlyYear } from "@/lib/date";
 import { sleep } from "@/lib/utils";
 import { type BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Haptics from "expo-haptics";
 import { CalendarRangeIcon } from "lucide-react-native";
@@ -24,7 +22,6 @@ function SpinnerDatePicker({
   maximumDate?: Date;
   minimumDate?: Date;
 }) {
-  const { i18n } = useLingui();
   const [date, setDate] = useState<Date | undefined>(value);
   const { getColor } = useColorPalette();
   return (
@@ -49,7 +46,7 @@ function SpinnerDatePicker({
           onChange(date);
         }}
       >
-        <Text>{`Save`}</Text>
+        <Text className="text-base font-medium">{`Save`}</Text>
       </Button>
     </View>
   );
@@ -73,7 +70,7 @@ export function DatePicker({
     <>
       <Button
         variant="outline"
-        className="!px-3 gap-x-3 justify-start items-center"
+        className="pl-3 pr-6 gap-x-3 top-[2px] justify-start items-center"
         onPress={() => {
           Haptics.selectionAsync();
           Keyboard.dismiss();
@@ -82,7 +79,7 @@ export function DatePicker({
       >
         <CalendarRangeIcon className="size-5 text-foreground" />
         <Text className="text-sm font-regular text-foreground">
-          {formatDateTimeShort(value)}
+          {formatDateTimeOnlyYear(value)}
         </Text>
       </Button>
       <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>

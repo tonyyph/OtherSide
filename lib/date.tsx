@@ -76,6 +76,14 @@ export function formatDateTimeShort(date?: Date) {
   return format(date, "yyyy-MM-dd");
 }
 
+export function formatDateTimeOnlyYear(date?: Date) {
+  if (!date) {
+    return "";
+  }
+
+  return format(date, "yyyy");
+}
+
 export function formatDateTimeWithHourShort(date?: Date) {
   if (!date) {
     return "";

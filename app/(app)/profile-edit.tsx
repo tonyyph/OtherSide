@@ -1,7 +1,6 @@
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { Button } from "@/components/ui/button";
 import { Radio } from "@/components/ui/radio";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Text } from "@/components/ui/text";
 import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";

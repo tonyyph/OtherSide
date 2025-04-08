@@ -6,6 +6,7 @@ type SignUpRequest = {
   confirmPassword: string;
   firstName: string;
   gender: string;
+  birthday: string;
 };
 
 type SignUpResponse = {

@@ -9,19 +9,12 @@ import {
   UserCircle
 } from "lucide-react-native";
 import { rem } from "nativewind";
-import {
-  Pressable,
-  type PressableProps,
-  View,
-  TouchableWithoutFeedback
-} from "react-native";
+import { Pressable, type PressableProps, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming
 } from "react-native-reanimated";
-import { useEffect, useRef } from "react";
-import { useUserSettingsStore } from "@/stores/user-settings/store";
 
 type TabBarItemProps = {
   focused: boolean;
@@ -66,57 +59,13 @@ const TAB_BAR_ITEM_WIDTH = (3 + 1) * rem.get();
 
 export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const tabIndicatorPosition = useSharedValue(state.index * TAB_BAR_ITEM_WIDTH);
-  const tabBarTranslateY = useSharedValue(0);
-  const hideTimer = useRef<NodeJS.Timeout | null>(null);
-  const { hideTabBarStatus, setHideTabBarStatus } = useUserSettingsStore();
-
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: tabIndicatorPosition.value }]
   }));
 
-  const tabBarStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: withTiming(state.index !== 0 ? 0 : tabBarTranslateY.value, {
-          duration: 450
-        })
-      }
-    ]
-  }));
-
-  function showTabBar() {
-    tabBarTranslateY.value = 0;
-
-    if (hideTimer.current) clearTimeout(hideTimer.current);
-    hideTimer.current = setTimeout(() => {
-      tabBarTranslateY.value = 100;
-      setHideTabBarStatus(true);
-    }, 4500);
-  }
-
-  useEffect(() => {
-    if (!hideTabBarStatus) {
-      showTabBar();
-    }
-  }, [hideTabBarStatus, showTabBar]);
-
-  useEffect(() => {
-    hideTimer.current = setTimeout(() => {
-      tabBarTranslateY.value = 100;
-      setHideTabBarStatus(true);
-    }, 4500);
-
-    return () => {
-      if (hideTimer.current) clearTimeout(hideTimer.current);
-    };
-  }, [setHideTabBarStatus]);
-
   return (
     <View className="bg-transparent flex">
-      <Animated.View
-        style={[tabBarStyle]}
-        className="absolute bottom-9 flex-row items-center justify-center gap-3 self-center rounded-2xl border border-border bg-background p-2"
-      >
+      <Animated.View className="absolute bottom-9 flex-row items-center justify-center gap-3 self-center rounded-2xl border border-border bg-background p-2">
         <Animated.View
           style={[animatedStyle]}
           className="absolute left-2 h-12 w-12 rounded-xl bg-primary"
@@ -140,8 +89,6 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
               if (state.index !== index && !event.defaultPrevented) {
                 navigation.navigate(route.name, route.params);
               }
-
-              showTabBar();
             }
 
             function onLongPress() {
