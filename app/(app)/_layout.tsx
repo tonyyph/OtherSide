@@ -70,12 +70,6 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="categories"
-          options={{
-            headerTitle: `Categories`
-          }}
-        />
-        <Stack.Screen
           name="change-password/index"
           options={{
             presentation: "modal",

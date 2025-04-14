@@ -29,6 +29,13 @@ export default function AuxiliaryLayout() {
         }}
       >
         <Stack.Screen
+          name="categories"
+          options={{
+            presentation: "fullScreenModal",
+            headerTitle: `Categories`
+          }}
+        />
+        <Stack.Screen
           name="privacy-policy"
           options={{
             presentation: "modal",

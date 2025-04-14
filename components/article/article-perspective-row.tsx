@@ -28,6 +28,7 @@ export const ArticlePerspectiveRow = ({ item }: { item: any }) => {
   const renderHorizontalItem = ({ item }: { item: any }) => (
     <ArticleItem
       item={item}
+      isShowPerspective={customData?.length > 1}
       onPressToPerspective={() => onPressToPerspective(item.side)}
     />
   );

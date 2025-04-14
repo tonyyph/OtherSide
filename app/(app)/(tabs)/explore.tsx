@@ -87,7 +87,9 @@ export default function ExploreScreen() {
         <Image
           source={{
             uri:
-              item.leftPerspective?.imageUrl ?? item.rightPerspective?.imageUrl
+              (item.leftPerspective?.imageUrl ??
+                item.rightPerspective?.imageUrl) ||
+              "https://reliasoftware.com/images/careers/relia-software-office.webp"
           }}
           className="h-[185px] rounded-lg"
           resizeMode="cover"

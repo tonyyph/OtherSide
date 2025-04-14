@@ -45,7 +45,8 @@ import { cn } from "@/lib/utils";
 
 export const ArticleItem = ({
   item,
-  contentHeight = 2.4,
+  contentHeight = 2.45,
+  isShowPerspective,
   onPressToPerspective
 }: any) => {
   const { height } = useWindowDimensions();
@@ -94,11 +95,11 @@ export const ArticleItem = ({
     }
   }
 
-  const like = item.likeCount;
-  const dislike = item.dislikeCount;
+  const like = item.likeCount || (data?.likesCount ?? 0);
+  const dislike = item.dislikeCount || (data?.dislikesCount ?? 0);
   const commentCount = !!data ? data.comments?.length : item.commentCount;
   const totalReactionCount = like + dislike;
-  const isBookmarked = item.isBookmarked;
+  const isBookmarked = item.isBookmarked || (data?.bookmarksCount ?? 0) > 0;
 
   const onPressComment = () => {
     sheetRef.current?.present();
@@ -135,8 +136,7 @@ export const ArticleItem = ({
                   item.imageUrl ??
                   "https://reliasoftware.com/images/careers/relia-software-office.webp"
               }}
-              // className="h-[360px]"
-              style={{ height: exactDesign(360) }}
+              style={{ height: exactDesign(320) }}
               resizeMode="cover"
             >
               <View className="border p-2 gap-4 border-blue-100 rounded-full bottom-7 right-3 absolute bg-white">
@@ -156,7 +156,9 @@ export const ArticleItem = ({
             <View className="flex-1 bg-background rounded-t-2xl bottom-3 gap-4 px-4">
               <View
                 className="gap-4 flex-1"
-                style={{ maxHeight: height / contentHeight }}
+                style={{
+                  maxHeight: height / (isShowPerspective ? contentHeight : 2.2)
+                }}
               >
                 <View className="flex-row justify-between mt-4 gap-x-4">
                   <View
@@ -250,28 +252,30 @@ export const ArticleItem = ({
                   <Rows4Icon className="size-[200px] text-muted-foreground self-center top-20" />
                 )}
               </View>
-              <View
-                className={cn(
-                  "items-end px-1",
-                  item?.side === "Right" && "items-start"
-                )}
-              >
-                <TouchableOpacity
-                  onPress={onPressToPerspective}
-                  className="flex-row bg-primary items-center gap-1 py-1 px-2 rounded-full"
-                >
-                  {item?.side === "Right" ? (
-                    <ArrowLeftIcon className="text-black size-5" />
-                  ) : (
-                    <ArrowRightIcon className="text-black size-5" />
+              {isShowPerspective && (
+                <View
+                  className={cn(
+                    "items-end px-1",
+                    item?.side === "Right" && "items-start"
                   )}
-                  <Text className="text-black text-sm font-medium">
-                    {item?.side === "Right"
-                      ? "Left Perspective"
-                      : "Right Perspective"}
-                  </Text>
-                </TouchableOpacity>
-              </View>
+                >
+                  <TouchableOpacity
+                    onPress={onPressToPerspective}
+                    className="flex-row bg-primary items-center gap-1 py-1 px-2 rounded-full"
+                  >
+                    {item?.side === "Right" ? (
+                      <ArrowLeftIcon className="text-black size-5" />
+                    ) : (
+                      <ArrowRightIcon className="text-black size-5" />
+                    )}
+                    <Text className="text-black text-sm font-medium">
+                      {item?.side === "Right"
+                        ? "Left Perspective"
+                        : "Right Perspective"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
 
               <View className="flex flex-row items-center gap-2">
                 <View
