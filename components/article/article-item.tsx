@@ -1,6 +1,7 @@
 import ArticleDetailScreen from "@/app/(app)/article-comment";
 import { useEngagement } from "@/hooks/article/useEngagement";
 import { formatDateTime } from "@/lib/date";
+import { cn } from "@/lib/utils";
 import { useUserSettingsStore } from "@/stores";
 import { useUserAGuidingStore } from "@/stores/user-guiding/store";
 import { exactDesign } from "@/utils";
@@ -41,11 +42,11 @@ import { KeyboardSpacer } from "../common/keyboard-spacer";
 import { toast } from "../common/toast";
 import { Text } from "../ui/text";
 import Tooltip from "../ui/tooltip";
-import { cn } from "@/lib/utils";
 
 export const ArticleItem = ({
   item,
   contentHeight = 2.45,
+  handleBookmark: changeBookmark,
   isShowPerspective,
   onPressToPerspective
 }: any) => {
@@ -99,13 +100,13 @@ export const ArticleItem = ({
   const dislike = item.dislikeCount || (data?.dislikesCount ?? 0);
   const commentCount = !!data ? data.comments?.length : item.commentCount;
   const totalReactionCount = like + dislike;
-  const isBookmarked = item.isBookmarked || (data?.bookmarksCount ?? 0) > 0;
-
+  const isBookmarked = item.isBookmarked;
   const onPressComment = () => {
     sheetRef.current?.present();
   };
 
   const handleBookmark = () => {
+    changeBookmark();
     if (isBookmarked) {
       onDeleteBookmark(item.id);
     } else {

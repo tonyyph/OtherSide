@@ -1,4 +1,3 @@
-import { ArticleItem } from "@/components/article/article-item";
 import { ArticlePerspectiveRow } from "@/components/article/article-perspective-row";
 import { router, useLocalSearchParams } from "expo-router";
 import { ArrowLeftIcon } from "lucide-react-native";
@@ -12,7 +11,7 @@ export default function ArticleDetailScreen() {
   const { top } = useSafeAreaInsets();
 
   const renderItem = useCallback(({ item }: { item: any }) => {
-    return <ArticlePerspectiveRow item={item} />;
+    return <ArticlePerspectiveRow item={item} type="explore" />;
   }, []);
 
   return (

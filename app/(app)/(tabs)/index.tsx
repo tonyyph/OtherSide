@@ -1,9 +1,9 @@
+import { ArticlePerspectiveRow } from "@/components/article/article-perspective-row";
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { useArticle } from "@/hooks/article/useArticle";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
-import { ArticlePerspectiveRow } from "@/components/article/article-perspective-row";
 
 export default function HomeScreen() {
   const [page, setPage] = useState(1);
@@ -21,7 +21,7 @@ export default function HomeScreen() {
   }, [loadingMore, page, fetchMore]);
 
   const renderItem = useCallback(({ item }: { item: any }) => {
-    return <ArticlePerspectiveRow item={item} />;
+    return <ArticlePerspectiveRow item={item} type="home" />;
   }, []);
 
   return (
