@@ -13,6 +13,7 @@ type userProps = {
   lastName?: string;
   birthday?: string;
   gender?: string;
+  role?: string;
   language?: string;
   updatedAt?: string;
   createdAt?: string;

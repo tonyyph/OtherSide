@@ -1,8 +1,6 @@
 import { BackButton } from "@/components/common/back-button";
-import { useProfile } from "@/hooks/profile/useProfile";
 import { useColorPalette } from "@/hooks/use-color-palette";
 import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
-import { useLingui } from "@lingui/react";
 import { Redirect, Stack } from "expo-router";
 import { View } from "react-native";
 

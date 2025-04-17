@@ -49,8 +49,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function ProfileScreen() {
   const { i18n } = useLingui();
   const { getColor } = useColorPalette();
-  useProfile();
-
   const { bottom, top } = useSafeAreaInsets();
   const { language } = useLocale();
   const sheetRef = useRef<BottomSheetModal>(null);
@@ -58,7 +56,6 @@ export default function ProfileScreen() {
   const [loading, setLoading] = useState(true);
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
   const userProfile = userStore.getState().userProfile;
-
   const { setEnabledPushNotifications, enabledPushNotifications } =
     useUserSettingsStore();
   useLayoutEffect(() => {

@@ -145,15 +145,17 @@ export const changePassword = async (data: ChangePasswordRequest) => {
 
 export const getArticles = async (data: GetArticlesRequest) => {
   const cookie = authenStore.getState().cookie;
-  return await axios.get<GetArticlesResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/articles?limit=${data?.limit}&skip=${data?.skip}&random=${data?.random}`,
-    {
-      headers: {
-        accept: "*/*",
-        Authorization: `Bearer ${cookie?.accessToken}`
-      }
+  const url =
+    data?.filter !== "all"
+      ? `${process.env.EXPO_PUBLIC_API_URL}/articles?limit=${data?.limit}&skip=${data?.skip}&statuses=${data?.filter}&random=${data?.random}`
+      : `${process.env.EXPO_PUBLIC_API_URL}/articles?limit=${data?.limit}&skip=${data?.skip}&random=${data?.random}`;
+
+  return await axios.get<GetArticlesResponse>(url, {
+    headers: {
+      accept: "*/*",
+      Authorization: `Bearer ${cookie?.accessToken}`
     }
-  );
+  });
 };
 
 // Engagement

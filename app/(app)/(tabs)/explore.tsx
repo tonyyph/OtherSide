@@ -19,7 +19,8 @@ export default function ExploreScreen() {
   const { articles, loading } = useArticle({
     limit: "5",
     isRandom: true,
-    page: 1
+    page: 1,
+    filter: "all"
   });
 
   const filterSaveCategories = categories?.filter(

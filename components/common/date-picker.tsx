@@ -79,7 +79,7 @@ export function DatePicker({
       >
         <CalendarRangeIcon className="size-5 text-foreground" />
         <Text className="text-sm font-regular text-foreground">
-          {formatDateTimeOnlyYear(value)}
+          {formatDateTimeOnlyYear?.(value)}
         </Text>
       </Button>
       <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>

@@ -97,6 +97,7 @@ type GetProfileResponse = {
   lastName: string;
   birthday: string;
   gender: string;
+  role: string;
   id: number;
   createdAt: string;
   updatedAt: string;
@@ -116,6 +117,7 @@ type GetArticlesRequest = {
   skip?: string;
   limit?: string;
   random?: boolean;
+  filter?: string;
 };
 
 type Category = {};

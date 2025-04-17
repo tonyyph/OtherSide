@@ -9,6 +9,7 @@ interface UserStore {
     firstName: string;
     gender: string;
     id: number;
+    role: string;
     createdAt: string;
     updatedAt: string;
     language: string;

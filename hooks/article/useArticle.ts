@@ -4,6 +4,7 @@ import { authenStore } from "@/stores/authenStore";
 import { useUserArticleStore } from "@/stores/user-article/store";
 import { AxiosError } from "axios";
 import { useEffect, useLayoutEffect, useState } from "react";
+import { useProfile } from "../profile/useProfile";
 
 type Category = {};
 
@@ -36,36 +37,51 @@ type Article = {
 export const useArticle = ({
   limit,
   page,
-  isRandom = false
+  isRandom = false,
+  filter = "live"
 }: {
   limit: string;
   page: number;
   isRandom?: boolean;
+  filter?: string;
 }) => {
   const [data, setData] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const { isArticled, setIsArticled } = useUserArticleStore();
   const { setIsLoggedIn } = useUserAuthenticateStore();
-
+  const { userProfile } = useProfile();
   useLayoutEffect(() => {
-    fetchArticles(1);
+    fetchArticles(1, false);
   }, []);
 
   useEffect(() => {
-    if (isArticled) fetchArticles(1);
-  }, [isArticled]);
+    fetchArticles(1, false, filter);
+  }, [isArticled, filter]);
 
-  const fetchArticles = async (pageNum: number, append = false) => {
+  const fetchArticles = async (
+    pageNum: number,
+    append = false,
+    filter: string = "live"
+  ) => {
     try {
       if (!append) setLoading(true);
       else setIsFetchingMore(true);
 
       const skip = (pageNum - 1) * parseInt(limit, 10);
+      console.log("parseInt(limit, 10)", parseInt(limit, 10));
+
+      console.log(" limit:", limit);
+
+      console.log(" pageNum:", pageNum);
+
+      console.log(" skip:", skip);
+
       const { data: session } = await getArticles({
         limit,
         skip: skip.toString(),
-        random: isRandom
+        random: isRandom,
+        filter: filter
       });
 
       setData((prevData) =>
@@ -87,7 +103,9 @@ export const useArticle = ({
   };
 
   const fetchMore = ({ pages }: { pages: number }) => {
-    if (!isFetchingMore) {
+    console.log(" fetchMore 💯 pages:", pages);
+
+    if (isFetchingMore) {
       fetchArticles(pages + 1, true);
     }
   };
@@ -96,6 +114,7 @@ export const useArticle = ({
     articles: data,
     loading,
     fetchMore,
-    loadingMore: isFetchingMore
+    loadingMore: isFetchingMore,
+    role: userProfile?.role
   };
 };

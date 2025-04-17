@@ -54,6 +54,9 @@ export default function EditProfileScreen() {
     setSecurePassword((prev) => !prev);
   };
 
+  console.log("birthDayState", birthDayState.value);
+  console.log("1", new Date(birthDayState.value ?? "1990-01-01"));
+
   if (loading) {
     return (
       <View className="bg-background flex-1 p-6 gap-4 justify-between">
@@ -91,13 +94,6 @@ export default function EditProfileScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        {/* <View className="bg-background self-center mb-2 border border-blue-200 rounded-full">
-          <UserAvatar
-            imageUrl="https://media.licdn.com/dms/image/v2/C4E0BAQHRcd8MW8NoEQ/company-logo_200_200/company-logo_200_200/0/1631373100497?e=2147483647&v=beta&t=1pTjV_f6c_HEPpm-zTeobA6HYV_YNV4aLrGLGBB0K-w"
-            fallbackClassName="bg-background"
-            className="h-28 w-28"
-          />
-        </View> */}
         {/* Illustration */}
         <UserRoundPenIcon className="absolute top-0 right-0 size-80 text-muted-foreground opacity-30" />
         {/* Input Field */}
@@ -181,7 +177,11 @@ export default function EditProfileScreen() {
                     control={form.control}
                     render={({ field: { onChange, value } }) => (
                       <DatePicker
-                        value={new Date(birthDayState.value ?? "1990-01-01")}
+                        value={
+                          !!birthDayState.value
+                            ? new Date(birthDayState.value)
+                            : value
+                        }
                         onChange={(val) => {
                           birthDayState.onChangeText(formatDateShort(val));
                           onChange(val);
