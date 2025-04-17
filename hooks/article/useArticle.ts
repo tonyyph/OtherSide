@@ -48,53 +48,40 @@ export const useArticle = ({
   const [data, setData] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
   const { isArticled, setIsArticled } = useUserArticleStore();
   const { setIsLoggedIn } = useUserAuthenticateStore();
   const { userProfile } = useProfile();
-  useLayoutEffect(() => {
-    fetchArticles(1, false);
-  }, []);
-
-  useEffect(() => {
-    fetchArticles(1, false, filter);
-  }, [isArticled, filter]);
 
   const fetchArticles = async (
     pageNum: number,
     append = false,
-    filter: string = "live"
+    currentFilter: string = "live"
   ) => {
     try {
       if (!append) setLoading(true);
       else setIsFetchingMore(true);
 
       const skip = (pageNum - 1) * parseInt(limit, 10);
-      console.log("parseInt(limit, 10)", parseInt(limit, 10));
-
-      console.log(" limit:", limit);
-
-      console.log(" pageNum:", pageNum);
-
-      console.log(" skip:", skip);
 
       const { data: session } = await getArticles({
         limit,
         skip: skip.toString(),
         random: isRandom,
-        filter: filter
+        filter: currentFilter
       });
 
-      setData((prevData) =>
-        append ? [...prevData, ...session?.articles] : session?.articles
-      );
+      const articles = session?.articles || [];
+
+      setData((prevData) => (append ? [...prevData, ...articles] : articles));
+      setHasMore(articles.length === parseInt(limit, 10));
     } catch (error) {
       console.log(
         (error as AxiosError<RestfulApiError>).response?.data?.message
       );
       setIsLoggedIn(false);
-      authenStore.setState({
-        cookie: undefined
-      });
+      authenStore.setState({ cookie: undefined });
     } finally {
       if (!append) setLoading(false);
       setIsFetchingMore(false);
@@ -103,18 +90,25 @@ export const useArticle = ({
   };
 
   const fetchMore = ({ pages }: { pages: number }) => {
-    console.log(" fetchMore 💯 pages:", pages);
-
-    if (isFetchingMore) {
-      fetchArticles(pages + 1, true);
+    if (!isFetchingMore && hasMore) {
+      fetchArticles(pages, true);
     }
   };
+
+  useLayoutEffect(() => {
+    fetchArticles(1, false, filter);
+  }, []);
+
+  useEffect(() => {
+    fetchArticles(1, false, filter);
+  }, [isArticled, filter]);
 
   return {
     articles: data,
     loading,
     fetchMore,
     loadingMore: isFetchingMore,
+    hasMore,
     role: userProfile?.role
   };
 };

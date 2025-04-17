@@ -3,14 +3,14 @@ import { FooterGradient } from "@/components/common/footer-gradient";
 import { ArticleFilter, SelectFilter } from "@/components/home/select-filter";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { useArticle } from "@/hooks/article/useArticle";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
 
 export default function HomeScreen() {
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState<ArticleFilter>(ArticleFilter.All);
 
-  const { articles, loadingMore, fetchMore } = useArticle({
+  const { articles, loadingMore, fetchMore, hasMore } = useArticle({
     limit: "10",
     page,
     isRandom: false,
@@ -18,16 +18,15 @@ export default function HomeScreen() {
   });
 
   const loadMore = useCallback(() => {
-    if (!loadingMore) {
+    if (!loadingMore && hasMore) {
       fetchMore({ pages: page + 1 });
       setPage((prev) => prev + 1);
     }
-  }, [loadingMore, page, fetchMore]);
+  }, [loadingMore, hasMore, page, fetchMore]);
+  const MemoizedArticle = React.memo(ArticlePerspectiveRow);
 
   const renderItem = useCallback(
-    ({ item }: { item: any }) => (
-      <ArticlePerspectiveRow item={item} type="home" />
-    ),
+    ({ item }: { item: any }) => <MemoizedArticle item={item} type="home" />,
     []
   );
 
@@ -47,8 +46,14 @@ export default function HomeScreen() {
         renderItem={renderItem}
         keyExtractor={(item, index) => `${item.createdAt}-${index}`}
         showsVerticalScrollIndicator={false}
+        pagingEnabled
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}
+        initialNumToRender={5}
+        maxToRenderPerBatch={10}
+        windowSize={5}
+        removeClippedSubviews={true}
+        updateCellsBatchingPeriod={50}
         ListEmptyComponent={<HomeSkeleton />}
         ListFooterComponent={
           loadingMore ? (
