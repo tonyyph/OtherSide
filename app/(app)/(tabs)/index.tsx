@@ -3,19 +3,32 @@ import { FooterGradient } from "@/components/common/footer-gradient";
 import { ArticleFilter, SelectFilter } from "@/components/home/select-filter";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { useArticle } from "@/hooks/article/useArticle";
-import React, { useCallback, useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, View } from "react-native";
+import { FileTextIcon } from "lucide-react-native";
+import React, { useCallback, useState } from "react";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState<ArticleFilter>(ArticleFilter.All);
 
-  const { articles, loadingMore, fetchMore, hasMore } = useArticle({
+  const { articles, loadingMore, fetchMore, hasMore, role } = useArticle({
     limit: "10",
     page,
     isRandom: false,
     filter
   });
+
+  console.log("role", role);
+  const EmptyState = () => {
+    return (
+      <View className="flex-1">
+        <View className="items-center flex-1 justify-center gap-4 mt-[90%]">
+          <FileTextIcon size={130} color="#9CA3AF" />
+          <Text className="text-2xl text-[#9CA3AF]">{`No articles found`}</Text>
+        </View>
+      </View>
+    );
+  };
 
   const loadMore = useCallback(() => {
     if (!loadingMore && hasMore) {
@@ -32,14 +45,16 @@ export default function HomeScreen() {
 
   const handleSetFilter = useCallback((newFilter: ArticleFilter) => {
     setFilter(newFilter);
-    setPage(1); // Reset pagination on filter change
+    setPage(1);
   }, []);
 
   return (
     <View className="bg-background flex-1">
-      <View className="border border-blue-100 z-10 rounded-lg opacity-80 top-20 right-3 absolute bg-white">
-        <SelectFilter value={filter} onSelect={handleSetFilter} />
-      </View>
+      {role === "admin" && (
+        <View className="border border-blue-100 z-10 rounded-lg opacity-80 top-20 right-3 absolute bg-white">
+          <SelectFilter value={filter} onSelect={handleSetFilter} />
+        </View>
+      )}
 
       <FlatList
         data={articles}
@@ -54,7 +69,7 @@ export default function HomeScreen() {
         windowSize={5}
         removeClippedSubviews={true}
         updateCellsBatchingPeriod={50}
-        ListEmptyComponent={<HomeSkeleton />}
+        ListEmptyComponent={!loadingMore ? <EmptyState /> : <HomeSkeleton />}
         ListFooterComponent={
           loadingMore ? (
             <ActivityIndicator size="large" color="#ffffff" />
