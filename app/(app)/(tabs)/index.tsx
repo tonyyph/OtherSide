@@ -18,7 +18,6 @@ export default function HomeScreen() {
     filter
   });
 
-  console.log("role", role);
   const EmptyState = () => {
     return (
       <View className="flex-1">
@@ -50,6 +49,7 @@ export default function HomeScreen() {
 
   return (
     <View className="bg-background flex-1">
+      {/* <TooltipGuideExample /> */}
       {role === "admin" && (
         <View className="border border-blue-100 z-10 rounded-lg opacity-80 top-20 right-3 absolute bg-white">
           <SelectFilter value={filter} onSelect={handleSetFilter} />

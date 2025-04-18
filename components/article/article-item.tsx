@@ -17,13 +17,14 @@ import {
   ThumbsDown,
   ThumbsUp
 } from "lucide-react-native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
   ImageBackground,
   Keyboard,
   Platform,
   Share,
+  StyleSheet,
   TextInput,
   TouchableOpacity,
   useWindowDimensions,
@@ -39,7 +40,7 @@ import { Icon } from "../common/icon";
 import { KeyboardSpacer } from "../common/keyboard-spacer";
 import { toast } from "../common/toast";
 import { Text } from "../ui/text";
-import Tooltip from "../ui/tooltip";
+import Tooltip from "react-native-walkthrough-tooltip";
 
 export const ArticleItem = ({
   item,
@@ -49,13 +50,11 @@ export const ArticleItem = ({
   onPressToPerspective
 }: any) => {
   const { height } = useWindowDimensions();
-  const {
-    isEnableStepOne,
-    isEnableStepTwo,
-    setIsEnableStepTwo,
-    setIsEnableStepOne
-  } = useUserAGuidingStore();
+  const { step, setStep } = useUserAGuidingStore();
 
+  const nextStep = () => {
+    setStep(step + 1);
+  };
   const [content, setContent] = useState("");
   const sheetRef = useRef<BottomSheetModal>(null);
   const keyboard = useAnimatedKeyboard();
@@ -176,64 +175,70 @@ export const ArticleItem = ({
                   {item.title ?? "Missing Title"}
                 </Text>
               </View>
-              {isEnableStepOne && !!item?.content && (
-                <View className="items-start absolute">
+
+              {step === 1 && !!item?.content && (
+                <View className="rounded-xl items-center top-16">
                   <Tooltip
-                    isVisible={isEnableStepOne}
+                    isVisible={step === 1}
                     onClose={() => {
-                      setIsEnableStepOne(false);
-                      setTimeout(() => {
-                        setIsEnableStepTwo(true);
-                      }, 1000);
+                      nextStep();
                     }}
-                    content={`To move to the next article, simply swipe up. If you want to go back to the previous one, just swipe down. Happy reading!`}
+                    placement="top"
+                    content={
+                      <Text className="color-gray-950 text-bs">
+                        To move to the next article, simply swipe up. If you
+                        want to go back to the previous one, just swipe down.
+                        Happy reading!
+                      </Text>
+                    }
                   >
-                    <LottieView
-                      style={{
-                        width: 120,
-                        height: 120,
-                        backgroundColor: "white",
-                        alignSelf: "center",
-                        padding: 12,
-                        borderRadius: 12,
-                        shadowColor: "#000",
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.2,
-                        shadowRadius: 4
-                      }}
-                      source={require("@/assets/json/intro-swipe.json")}
-                      autoPlay
-                      loop
-                    />
+                    <View className="mt-3 items-center gap-2 rounded-xl justify-between bg-slate-700">
+                      <LottieView
+                        style={styles.lottieIcon}
+                        source={require("@/assets/json/sup.json")}
+                        autoPlay
+                        loop
+                      />
+                      <LottieView
+                        style={styles.lottieIcon}
+                        source={require("@/assets/json/sdown.json")}
+                        autoPlay
+                        loop
+                      />
+                    </View>
                   </Tooltip>
                 </View>
               )}
-              {isEnableStepTwo && !!item?.content && (
-                <View className="items-end absolute">
+              {step === 2 && !!item?.content && (
+                <View className="w-full rounded-xl top-16">
                   <Tooltip
-                    isVisible={isEnableStepTwo}
+                    isVisible={step === 2}
+                    tooltipStyle={styles.tooltipStyle}
                     onClose={() => {
-                      setIsEnableStepTwo(false);
+                      nextStep();
                     }}
-                    content={`To view a different approach to the article, swipe left. If you want to return, simply swipe right.`}
+                    placement="top"
+                    content={
+                      <Text className="color-gray-950 text-bs">
+                        To view a different approach to the article, swipe left.
+                        If you want to return, simply swipe right.
+                      </Text>
+                    }
                   >
-                    <LottieView
-                      style={{
-                        width: 120,
-                        height: 120,
-                        backgroundColor: "white",
-                        alignSelf: "center",
-                        padding: 12,
-                        borderRadius: 12,
-                        shadowColor: "#000",
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.2,
-                        shadowRadius: 4
-                      }}
-                      source={require("@/assets/json/intro-hswipe.json")}
-                      autoPlay
-                      loop
-                    />
+                    <View className="w-full mt-3 flex flex-row gap-2 rounded-xl justify-between bg-slate-700">
+                      <LottieView
+                        style={styles.lottieIcon}
+                        source={require("@/assets/json/sleft.json")}
+                        autoPlay
+                        loop
+                      />
+                      <LottieView
+                        style={styles.lottieIcon}
+                        source={require("@/assets/json/sright.json")}
+                        autoPlay
+                        loop
+                      />
+                    </View>
                   </Tooltip>
                 </View>
               )}
@@ -256,21 +261,33 @@ export const ArticleItem = ({
                   item?.side === "Right" && "items-start"
                 )}
               >
-                <TouchableOpacity
-                  onPress={onPressToPerspective}
-                  className="flex-row bg-primary items-center gap-1 py-1 px-2 rounded-full"
+                <Tooltip
+                  isVisible={step === 0}
+                  content={
+                    <Text className="color-gray-950 text-bs">
+                      Or you can tap here to view the other perspective of the
+                      article.
+                    </Text>
+                  }
+                  placement="bottom"
+                  onClose={nextStep}
                 >
-                  {item?.side === "Right" ? (
-                    <ArrowLeftIcon className="text-black size-5" />
-                  ) : (
-                    <ArrowRightIcon className="text-black size-5" />
-                  )}
-                  <Text className="text-black text-sm font-medium">
-                    {item?.side === "Right"
-                      ? "Left Perspective"
-                      : "Right Perspective"}
-                  </Text>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={onPressToPerspective}
+                    className="flex-row bg-primary items-center gap-1 py-1 px-2 rounded-full"
+                  >
+                    {item?.side === "Right" ? (
+                      <ArrowLeftIcon className="text-black size-5" />
+                    ) : (
+                      <ArrowRightIcon className="text-black size-5" />
+                    )}
+                    <Text className="text-black text-sm font-medium">
+                      {item?.side === "Right"
+                        ? "Left Perspective"
+                        : "Right Perspective"}
+                    </Text>
+                  </TouchableOpacity>
+                </Tooltip>
               </View>
             )}
 
@@ -368,3 +385,11 @@ export const ArticleItem = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  tooltipStyle: { width: "100%" },
+  lottieIcon: {
+    width: 120,
+    height: 120
+  }
+});

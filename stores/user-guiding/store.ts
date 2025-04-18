@@ -5,10 +5,8 @@ import { createJSONStorage, persist } from "zustand/middleware";
 interface UserGuidingStore {
   isFirstTimeSignUp: boolean;
   setIsFirstTimeSignUp: (isFirstTimeSignUp: boolean) => void;
-  isEnableStepOne: boolean;
-  setIsEnableStepOne: (isEnableStepOne: boolean) => void;
-  isEnableStepTwo: boolean;
-  setIsEnableStepTwo: (isEnableStepTwo: boolean) => void;
+  step: number;
+  setStep: (step: number) => void;
   _reset: () => void;
 }
 
@@ -18,21 +16,20 @@ export const useUserAGuidingStore = create<UserGuidingStore>()(
       isFirstTimeSignUp: true,
       setIsFirstTimeSignUp: (isFirstTimeSignUp: boolean) =>
         set({ isFirstTimeSignUp }),
-      isEnableStepOne: true,
-      setIsEnableStepOne: (isEnableStepOne) => set({ isEnableStepOne }),
-      isEnableStepTwo: false,
-      setIsEnableStepTwo: (isEnableStepTwo) => set({ isEnableStepTwo }),
+      step: 0,
+      setStep: (step: number) => {
+        set({ step });
+      },
       _reset() {
         set({
           isFirstTimeSignUp: true,
-          isEnableStepOne: true,
-          isEnableStepTwo: false,
+          step: 0
         });
-      },
+      }
     }),
     {
       name: "user-guiding-storage",
-      storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => AsyncStorage)
     }
   )
 );
