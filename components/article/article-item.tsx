@@ -175,11 +175,43 @@ export const ArticleItem = ({
                   {item.title ?? "Missing Title"}
                 </Text>
               </View>
-
               {step === 1 && !!item?.content && (
-                <View className="rounded-xl items-center top-16">
+                <View className="w-full rounded-xl top-16">
                   <Tooltip
                     isVisible={step === 1}
+                    tooltipStyle={styles.tooltipStyle}
+                    onClose={() => {
+                      nextStep();
+                    }}
+                    placement="top"
+                    content={
+                      <Text className="color-gray-950 text-bs">
+                        Or you want to view a different approach to the article,
+                        swipe left. If you want to return, simply swipe right.
+                      </Text>
+                    }
+                  >
+                    <View className="w-full mt-3 flex flex-row gap-2 rounded-xl justify-between bg-slate-700">
+                      <LottieView
+                        style={styles.lottieIcon}
+                        source={require("@/assets/json/sleft.json")}
+                        autoPlay
+                        loop
+                      />
+                      <LottieView
+                        style={styles.lottieIcon}
+                        source={require("@/assets/json/sright.json")}
+                        autoPlay
+                        loop
+                      />
+                    </View>
+                  </Tooltip>
+                </View>
+              )}
+              {step === 2 && !!item?.content && (
+                <View className="rounded-xl items-center top-16">
+                  <Tooltip
+                    isVisible={step === 2}
                     onClose={() => {
                       nextStep();
                     }}
@@ -209,39 +241,7 @@ export const ArticleItem = ({
                   </Tooltip>
                 </View>
               )}
-              {step === 2 && !!item?.content && (
-                <View className="w-full rounded-xl top-16">
-                  <Tooltip
-                    isVisible={step === 2}
-                    tooltipStyle={styles.tooltipStyle}
-                    onClose={() => {
-                      nextStep();
-                    }}
-                    placement="top"
-                    content={
-                      <Text className="color-gray-950 text-bs">
-                        To view a different approach to the article, swipe left.
-                        If you want to return, simply swipe right.
-                      </Text>
-                    }
-                  >
-                    <View className="w-full mt-3 flex flex-row gap-2 rounded-xl justify-between bg-slate-700">
-                      <LottieView
-                        style={styles.lottieIcon}
-                        source={require("@/assets/json/sleft.json")}
-                        autoPlay
-                        loop
-                      />
-                      <LottieView
-                        style={styles.lottieIcon}
-                        source={require("@/assets/json/sright.json")}
-                        autoPlay
-                        loop
-                      />
-                    </View>
-                  </Tooltip>
-                </View>
-              )}
+
               {!!item.content ? (
                 <Text
                   numberOfLines={20}
@@ -265,7 +265,7 @@ export const ArticleItem = ({
                   isVisible={step === 0}
                   content={
                     <Text className="color-gray-950 text-bs">
-                      Or you can tap here to view the other perspective of the
+                      You can tap here to view the other perspective of the
                       article.
                     </Text>
                   }

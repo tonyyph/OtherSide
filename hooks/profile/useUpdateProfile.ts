@@ -80,7 +80,8 @@ export const useUpdateProfile = () => {
               language: session.language,
               createdAt: session.createdAt,
               updatedAt: session.updatedAt,
-              birthday: session.birthday
+              birthday: session.birthday,
+              role: session.role
             }
           });
           setIsUpdateProfile(true);
