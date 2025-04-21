@@ -93,8 +93,6 @@ export const ArticleItem = ({
     }
   }
 
-  console.log("data", data);
-
   const like = data?.likesCount || item.likeCount || 0;
   const dislike = data?.dislikesCount || item.dislikeCount;
   const commentCount = !!data ? data.comments?.length : item.commentCount;
@@ -327,7 +325,12 @@ export const ArticleItem = ({
                 <View className="flex flex-row items-center gap-1">
                   <TouchableOpacity onPress={() => onReactionLike(item?.id)}>
                     <ThumbsUp
-                      fill={item?.isLike ? "#12d85a" : "none"}
+                      fill={
+                        item?.isLike ||
+                        (data?.likesCount ?? 0) - item?.likeCount > 0
+                          ? "#12d85a"
+                          : "none"
+                      }
                       strokeWidth={1}
                       className="size-6 text-green-400"
                     />
@@ -337,7 +340,12 @@ export const ArticleItem = ({
                 <View className="flex flex-row items-center gap-1">
                   <TouchableOpacity onPress={() => onReactionDisLike(item?.id)}>
                     <ThumbsDown
-                      fill={item?.isDislike ? "#ef4444" : "none"}
+                      fill={
+                        item?.isDislike ||
+                        (data?.dislikesCount ?? 0) - item?.dislikeCount > 0
+                          ? "#ef4444"
+                          : "none"
+                      }
                       strokeWidth={1}
                       className="size-6 text-red-400"
                     />

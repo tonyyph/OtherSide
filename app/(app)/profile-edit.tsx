@@ -53,9 +53,6 @@ export default function EditProfileScreen() {
     setSecurePassword((prev) => !prev);
   };
 
-  console.log("birthDayState", birthDayState.value);
-  console.log("1", new Date(birthDayState.value ?? "1990-01-01"));
-
   if (loading) {
     return (
       <View className="bg-background flex-1 p-6 gap-4 justify-between">

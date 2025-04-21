@@ -1,3 +1,4 @@
+import { ArticleExploreItem } from "@/components/article/article-explore-item";
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,13 +10,14 @@ import { exactDesign } from "@/utils";
 import { Link, router } from "expo-router";
 import LottieView from "lottie-react-native";
 import { ChevronRight, ClockIcon } from "lucide-react-native";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { FlatList, Image, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ExploreScreen() {
   const { top, bottom } = useSafeAreaInsets();
   const { categories, onSaveCategory, onUnSaveCategory } = useExplore();
+
   const { articles, loading } = useArticle({
     limit: "5",
     isRandom: true,
@@ -75,38 +77,11 @@ export default function ExploreScreen() {
     </View>
   );
 
-  const renderArticleItem = ({ item }: { item: any }) => (
-    <Pressable
-      onPress={() =>
-        router.push({
-          pathname: "/(app)/article-details",
-          params: { articleString: JSON.stringify(item) }
-        })
-      }
-      className="flex flex-row items-center mx-4 mb-6"
-    >
-      <View className="flex-1 gap-3">
-        <Image
-          source={{
-            uri:
-              (item.leftPerspective?.imageUrl ??
-                item.rightPerspective?.imageUrl) ||
-              "https://reliasoftware.com/images/careers/relia-software-office.webp"
-          }}
-          className="h-[185px] rounded-lg"
-          resizeMode="cover"
-        />
-        <Text className="text-foreground font-medium">
-          {item.leftPerspective?.title ?? item.rightPerspective?.title}
-        </Text>
-        <View className="flex-row items-center gap-2">
-          <ClockIcon className="size-5 text-muted-foreground" />
-          <Text className="text-muted-foreground text-xs">
-            {formatDateTime(item.createdAt)}
-          </Text>
-        </View>
-      </View>
-    </Pressable>
+  const MemoizedArticle = React.memo(ArticleExploreItem);
+
+  const renderItem = useCallback(
+    ({ item }: { item: any }) => <MemoizedArticle item={item} />,
+    []
   );
 
   return loading ? (
@@ -189,7 +164,7 @@ export default function ExploreScreen() {
             </View>
           </>
         }
-        renderItem={renderArticleItem}
+        renderItem={renderItem}
         ListFooterComponent={<View style={{ height: bottom * 2.5 }} />}
       />
       <FooterGradient />
