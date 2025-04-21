@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ITEM_HEIGHT = 72;
 
+// eslint-disable-next-line react/display-name
 const CategoryItem = memo(
   ({
     category,
@@ -89,6 +90,7 @@ export default function CategoriesScreen() {
       setLocalCategories((prevCategories) =>
         prevCategories.map((cat) => (cat.id === id ? { ...cat, isSaved } : cat))
       );
+      // eslint-disable-next-line no-unused-expressions
       isSaved ? await onSaveCategory(id) : await onUnSaveCategory(id);
     },
     [onSaveCategory, onUnSaveCategory]

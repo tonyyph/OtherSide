@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { useResetPassword } from "@/hooks/auth/useResetPassword";
-import { Trans, t } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { router } from "expo-router";
 import {
@@ -26,7 +26,7 @@ export default function ResetPasswordScreen() {
   const [securePassword, setSecurePassword] = useState(true);
 
   const { i18n } = useLingui();
-  const { onResetPassword, passwordState } = useResetPassword();
+  const { passwordState } = useResetPassword();
 
   const onPressSecurePassword = () => {
     setSecurePassword((prev) => !prev);

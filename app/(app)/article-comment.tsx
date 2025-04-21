@@ -4,10 +4,7 @@ import { formatDateTimeShort } from "@/lib/date";
 import React, { useEffect } from "react";
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import Animated from "react-native-reanimated";
-function getRandomAvatarUrl() {
-  const urls = ["https://i.pravatar.cc/150?img=2"];
-  return urls[Math.floor(Math.random() * urls.length)];
-}
+
 export default function ArticleDetailScreen({
   id,
   commentData
@@ -21,7 +18,7 @@ export default function ArticleDetailScreen({
     if (!!id) {
       getEngagementArticles(id);
     }
-  }, [id]);
+  }, [id, getEngagementArticles]);
 
   const comments = commentData ?? data?.comments;
 

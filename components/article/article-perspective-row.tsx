@@ -1,22 +1,41 @@
-import React, { useEffect, useRef } from "react";
-import { FlatList, View } from "react-native";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { FlatList, View, ViewToken } from "react-native";
 import { ArticleItem } from "./article-item";
+import { useAnalytics } from "@/hooks/analytics/useAnalytics";
 
 export const ArticlePerspectiveRow = ({
-  item
+  item,
+  type
 }: {
   item: any;
   type: string;
 }) => {
   const flatListRef = useRef<FlatList>(null);
-  const [bookmark, setBookmark] = React.useState<boolean>(item?.isBookmarked);
+  const [bookmark, setBookmark] = useState<boolean>(item?.isBookmarked);
+
+  const viewStartTime = useRef<{ [side: string]: number }>({});
+  const viewTimers = useRef<{ [side: string]: number }>({});
+
+  const {
+    onAnalyticsView,
+    onAnalyticsTimeSpent,
+    onAnalyticsScrollDepth,
+    onAnalyticsShare
+  } = useAnalytics();
 
   useEffect(() => {
     setBookmark(item?.isBookmarked);
   }, [item?.isBookmarked]);
 
   const handleBookmark = () => {
-    setBookmark((prev: boolean) => !prev);
+    setBookmark((prev) => !prev);
+  };
+
+  const handleShare = (platform: string, id: number) => {
+    onAnalyticsShare({
+      articleId: id,
+      platform
+    });
   };
 
   const customData = [
@@ -44,9 +63,52 @@ export const ArticlePerspectiveRow = ({
       item={item}
       isShowPerspective={customData?.length > 1}
       handleBookmark={handleBookmark}
+      handleShare={handleShare}
       onPressToPerspective={() => onPressToPerspective(item.side)}
     />
   );
+
+  const onViewableItemsChanged = useCallback(
+    ({ changed }: { changed: ViewToken[] }) => {
+      const now = Date.now();
+
+      changed.forEach(({ item, isViewable }) => {
+        const side = item?.side;
+        if (!side) return;
+
+        if (isViewable) {
+          viewStartTime.current[side] = now;
+        } else if (viewStartTime.current[side]) {
+          const timeSpentMs = now - viewStartTime.current[side];
+          const timeSpentSec = +(timeSpentMs / 1000).toFixed(2); // seconds
+
+          viewTimers.current[side] = +(
+            // accumulate and round
+            ((viewTimers.current[side] || 0) + timeSpentSec).toFixed(2)
+          );
+
+          onAnalyticsTimeSpent({
+            articleId: item?.id,
+            timeSpentSeconds: viewTimers.current[side]
+          });
+          onAnalyticsScrollDepth({
+            articleId: item?.id,
+            scrollPercentage: 100 // Assuming full view
+          });
+          onAnalyticsView(item?.id);
+
+          console.log(
+            `[${type}] Perspective ${side} viewed for ${timeSpentSec}s (total: ${viewTimers.current[side]}s)`
+          );
+        }
+      });
+    },
+    [type, onAnalyticsTimeSpent, onAnalyticsScrollDepth, onAnalyticsView]
+  );
+
+  const viewabilityConfig = {
+    itemVisiblePercentThreshold: 50
+  };
 
   return (
     <View className="flex-1">
@@ -58,6 +120,8 @@ export const ArticlePerspectiveRow = ({
         keyExtractor={(item, index) => `${item.id}-${index}`}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={viewabilityConfig}
       />
     </View>
   );

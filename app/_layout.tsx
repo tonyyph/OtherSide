@@ -56,7 +56,7 @@ export default function RootLayout() {
     "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf")
   });
-  const [updating, setUpdating] = useState<boolean>(false);
+  const [, setUpdating] = useState<boolean>(false);
 
   const checkAndForceUpdates = useCallback(async () => {
     if (__DEV__) {
@@ -81,7 +81,7 @@ export default function RootLayout() {
     if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
+  }, [fontsLoaded, checkAndForceUpdates]);
 
   if (!fontsLoaded) {
     return null;

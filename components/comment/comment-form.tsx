@@ -1,9 +1,6 @@
 import { sleep } from "@/lib/utils";
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import * as Haptics from "expo-haptics";
-import { Link, useRouter } from "expo-router";
 import { Trash2Icon } from "lucide-react-native";
 import { useRef } from "react";
 import {
@@ -14,7 +11,6 @@ import {
   useWatch
 } from "react-hook-form";
 import { ScrollView, View } from "react-native";
-import { Image } from "react-native";
 import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle
@@ -78,7 +74,6 @@ function FormSubmitButton({
   form: UseFormReturn<any>;
   onSubmit: (data: any) => void;
 }) {
-  const { i18n } = useLingui();
   const amount = useWatch({ name: "amount" });
 
   return (
@@ -101,8 +96,6 @@ export const CommentForm = ({
   // onOpenScanner,
   sideOffset
 }: CommentFormProps) => {
-  const { i18n } = useLingui();
-
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
     return {

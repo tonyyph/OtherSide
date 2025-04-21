@@ -4,13 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { View } from "react-native";
 
-import { createUser } from "@/mutations/user";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import * as Haptics from "expo-haptics";
 import { XCircleIcon } from "lucide-react-native";
 import { FormProvider, useForm } from "react-hook-form";
-import { toast } from "../common/toast";
 import { InputField } from "../form-fields/input-field";
 import { SubmitButton } from "../form-fields/submit-button";
 import { Button } from "../ui/button";
@@ -53,7 +50,7 @@ export function AuthEmail({
   });
 
   const [verifying, setVerifying] = useState(false);
-  const [mode, setMode] = useState<"signUp" | "signIn">("signUp");
+  const [mode] = useState<"signUp" | "signIn">("signUp");
 
   // const {
   //   isLoaded: isSignUpLoaded,

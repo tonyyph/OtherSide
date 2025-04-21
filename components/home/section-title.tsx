@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { Link } from "expo-router";
-import { Button } from "../ui/button";
-import { ArrowRight } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
+import { Link } from "expo-router";
+import { ArrowRight } from "lucide-react-native";
+import { Text, View } from "react-native";
+import { Button } from "../ui/button";
 
 type SelectionTitleProps = {
   name: string;
@@ -30,5 +29,3 @@ export function SelectionTitle({ name, href }: SelectionTitleProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

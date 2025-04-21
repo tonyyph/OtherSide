@@ -11,7 +11,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";
 import { useLogout } from "@/hooks/auth/useLogout";
-import { useProfile } from "@/hooks/profile/useProfile";
 import { useColorPalette } from "@/hooks/use-color-palette";
 import { useLocale } from "@/locales/provider";
 import { useUserSettingsStore } from "@/stores/user-settings/store";

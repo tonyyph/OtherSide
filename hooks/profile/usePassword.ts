@@ -4,18 +4,6 @@ import { AxiosError } from "axios";
 import { useState } from "react";
 import { useMemoFunc, useValidateInput } from "../commons";
 
-type userProps = {
-  id?: number;
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-  birthday?: string;
-  gender?: string;
-  language?: string;
-  updatedAt?: string;
-  createdAt?: string;
-};
-
 export const usePassword = () => {
   const [changePasswordSuccess, setChangePasswordSuccess] = useState(false);
   const [loading, setLoading] = useState(true);

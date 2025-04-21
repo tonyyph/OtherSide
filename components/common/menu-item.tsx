@@ -1,18 +1,19 @@
-import { cn } from '@/lib/utils'
-import { forwardRef } from 'react'
-import { Pressable, View } from 'react-native'
-import type { SvgProps } from 'react-native-svg'
-import { Text } from '../ui/text'
+import { cn } from "@/lib/utils";
+import { forwardRef } from "react";
+import { Pressable, View } from "react-native";
+import type { SvgProps } from "react-native-svg";
+import { Text } from "../ui/text";
 
 type MenuItemProps = {
-  label: string
-  icon?: React.ComponentType<SvgProps>
-  rightSection?: React.ReactNode
-  onPress?: () => void
-  className?: string
-  disabled?: boolean
-}
+  label: string;
+  icon?: React.ComponentType<SvgProps>;
+  rightSection?: React.ReactNode;
+  onPress?: () => void;
+  className?: string;
+  disabled?: boolean;
+};
 
+// eslint-disable-next-line react/display-name
 export const MenuItem = forwardRef(function (
   {
     label,
@@ -20,9 +21,9 @@ export const MenuItem = forwardRef(function (
     rightSection,
     onPress,
     className,
-    disabled,
+    disabled
   }: MenuItemProps,
-  ref: React.ForwardedRef<React.ElementRef<typeof Pressable>>,
+  ref: React.ForwardedRef<React.ElementRef<typeof Pressable>>
 ) {
   return (
     <Pressable
@@ -30,9 +31,9 @@ export const MenuItem = forwardRef(function (
       ref={ref}
       disabled={disabled}
       className={cn(
-        'flex h-14 flex-row items-center justify-between gap-4 px-6 active:bg-muted',
-        disabled && 'opacity-50',
-        className,
+        "flex h-14 flex-row items-center justify-between gap-4 px-6 active:bg-muted",
+        disabled && "opacity-50",
+        className
       )}
     >
       <View className="flex flex-row items-center gap-6">
@@ -41,5 +42,5 @@ export const MenuItem = forwardRef(function (
       </View>
       {rightSection}
     </Pressable>
-  )
-})
+  );
+});

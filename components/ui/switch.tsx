@@ -1,4 +1,3 @@
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { cn } from "@/lib/utils";
 import * as SwitchPrimitives from "@rn-primitives/switch";
 import * as React from "react";
@@ -50,7 +49,6 @@ const SwitchNative = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
 >(({ className, ...props }, ref) => {
-  const { colorScheme } = useColorScheme();
   const translateX = useDerivedValue(() => (props.checked ? 18 : 0));
   const animatedRootStyle = useAnimatedStyle(() => {
     return {

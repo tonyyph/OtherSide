@@ -1,14 +1,10 @@
 import { BackButton } from "@/components/common/back-button";
 import { useColorPalette } from "@/hooks/use-color-palette";
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native";
 
 export default function AuxiliaryLayout() {
   const { getColor } = useColorPalette();
-
-  const { i18n } = useLingui();
 
   return (
     <SafeAreaView className="flex-1 bg-background">

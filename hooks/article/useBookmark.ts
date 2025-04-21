@@ -10,7 +10,7 @@ export const useBookmark = () => {
 
   useLayoutEffect(() => {
     setIsBookmarked(true);
-  }, []);
+  }, [setIsBookmarked]);
 
   useEffect(() => {
     const fetchBookmarks = async () => {
@@ -28,7 +28,7 @@ export const useBookmark = () => {
     };
 
     !!isBookmarked && fetchBookmarks();
-  }, [isBookmarked]);
+  }, [isBookmarked, setIsBookmarked]);
 
   return {
     bookmarks: data,

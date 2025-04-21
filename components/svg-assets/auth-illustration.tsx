@@ -1,5 +1,5 @@
 import { cssInterop } from "nativewind";
-import Svg, { type SvgProps, Circle, Path } from "react-native-svg";
+import Svg, { type SvgProps, Path } from "react-native-svg";
 
 export const AuthIllustration = (props: SvgProps) => (
   <Svg width={376} height={326} viewBox="0 0 100 100" {...props}>

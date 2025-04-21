@@ -374,3 +374,91 @@ export const unSaveCategories = async (id: string) => {
     }
   );
 };
+
+////////////// ANALYTICS //////////////
+export const analyticsView = async (req: AnalyticsViewRequest) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.post<ArticleInteraction>(
+    `${process.env.EXPO_PUBLIC_API_URL}/article-analytics/view`,
+    {
+      articleId: req.articleId,
+      deviceInfo: {
+        deviceType: req.deviceType ?? "",
+        appVersion: req.appVersion ?? "",
+        sessionId: req.sessionId ?? ""
+      }
+    },
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const analyticsTimeSpent = async (req: AnalyticsViewRequest) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.post<ArticleInteraction>(
+    `${process.env.EXPO_PUBLIC_API_URL}/article-analytics/time-spent`,
+    {
+      articleId: req.articleId,
+      timeSpentSeconds: req.timeSpentSeconds ?? 0,
+      deviceInfo: {
+        deviceType: req.deviceType ?? "",
+        appVersion: req.appVersion ?? "",
+        sessionId: req.sessionId ?? ""
+      }
+    },
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const analyticsScrollDepth = async (req: AnalyticsViewRequest) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.post<ArticleInteraction>(
+    `${process.env.EXPO_PUBLIC_API_URL}/article-analytics/scroll-depth`,
+    {
+      articleId: req.articleId,
+      scrollPercentage: req.scrollPercentage ?? 0,
+      deviceInfo: {
+        deviceType: req.deviceType ?? "",
+        appVersion: req.appVersion ?? "",
+        sessionId: req.sessionId ?? ""
+      }
+    },
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const analyticsShare = async (req: AnalyticsViewRequest) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.post<ArticleInteraction>(
+    `${process.env.EXPO_PUBLIC_API_URL}/article-analytics/share`,
+    {
+      articleId: req.articleId,
+      platform: req.platform ?? "",
+      deviceInfo: {
+        deviceType: req.deviceType ?? "",
+        appVersion: req.appVersion ?? "",
+        sessionId: req.sessionId ?? ""
+      }
+    },
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};

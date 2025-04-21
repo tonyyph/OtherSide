@@ -7,7 +7,6 @@ import { Text } from "@/components/ui/text";
 import Tooltip from "@/components/ui/tooltip";
 import { useSignUp } from "@/hooks/auth/useSignUp";
 import { formatDateTimeShort } from "@/lib/date";
-import { useUserAuthenticateStore } from "@/stores";
 import { useUserAGuidingStore } from "@/stores/user-guiding/store";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Link, router } from "expo-router";
@@ -39,7 +38,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function SignUpScreen() {
   const [securePassword, setSecurePassword] = useState(true);
   const [secureConfirmPassword, setSecureConfirmPassword] = useState(true);
-  const { setIsLoggedIn } = useUserAuthenticateStore();
 
   const { isFirstTimeSignUp, setIsFirstTimeSignUp } = useUserAGuidingStore();
 
@@ -68,7 +66,7 @@ export default function SignUpScreen() {
   const onPressSecureConfirmPassword = () => {
     setSecureConfirmPassword((prev) => !prev);
   };
-  const { top, bottom } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
 
   if (registerSuccess) {
     return (
@@ -259,10 +257,10 @@ export default function SignUpScreen() {
                       onClose={() => {
                         setIsFirstTimeSignUp(false);
                       }}
-                      content={`Password validation requirements might include the following:\n
-  ● Minimum length (e.g., 6 characters)
-  ● At least one number
-  ● At least one special character (e.g., !, @, #, $)`}
+                      content={`For added security, you should also:
+ ● Use a mix of uppercase and lowercase letters
+ ● Avoid common words or easily guessable information (like your name or birthdate)
+ ● Change your password regularly`}
                     >
                       <LottieView
                         style={{

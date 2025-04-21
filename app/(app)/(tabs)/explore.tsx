@@ -55,6 +55,7 @@ export default function ExploreScreen() {
         size="sm"
         variant="ghost"
         onPress={() => {
+          // eslint-disable-next-line no-unused-expressions
           item?.isSaved ? onUnSaveCategory(item.id) : onSaveCategory(item.id);
         }}
         className={cn(

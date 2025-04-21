@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
 import { cssInterop } from "nativewind";
+import { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { useLingui } from "@lingui/react";
-import { t } from "@lingui/macro";
 
 cssInterop(Dropdown, {
   className: {
@@ -14,8 +12,6 @@ cssInterop(Dropdown, {
 const GenderPicker = () => {
   const [selectedGender, setSelectedGender] = useState<string | undefined>();
   const [isFocus, setIsFocus] = useState(false);
-
-  const { i18n } = useLingui();
 
   const genders = [
     { label: "Male", value: "male" },

@@ -120,7 +120,7 @@ type GetArticlesRequest = {
   filter?: string;
 };
 
-type Category = {};
+type Category = object;
 
 type Article = {
   isBookmarked: boolean;
@@ -240,3 +240,25 @@ type CategoryS = {
 };
 
 type GetCategoriesResponse = CategoryS[];
+
+type AnalyticsViewRequest = {
+  articleId: number;
+  deviceType: string;
+  timeSpentSeconds?: number; // Optional, if you want to track time spent
+  scrollPercentage?: number; // Optional, if you want to track time spent
+  platform?: string; // Optional, if you want to track time spent
+  appVersion: string;
+  sessionId: string;
+};
+
+type ArticleInteraction = {
+  id: number;
+  userId: number;
+  articleId: number;
+  interactionType: "view" | "like" | "share" | "comment"; // you can extend this as needed
+  appVersion: string;
+  deviceType: string;
+  sessionId: string;
+  createdAt: string; // or use `Date` if you parse it
+  metadata: Record<string, any>; // or define a specific type if you know the shape
+};

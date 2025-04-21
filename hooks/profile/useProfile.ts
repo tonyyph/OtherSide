@@ -26,7 +26,7 @@ export const useProfile = () => {
 
   useLayoutEffect(() => {
     setIsUpdateProfile(true);
-  }, []);
+  }, [setIsUpdateProfile]);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -49,7 +49,7 @@ export const useProfile = () => {
     };
 
     !!isUpdateProfile && fetchUserProfile();
-  }, [isUpdateProfile]);
+  }, [isUpdateProfile, setIsLoggedIn, setIsUpdateProfile]);
 
   return {
     userProfile: data,

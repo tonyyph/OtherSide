@@ -3,7 +3,6 @@ import { KeyboardSpacer } from "@/components/common/keyboard-spacer";
 import { Button } from "@/components/ui/button";
 import { usePassword } from "@/hooks/profile/usePassword";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { useLingui } from "@lingui/react";
 import { router } from "expo-router";
 import { debounce } from "lodash";
 import LottieView from "lottie-react-native";

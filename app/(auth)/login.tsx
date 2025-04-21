@@ -43,7 +43,7 @@ export default function LoginScreen() {
         setRememberMe(true);
       }
     })();
-  }, []);
+  }, [usernameState, passwordState]);
 
   const handleLogin = async () => {
     if (rememberMe) {
@@ -245,7 +245,12 @@ export default function LoginScreen() {
                 Invalid email or password
               </Text>
               <Text className="!text-lg !text-foreground mb-2 mx-4 text-center">
-                Your email or password is incorrect. Please check and try again.
+                {passwordState.error?.charAt(0).toUpperCase() +
+                  passwordState.error?.slice(1) ===
+                "Invalid email or password"
+                  ? "Your email or password is incorrect. Please check and try again."
+                  : passwordState.error?.charAt(0).toUpperCase() +
+                    passwordState.error?.slice(1)}
               </Text>
             </View>
             <Button

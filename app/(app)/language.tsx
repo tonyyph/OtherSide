@@ -1,13 +1,10 @@
 import { MenuItem } from "@/components/common/menu-item";
 import { useLocale } from "@/locales/provider";
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import { useRouter } from "expo-router";
 import { CheckIcon } from "lucide-react-native";
 import { ScrollView } from "react-native";
 
 export default function LanguageScreen() {
-  const { i18n } = useLingui();
   const { language, setLanguage } = useLocale();
   const router = useRouter();
 

@@ -14,6 +14,7 @@ type InputFieldProps = TextInputProps & {
   wrapperClassName?: string;
 };
 
+// eslint-disable-next-line react/display-name
 export const InputField = forwardRef(
   (
     {

@@ -1,6 +1,3 @@
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
-import { Bookmark, ClockIcon } from "lucide-react-native";
 import { Image, Text, View } from "react-native";
 
 type NotificationItemProps = {
@@ -20,8 +17,6 @@ export function NotificationItem({
   category,
   imgUrl = "https://ichef.bbci.co.uk/news/1536/cpsprodpb/0561/live/ae1fd0e0-e3d3-11ef-a319-fb4e7360c4ec.jpg.webp"
 }: NotificationItemProps) {
-  const { i18n } = useLingui();
-
   return (
     <View className="flex flex-row items-center mx-6 p-4 my-2 bg-slate-200 rounded-lg">
       <Image

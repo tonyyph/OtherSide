@@ -1,21 +1,35 @@
 import { getCategories, saveCategories, unSaveCategories } from "@/api";
 import { useUserExploreStore } from "@/stores/user-explore/store";
 import { AxiosError } from "axios";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { useMemoFunc } from "../commons";
 
 export const useExplore = () => {
   const [data, setData] = useState<CategoryS[]>();
   const [loading, setLoading] = useState(true);
   const { setIsUpdateCategory, isUpdateCategory } = useUserExploreStore();
+  const fetchCategories = useCallback(async () => {
+    try {
+      const { data: session } = await getCategories();
+
+      setData(session);
+    } catch (error) {
+      console.log(
+        (error as AxiosError<RestfulApiError>).response?.data?.message
+      );
+    } finally {
+      setLoading(false);
+      setIsUpdateCategory(false);
+    }
+  }, [setIsUpdateCategory]);
 
   useLayoutEffect(() => {
     setIsUpdateCategory(true);
-  }, []);
+  }, [setIsUpdateCategory]);
 
   useEffect(() => {
     !!isUpdateCategory && fetchCategories();
-  }, [isUpdateCategory]);
+  }, [isUpdateCategory, fetchCategories]);
 
   const onSaveCategory = useMemoFunc(async (id: string) => {
     setLoading(true);
@@ -50,21 +64,6 @@ export const useExplore = () => {
       setLoading(false);
     }
   });
-
-  const fetchCategories = async () => {
-    try {
-      const { data: session } = await getCategories();
-
-      setData(session);
-    } catch (error) {
-      console.log(
-        (error as AxiosError<RestfulApiError>).response?.data?.message
-      );
-    } finally {
-      setLoading(false);
-      setIsUpdateCategory(false);
-    }
-  };
 
   return {
     categories: data,

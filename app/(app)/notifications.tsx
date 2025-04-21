@@ -1,6 +1,5 @@
 import { NotificationItem } from "@/components/notification/notification-item";
 import { Button } from "@/components/ui/button";
-import { useLingui } from "@lingui/react";
 import { Link, useNavigation } from "expo-router";
 import { EllipsisIcon } from "lucide-react-native";
 import { useEffect } from "react";
@@ -8,9 +7,8 @@ import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function NotificationsScreen() {
-  const { top, bottom } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
   const navigation = useNavigation();
-  const { i18n } = useLingui();
 
   useEffect(() => {
     navigation.setOptions({
@@ -22,7 +20,7 @@ export default function NotificationsScreen() {
         </Link>
       )
     });
-  }, []);
+  }, [navigation]);
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}

@@ -1,20 +1,13 @@
-import React, { useRef } from "react";
-import { TextInput, View, TouchableOpacity } from "react-native";
-import { useNavigation } from "expo-router";
-import { ChevronLeft, Search, SearchIcon } from "lucide-react-native";
 import { memoFC } from "@/utils";
-import { useMemoFunc } from "@/hooks/commons/useMemoFunc";
-import { Button } from "../ui/button";
-import { useLingui } from "@lingui/react";
 import { t } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
+import { useNavigation } from "expo-router";
+import { ChevronLeft, Search } from "lucide-react-native";
+import { useRef } from "react";
+import { TextInput, View } from "react-native";
+import { Button } from "../ui/button";
 
-interface SearchBarProps {
-  showIcon?: boolean;
-  placeholder?: string;
-  title?: string;
-}
-
-export const SearchBar = memoFC(({}: SearchBarProps) => {
+export const SearchBar = memoFC(() => {
   const navigation = useNavigation();
   const textRef = useRef<TextInput>(null);
   const { i18n } = useLingui();

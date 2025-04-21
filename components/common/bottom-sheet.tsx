@@ -11,6 +11,7 @@ import { forwardRef, useCallback } from "react";
 import { View } from "react-native";
 import { FullWindowOverlay } from "react-native-screens";
 
+// eslint-disable-next-line react/display-name
 export const BottomSheet = forwardRef<
   BottomSheetModalMethods,
   BottomSheetModalProps

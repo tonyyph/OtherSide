@@ -10,7 +10,6 @@ import { formatDateShort } from "@/lib/date";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
 import {
-  CircleAlertIcon,
   EyeIcon,
   EyeOffIcon,
   KeyIcon,

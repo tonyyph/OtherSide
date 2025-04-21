@@ -17,7 +17,7 @@ import {
   ThumbsDown,
   ThumbsUp
 } from "lucide-react-native";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   Dimensions,
   ImageBackground,
@@ -35,17 +35,18 @@ import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle
 } from "react-native-reanimated";
+import Tooltip from "react-native-walkthrough-tooltip";
 import { BottomSheet } from "../common/bottom-sheet";
 import { Icon } from "../common/icon";
 import { KeyboardSpacer } from "../common/keyboard-spacer";
 import { toast } from "../common/toast";
 import { Text } from "../ui/text";
-import Tooltip from "react-native-walkthrough-tooltip";
 
 export const ArticleItem = ({
   item,
   contentHeight = 2.45,
   handleBookmark: changeBookmark,
+  handleShare: handleShareArticle,
   isShowPerspective,
   onPressToPerspective
 }: any) => {
@@ -76,13 +77,12 @@ export const ArticleItem = ({
     onBookmark,
     onComment,
     onDeleteBookmark,
-    onDeleteDisLike,
-    onDeleteLike,
     data
   } = useEngagement();
 
   async function handleShare({ title }: { title: string }) {
     try {
+      handleShareArticle("facebook, twitter, whatsapp", item.id);
       await Share.share({
         message: `${title} ${"https://otherside-jet.vercel.app/get-app"} -via OtherSide India`,
         url: `https://otherside-jet.vercel.app/get-app`

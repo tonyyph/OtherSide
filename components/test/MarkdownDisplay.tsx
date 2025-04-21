@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
+import { ScrollView, StyleSheet } from "react-native";
 import Markdown from "react-native-markdown-display";
 
 const MarkdownDisplay = ({ children }: PropsWithChildren) => {

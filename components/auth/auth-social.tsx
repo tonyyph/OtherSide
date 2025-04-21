@@ -1,15 +1,12 @@
-import { createUser } from "@/mutations/user";
 // import { useOAuth } from '@clerk/clerk-expo'
+import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import type { SvgProps } from "react-native-svg";
 import { toast } from "../common/toast";
-import { AppleLogo } from "../svg-assets/apple-logo";
 import { GoogleLogo } from "../svg-assets/google-logo";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
-import { useNavigation } from "expo-router";
-import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 
 type Strategy = "oauth_google" | "oauth_apple";
 

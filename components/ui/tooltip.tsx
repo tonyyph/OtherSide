@@ -3,7 +3,7 @@ import React, { ReactNode, useCallback, useEffect, useState } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
-  TouchableOpacityProps,
+  TouchableOpacityProps
 } from "react-native";
 import Tooltips from "react-native-walkthrough-tooltip";
 import { Text } from "./text";
@@ -18,12 +18,12 @@ type Props = {
 const Tooltip: React.FC<TouchableOpacityProps & Props> = (props) => {
   const { isVisible = false } = props;
   const [showToolTip, setShowTooltip] = useState<boolean>(isVisible);
-  let timeout: any = null;
+  const timeoutRef = React.useRef<any>(null);
 
   useEffect(() => {
     return () => {
-      if (timeout) {
-        clearTimeout(timeout);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
       }
     };
   }, []);
@@ -31,7 +31,7 @@ const Tooltip: React.FC<TouchableOpacityProps & Props> = (props) => {
   const handleToolTip = useCallback(() => {
     setShowTooltip(!showToolTip);
     if (!showToolTip) {
-      timeout = setTimeout(() => {
+      timeoutRef.current = setTimeout(() => {
         setShowTooltip(false);
       }, 5000);
     }
@@ -71,11 +71,11 @@ export default Tooltip;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   tooltip: {
     flex: 1,
     backgroundColor: "#525252",
-    borderRadius: exactDesign(8),
-  },
+    borderRadius: exactDesign(8)
+  }
 });

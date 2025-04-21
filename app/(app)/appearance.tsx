@@ -7,19 +7,15 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { Palette, themeVariables } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
-import { useLingui } from "@lingui/react";
 import * as Haptics from "expo-haptics";
-import { useRouter } from "expo-router";
 import { LockKeyholeIcon, MoonStarIcon, SunIcon } from "lucide-react-native";
 import { vars } from "nativewind";
 import { ScrollView, StatusBar, View, useWindowDimensions } from "react-native";
 
 export default function AppearanceScreen() {
   const { colorScheme, setColorScheme } = useColorScheme();
-  const { i18n } = useLingui();
   const { preferredPalette, setPreferredPalette } = useUserSettingsStore();
   const width = useWindowDimensions().width;
-  const router = useRouter();
   const isDynamicColorPaletteEnabled = useFeatureFlag(
     FeatureFlag.DynamicColorPalette
   );

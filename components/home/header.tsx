@@ -1,17 +1,10 @@
-import { useRouter } from "expo-router";
+import { Bell } from "lucide-react-native";
 import { TouchableOpacity, View } from "react-native";
 import { UserAvatar } from "../common/user-avatar";
 import { Text } from "../ui/text";
-import { Bell } from "lucide-react-native";
 
-type HomeHeaderProps = {
-  walletAccountId?: string;
-  onWalletAccountChange?: (walletAccountId?: string) => void;
-};
-
-export function HomeHeader({}: HomeHeaderProps) {
+export function HomeHeader() {
   //   const { user } = useUser()
-  const router = useRouter();
   const user = {
     id: "123",
     fullName: "Tony Phan",

@@ -39,7 +39,7 @@ export default function HomeScreen() {
 
   const renderItem = useCallback(
     ({ item }: { item: any }) => <MemoizedArticle item={item} type="home" />,
-    []
+    [MemoizedArticle]
   );
 
   const handleSetFilter = useCallback((newFilter: ArticleFilter) => {

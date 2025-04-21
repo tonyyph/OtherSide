@@ -2,7 +2,6 @@ import {
   CATEGORY_EXPENSE_ICONS,
   CATEGORY_INCOME_ICONS
 } from "@/lib/icons/category-icons";
-import { useLingui } from "@lingui/react";
 import { useEffect, useRef } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import type { TextInput } from "react-native";
@@ -16,7 +15,7 @@ import { SelectCategoryIconField } from "./select-category-icon-field";
 type CategoryFormProps = {
   onSubmit: (data: any) => void;
   defaultValues?: Partial<any>;
-  hiddenFields?: Array<"type">;
+  hiddenFields?: "type"[];
 };
 
 export const CategoryForm = ({
@@ -24,7 +23,6 @@ export const CategoryForm = ({
   defaultValues,
   hiddenFields = []
 }: CategoryFormProps) => {
-  const { i18n } = useLingui();
   const nameInputRef = useRef<TextInput>(null);
 
   const categoryForm = useForm<any>({
@@ -49,7 +47,7 @@ export const CategoryForm = ({
       "icon",
       type === "INCOME" ? CATEGORY_INCOME_ICONS[0] : CATEGORY_EXPENSE_ICONS[0]
     );
-  }, [type, defaultValues?.icon]);
+  }, [type, defaultValues?.icon, categoryForm]);
 
   const isTypeHidden = hiddenFields.includes("type");
 
