@@ -79,10 +79,6 @@ export default function AuthenticatedLayout() {
           options={{ headerTitle: `Notifications` }}
         />
         <Stack.Screen
-          name="search"
-          options={{ headerTitle: `Search`, headerShown: false }}
-        />
-        <Stack.Screen
           name="feedback"
           options={{
             presentation: "modal",

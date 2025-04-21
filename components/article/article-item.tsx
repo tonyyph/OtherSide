@@ -52,6 +52,7 @@ export const ArticleItem = ({
 }: any) => {
   const { height } = useWindowDimensions();
   const { step, setStep } = useUserAGuidingStore();
+  const [defaultImg, setDefaultImg] = useState(item?.imageUrl);
 
   const nextStep = () => {
     setStep(step + 1);
@@ -92,8 +93,10 @@ export const ArticleItem = ({
     }
   }
 
-  const like = item.likeCount || (data?.likesCount ?? 0);
-  const dislike = item.dislikeCount || (data?.dislikesCount ?? 0);
+  console.log("data", data);
+
+  const like = data?.likesCount || item.likeCount || 0;
+  const dislike = data?.dislikesCount || item.dislikeCount;
   const commentCount = !!data ? data.comments?.length : item.commentCount;
   const totalReactionCount = like + dislike;
   const isBookmarked = item.isBookmarked;
@@ -128,9 +131,12 @@ export const ArticleItem = ({
         <View className="flex-1">
           <ImageBackground
             source={{
-              uri:
-                item.imageUrl ??
-                "https://reliasoftware.com/images/careers/relia-software-office.webp"
+              uri: defaultImg
+            }}
+            onError={() => {
+              setDefaultImg(
+                "https://image5.photobiz.com/1592/14_20171212102313_8219173_large.jpg"
+              );
             }}
             style={{ height: exactDesign(320) }}
             resizeMode="cover"
@@ -172,11 +178,11 @@ export const ArticleItem = ({
                   numberOfLines={2}
                   className="text-foreground font-bold text-xl flex-1"
                 >
-                  {item.title ?? "Missing Title"}
+                  {item.title ?? "Unknown Title"}
                 </Text>
               </View>
               {step === 1 && !!item?.content && (
-                <View className="w-full rounded-xl top-16">
+                <View className="w-full rounded-xl absolute top-28">
                   <Tooltip
                     isVisible={step === 1}
                     tooltipStyle={styles.tooltipStyle}
@@ -209,7 +215,7 @@ export const ArticleItem = ({
                 </View>
               )}
               {step === 2 && !!item?.content && (
-                <View className="rounded-xl items-center top-16">
+                <View className="rounded-xl absolute items-center  top-16">
                   <Tooltip
                     isVisible={step === 2}
                     onClose={() => {
@@ -364,19 +370,20 @@ export const ArticleItem = ({
             <KeyboardSpacer />
           </BottomSheetScrollView>
           <Animated.View style={translateStyle} className="bg-muted p-4 pb-6">
-            <View className="flex flex-row items-center gap-4">
+            <View className="flex flex-row items-center gap-4 border border-border rounded-2xl bg-background pt-4">
               <TextInput
-                className="line-clamp-1 h-14 flex-1 truncate border rounded-full px-6 border-border bg-black text-white"
+                className="line-clamp-1 min-h-12 flex-1 truncate rounded-full px-6  text-white"
                 placeholder={`Enter you comment here...`}
-                placeholderTextColor={"gray"}
+                placeholderTextColor={"#9CA3AF"}
                 autoCapitalize="none"
+                multiline
                 value={content}
                 onChangeText={(text) => {
                   setContent(text);
                 }}
               />
               <TouchableOpacity onPress={onSendComment}>
-                <SendIcon className="size-7 text-foreground" />
+                <SendIcon className="size-6 text-foreground bottom-2 right-4" />
               </TouchableOpacity>
             </View>
           </Animated.View>
