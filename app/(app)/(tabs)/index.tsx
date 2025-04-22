@@ -2,10 +2,17 @@ import { ArticlePerspectiveRow } from "@/components/article/article-perspective-
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { ArticleFilter, SelectFilter } from "@/components/home/select-filter";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
+import { useAnalytics } from "@/hooks/analytics/useAnalytics";
 import { useArticle } from "@/hooks/article/useArticle";
 import { FileTextIcon } from "lucide-react-native";
-import React, { useCallback, useState } from "react";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import React, { useCallback, useRef, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  Text,
+  View,
+  ViewToken
+} from "react-native";
 
 export default function HomeScreen() {
   const [page, setPage] = useState(1);
@@ -17,6 +24,8 @@ export default function HomeScreen() {
     isRandom: false,
     filter
   });
+
+  const { onAnalyticsView } = useAnalytics();
 
   const EmptyState = () => {
     return (
@@ -35,6 +44,19 @@ export default function HomeScreen() {
       setPage((prev) => prev + 1);
     }
   }, [loadingMore, hasMore, page, fetchMore]);
+
+  const onViewableItemsChanged = useCallback(
+    ({ changed }: { changed: ViewToken[] }) => {
+      changed.forEach(({ item, isViewable }) => {
+        if (isViewable) {
+          onAnalyticsView(item?.leftPerspective?.id);
+          onAnalyticsView(item?.rightPerspective?.id);
+        }
+      });
+    },
+    [onAnalyticsView]
+  );
+
   const MemoizedArticle = React.memo(ArticlePerspectiveRow);
 
   const renderItem = useCallback(
@@ -67,6 +89,7 @@ export default function HomeScreen() {
         maxToRenderPerBatch={10}
         windowSize={5}
         removeClippedSubviews={true}
+        onViewableItemsChanged={onViewableItemsChanged}
         updateCellsBatchingPeriod={50}
         ListEmptyComponent={!loadingMore ? <EmptyState /> : <HomeSkeleton />}
         ListFooterComponent={

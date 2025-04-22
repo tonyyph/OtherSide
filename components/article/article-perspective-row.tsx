@@ -16,12 +16,8 @@ export const ArticlePerspectiveRow = ({
   const viewStartTime = useRef<{ [side: string]: number }>({});
   const viewTimers = useRef<{ [side: string]: number }>({});
 
-  const {
-    onAnalyticsView,
-    onAnalyticsTimeSpent,
-    onAnalyticsScrollDepth,
-    onAnalyticsShare
-  } = useAnalytics();
+  const { onAnalyticsTimeSpent, onAnalyticsScrollDepth, onAnalyticsShare } =
+    useAnalytics();
 
   useEffect(() => {
     setBookmark(item?.isBookmarked);
@@ -95,7 +91,6 @@ export const ArticlePerspectiveRow = ({
             articleId: item?.id,
             scrollPercentage: 100 // Assuming full view
           });
-          onAnalyticsView(item?.id);
 
           console.log(
             `[${type}] Perspective ${side} viewed for ${timeSpentSec}s (total: ${viewTimers.current[side]}s)`
@@ -103,7 +98,7 @@ export const ArticlePerspectiveRow = ({
         }
       });
     },
-    [type, onAnalyticsTimeSpent, onAnalyticsScrollDepth, onAnalyticsView]
+    [type, onAnalyticsTimeSpent, onAnalyticsScrollDepth]
   );
 
   const viewabilityConfig = {

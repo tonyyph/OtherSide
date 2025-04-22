@@ -1,5 +1,3 @@
-import { t } from "@lingui/macro";
-
 import {
   endOfDay,
   endOfMonth,
@@ -26,15 +24,15 @@ export function formatDateShort(date?: Date) {
   }
 
   if (isToday(date)) {
-    return t`Today`;
+    return `Today`;
   }
 
   if (isYesterday(date)) {
-    return t`Yesterday`;
+    return `Yesterday`;
   }
 
   if (isTomorrow(date)) {
-    return t`Tomorrow`;
+    return `Tomorrow`;
   }
 
   if (isSameYear(date, new Date())) {
@@ -50,15 +48,15 @@ export function formatDateTime(date?: Date) {
   }
 
   if (isToday(date)) {
-    return t`Today`;
+    return "Today";
   }
 
   if (isYesterday(date)) {
-    return t`Yesterday`;
+    return `Yesterday`;
   }
 
   if (isTomorrow(date)) {
-    return t`Tomorrow`;
+    return `Tomorrow`;
   }
 
   if (isSameYear(date, new Date())) {

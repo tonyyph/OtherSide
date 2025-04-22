@@ -41,10 +41,8 @@ export default function FeedbackScreen() {
       >
         <InputField
           name="comments"
-          label={t(i18n)`Your message`}
-          placeholder={t(
-            i18n
-          )`Report a bug, request a feature, or just say hi!`}
+          label={`Your message`}
+          placeholder={`Report a bug, request a feature, or just say hi!`}
           autoFocus
           disabled={feedbackForm.formState.isLoading}
           multiline
