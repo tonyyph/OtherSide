@@ -99,9 +99,6 @@ export const useUpdateProfile = () => {
     actionWithLoading(async () => {
       try {
         const { data: session } = await deleteAccount(passwordState.value);
-
-        console.log(" actionWithLoading 💯 session:", session);
-
         if (session) {
           authenStore.setState({ cookie: undefined });
           userStore.setState({ userProfile: undefined });

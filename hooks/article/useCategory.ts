@@ -1,4 +1,5 @@
 import { getCategories, saveCategories, unSaveCategories } from "@/api";
+import { useUserArticleStore } from "@/stores/user-article/store";
 import { useUserExploreStore } from "@/stores/user-explore/store";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
@@ -8,6 +9,7 @@ export const useCategory = () => {
   const [data, setData] = useState<CategoryS[]>();
   const [loading, setLoading] = useState(true);
   const { setIsUpdateCategory } = useUserExploreStore();
+  const { setIsArticled } = useUserArticleStore();
 
   useEffect(() => {
     fetchCategories();
@@ -27,6 +29,7 @@ export const useCategory = () => {
         (error as AxiosError<RestfulApiError>).response?.data?.message
       );
     } finally {
+      setIsArticled(true);
       setLoading(false);
     }
   });
@@ -45,6 +48,7 @@ export const useCategory = () => {
         (error as AxiosError<RestfulApiError>).response?.data?.message
       );
     } finally {
+      setIsArticled(true);
       setLoading(false);
     }
   });

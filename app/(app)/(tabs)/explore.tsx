@@ -2,28 +2,25 @@ import { ArticleExploreItem } from "@/components/article/article-explore-item";
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useArticle } from "@/hooks/article/useArticle";
 import { useExplore } from "@/hooks/article/useExplore";
-import { formatDateTime } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { exactDesign } from "@/utils";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import LottieView from "lottie-react-native";
-import { ChevronRight, ClockIcon } from "lucide-react-native";
-import React, { useCallback, useState } from "react";
-import { FlatList, Image, Pressable, Text, View } from "react-native";
+import { ChevronRight } from "lucide-react-native";
+import React, { useCallback } from "react";
+import { FlatList, Image, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ExploreScreen() {
   const { top, bottom } = useSafeAreaInsets();
-  const { categories, onSaveCategory, onUnSaveCategory } = useExplore();
-
-  const { articles, loading } = useArticle({
-    limit: "5",
-    isRandom: true,
-    page: 1,
-    filter: "all"
-  });
+  const {
+    categories,
+    onSaveCategory,
+    onUnSaveCategory,
+    articles,
+    loadingArt: loading
+  } = useExplore();
 
   const filterSaveCategories = categories?.filter(
     (category) => category?.isSaved

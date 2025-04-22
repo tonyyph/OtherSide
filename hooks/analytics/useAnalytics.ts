@@ -10,7 +10,6 @@ import { useMemoFunc } from "../commons";
 
 export const useAnalytics = () => {
   const onAnalyticsView = useMemoFunc(async (articleId: number) => {
-    console.log("111", 111);
     await analyticsView({
       articleId: articleId,
       deviceType: Constants.deviceName ?? "iOS",
