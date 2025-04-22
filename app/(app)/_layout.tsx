@@ -44,6 +44,10 @@ export default function AuthenticatedLayout() {
         />
         <Stack.Screen name="article-details" options={{ headerShown: false }} />
         <Stack.Screen
+          name="article-bookmark-detail"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="article-comment"
           options={{
             presentation: "modal",
