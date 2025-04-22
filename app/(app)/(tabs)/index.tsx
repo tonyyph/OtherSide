@@ -50,7 +50,6 @@ export default function HomeScreen() {
       changed.forEach(({ item, isViewable }) => {
         if (isViewable) {
           onAnalyticsView(item?.leftPerspective?.id);
-          onAnalyticsView(item?.rightPerspective?.id);
         }
       });
     },

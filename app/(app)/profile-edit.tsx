@@ -194,7 +194,7 @@ export default function EditProfileScreen() {
                 </View>
               </View>
             </View>
-            <Separator className="mb-4" />
+            {/* <Separator className="mb-4" />
             <View className="gap-3">
               <Text className="font-medium text-base text-foreground">
                 {`Danger zone`}
@@ -212,7 +212,7 @@ export default function EditProfileScreen() {
               <Text className="mb-4 text-muted-foreground text-sm">
                 {`All your data will be deleted`}
               </Text>
-            </View>
+            </View> */}
           </View>
         </View>
 

@@ -58,13 +58,7 @@ export const useUpdateProfile = () => {
     return () => {
       if (hideTimer.current) clearTimeout(hideTimer.current);
     };
-  }, [
-    userProfile,
-    firstNameState,
-    genderState,
-    emailAddressState,
-    birthDayState
-  ]);
+  }, [userProfile]);
 
   const onUpdateProfile = useMemoFunc(
     actionWithLoading(async () => {
@@ -105,6 +99,8 @@ export const useUpdateProfile = () => {
     actionWithLoading(async () => {
       try {
         const { data: session } = await deleteAccount(passwordState.value);
+
+        console.log(" actionWithLoading 💯 session:", session);
 
         if (session) {
           authenStore.setState({ cookie: undefined });
