@@ -41,6 +41,7 @@ import { Icon } from "../common/icon";
 import { KeyboardSpacer } from "../common/keyboard-spacer";
 import { toast } from "../common/toast";
 import { Text } from "../ui/text";
+import { useUserArticleStore } from "@/stores/user-article/store";
 
 export const ArticleItem = ({
   item,
@@ -53,6 +54,7 @@ export const ArticleItem = ({
   const { height } = useWindowDimensions();
   const { step, setStep } = useUserAGuidingStore();
   const [defaultImg, setDefaultImg] = useState(item?.imageUrl);
+  const { isUpdateArticled } = useUserArticleStore();
 
   const nextStep = () => {
     setStep(step + 1);
@@ -77,13 +79,20 @@ export const ArticleItem = ({
   };
 
   useEffect(() => {
-    if (item) {
+    if (isUpdateArticled) {
       setLikeCount(item?.likeCount);
       setDislikeCount(item?.dislikeCount);
       setIsLike(item?.isLike);
       setIsDislike(item?.isDislike);
     }
-  }, [item]);
+  }, [
+    item,
+    isUpdateArticled,
+    setLikeCount,
+    setDislikeCount,
+    setIsLike,
+    setIsDislike
+  ]);
 
   const {
     onReactionLike,

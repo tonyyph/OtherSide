@@ -37,10 +37,13 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ArticleDetailScreen from "./article-comment";
+import { useUserArticleStore } from "@/stores/user-article/store";
 
 export default function ArticleBookmarkDetailScreen() {
   const { articleString } = useLocalSearchParams();
   const item = JSON.parse(articleString.toString());
+  const { setIsUpdateArticled } = useUserArticleStore();
+
   const [isLike, setIsLike] = useState(item?.isLike);
   const [isDislike, setIsDislike] = useState(item?.isDislike);
   const [likeCount, setLikeCount] = useState(item?.likeCount);
@@ -83,6 +86,8 @@ export default function ArticleBookmarkDetailScreen() {
     }
     setIsLike(true);
     setIsDislike(false);
+    setIsUpdateArticled(true);
+
     onReactionLike(item?.id);
   };
   const handleDislike = () => {
@@ -96,6 +101,7 @@ export default function ArticleBookmarkDetailScreen() {
     setIsDislike(true);
     setIsLike(false);
     onReactionDisLike(item?.id);
+    setIsUpdateArticled(true);
   };
 
   async function handleShare({ title }: { title: string }) {
