@@ -17,7 +17,7 @@ import {
   ThumbsDown,
   ThumbsUp
 } from "lucide-react-native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
   ImageBackground,
@@ -58,6 +58,10 @@ export const ArticleItem = ({
     setStep(step + 1);
   };
   const [content, setContent] = useState("");
+  const [isLike, setIsLike] = useState(item?.isLike);
+  const [isDislike, setIsDislike] = useState(item?.isDislike);
+  const [likeCount, setLikeCount] = useState(item?.likeCount);
+  const [dislikeCount, setDislikeCount] = useState(item?.dislikeCount);
   const sheetRef = useRef<BottomSheetModal>(null);
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
@@ -72,6 +76,15 @@ export const ArticleItem = ({
     scrollViewRef.current?.scrollToEnd({ animated: true });
   };
 
+  useEffect(() => {
+    if (item) {
+      setLikeCount(item?.likeCount);
+      setDislikeCount(item?.dislikeCount);
+      setIsLike(item?.isLike);
+      setIsDislike(item?.isDislike);
+    }
+  }, [item]);
+
   const {
     onReactionLike,
     onReactionDisLike,
@@ -80,6 +93,31 @@ export const ArticleItem = ({
     onDeleteBookmark,
     data
   } = useEngagement();
+
+  const handleLike = () => {
+    if (isDislike) {
+      setLikeCount(likeCount + 1);
+      setDislikeCount(dislikeCount - 1);
+    }
+    if (!isDislike && !isLike) {
+      setLikeCount(likeCount + 1);
+    }
+    setIsLike(true);
+    setIsDislike(false);
+    onReactionLike(item?.id);
+  };
+  const handleDislike = () => {
+    if (isLike) {
+      setDislikeCount(dislikeCount + 1);
+      setLikeCount(likeCount - 1);
+    }
+    if (!isDislike && !isLike) {
+      setDislikeCount(dislikeCount + 1);
+    }
+    setIsDislike(true);
+    setIsLike(false);
+    onReactionDisLike(item?.id);
+  };
 
   async function handleShare({ title }: { title: string }) {
     try {
@@ -93,10 +131,7 @@ export const ArticleItem = ({
     }
   }
 
-  const like = data?.likesCount || item.likeCount || 0;
-  const dislike = data?.dislikesCount || item.dislikeCount;
   const commentCount = !!data ? data.comments?.length : item.commentCount;
-  const totalReactionCount = like + dislike;
   const isBookmarked = item.isBookmarked;
   const onPressComment = () => {
     sheetRef.current?.present();
@@ -300,16 +335,18 @@ export const ArticleItem = ({
                 className="h-[4px] bg-green-500 rounded-full"
                 style={{
                   flex:
-                    like === 0 && dislike === 0 ? 1 : like / totalReactionCount
+                    likeCount === dislikeCount
+                      ? 1
+                      : likeCount / (likeCount + dislikeCount)
                 }}
               />
               <View
                 className="h-[4px] bg-red-500 rounded-full"
                 style={{
                   flex:
-                    like === 0 && dislike === 0
+                    likeCount === dislikeCount
                       ? 1
-                      : dislike / totalReactionCount
+                      : dislikeCount / (likeCount + dislikeCount)
                 }}
               />
             </View>
@@ -323,34 +360,26 @@ export const ArticleItem = ({
 
               <View className="flex flex-row items-center gap-3">
                 <View className="flex flex-row items-center gap-1">
-                  <TouchableOpacity onPress={() => onReactionLike(item?.id)}>
+                  <TouchableOpacity onPress={handleLike}>
                     <ThumbsUp
-                      fill={
-                        item?.isLike ||
-                        (data?.likesCount ?? 0) - item?.likeCount > 0
-                          ? "#12d85a"
-                          : "none"
-                      }
+                      fill={isLike ? "#12d85a" : "none"}
                       strokeWidth={1}
                       className="size-6 text-green-400"
                     />
                   </TouchableOpacity>
-                  <Text className="text-foreground text-sm">{like}</Text>
+                  <Text className="text-foreground text-sm">{likeCount}</Text>
                 </View>
                 <View className="flex flex-row items-center gap-1">
-                  <TouchableOpacity onPress={() => onReactionDisLike(item?.id)}>
+                  <TouchableOpacity onPress={handleDislike}>
                     <ThumbsDown
-                      fill={
-                        item?.isDislike ||
-                        (data?.dislikesCount ?? 0) - item?.dislikeCount > 0
-                          ? "#ef4444"
-                          : "none"
-                      }
+                      fill={isDislike ? "#ef4444" : "none"}
                       strokeWidth={1}
                       className="size-6 text-red-400"
                     />
                   </TouchableOpacity>
-                  <Text className="text-foreground text-sm">{dislike}</Text>
+                  <Text className="text-foreground text-sm">
+                    {dislikeCount}
+                  </Text>
                 </View>
                 <View className="flex flex-row items-center gap-1">
                   <TouchableOpacity onPress={onPressComment}>

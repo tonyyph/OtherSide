@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react";
 import { FlatList, View, ViewToken } from "react-native";
 import { ArticleItem } from "./article-item";
 import { useAnalytics } from "@/hooks/analytics/useAnalytics";
@@ -38,34 +44,39 @@ export const ArticlePerspectiveRow = ({
     });
   };
 
-  const customData = [
-    item?.leftPerspective && {
-      ...item.leftPerspective,
-      side: "Left",
-      isBookmarked: bookmark,
-      createdAt: item?.createdAt
-    },
-    item?.rightPerspective && {
-      ...item.rightPerspective,
-      side: "Right",
-      isBookmarked: bookmark,
-      createdAt: item?.createdAt
-    }
-  ].filter(Boolean);
+  const customData = useMemo(() => {
+    return [
+      item?.leftPerspective && {
+        ...item.leftPerspective,
+        side: "Left",
+        isBookmarked: bookmark,
+        createdAt: item?.createdAt
+      },
+      item?.rightPerspective && {
+        ...item.rightPerspective,
+        side: "Right",
+        isBookmarked: bookmark,
+        createdAt: item?.createdAt
+      }
+    ].filter(Boolean);
+  }, [item, bookmark]);
 
   const onPressToPerspective = (currentSide: "Left" | "Right") => {
     const nextIndex = currentSide === "Left" ? 1 : 0;
     flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
   };
 
-  const renderHorizontalItem = ({ item }: { item: any }) => (
-    <ArticleItem
-      item={item}
-      isShowPerspective={customData?.length > 1}
-      handleBookmark={handleBookmark}
-      handleShare={handleShare}
-      onPressToPerspective={() => onPressToPerspective(item.side)}
-    />
+  const renderHorizontalItem = useCallback(
+    ({ item }: { item: any }) => (
+      <ArticleItem
+        item={item}
+        isShowPerspective={customData?.length > 1}
+        handleBookmark={handleBookmark}
+        handleShare={handleShare}
+        onPressToPerspective={() => onPressToPerspective(item.side)}
+      />
+    ),
+    [customData?.length, handleBookmark, handleShare]
   );
 
   const onViewableItemsChanged = useCallback(

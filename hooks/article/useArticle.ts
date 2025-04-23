@@ -49,6 +49,7 @@ export const useArticle = ({
   const [hasMore, setHasMore] = useState(true);
 
   const { isArticled, setIsArticled } = useUserArticleStore();
+
   const { setIsLoggedIn } = useUserAuthenticateStore();
   const { userProfile } = useProfile();
 

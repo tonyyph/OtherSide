@@ -9,7 +9,9 @@ type VerticalNewsProps = {
   timestamp?: string;
 };
 export function VerticalNews({ item, timestamp }: VerticalNewsProps) {
-  const [defaultImg, setDefaultImg] = useState(item?.imageUrl);
+  const [defaultImg, setDefaultImg] = useState(
+    "https://image5.photobiz.com/1592/14_20171212102313_8219173_large.jpg"
+  );
 
   const { onDeleteBookmarkDetail } = useEngagement();
   const goToArticleDetail = () => {
@@ -29,7 +31,7 @@ export function VerticalNews({ item, timestamp }: VerticalNewsProps) {
       <View className="flex-1 gap-3 flex-row">
         <Image
           source={{
-            uri: defaultImg
+            uri: item?.imageUrl ?? defaultImg
           }}
           onError={() => {
             setDefaultImg(
@@ -44,14 +46,16 @@ export function VerticalNews({ item, timestamp }: VerticalNewsProps) {
             <View
               style={{
                 backgroundColor:
-                  (item?.perspectiveType ?? "Left") === "Right"
+                  (item?.perspectiveType ?? "left") === "right"
                     ? "#ef4444"
                     : "#3b82f6"
               }}
               className="rounded-full px-3 py-[2px] self-start items-center justify-center"
             >
               <Text className="!text-xs !text-blue-50 font-semiBold">
-                {item?.perspectiveType ?? "Left"}
+                {(item?.perspectiveType ?? "left") === "left"
+                  ? "Left"
+                  : "Right"}
               </Text>
             </View>
             <View className="flex-1 flex-row justify-between items-center gap-2">

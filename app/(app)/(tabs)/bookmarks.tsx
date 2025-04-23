@@ -59,7 +59,7 @@ export default function BookmarksScreen() {
           bookmarks?.map?.((item: any) => (
             <VerticalNews
               item={item?.article}
-              timestamp={formatDateTime(item?.createdAt)}
+              timestamp={formatDateTime(item?.article?.publishedAt)}
             />
           ))
         )}

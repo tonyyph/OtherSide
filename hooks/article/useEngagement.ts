@@ -40,6 +40,7 @@ export const useEngagement = () => {
       if (!!session) {
         getEngagementArticles(id);
         setIsArticled(true);
+        setIsBookmarked(true);
       }
     } catch (error) {
       console.log(
@@ -57,6 +58,7 @@ export const useEngagement = () => {
       if (!!session) {
         getEngagementArticles(id);
         setIsArticled(true);
+        setIsBookmarked(true);
       }
     } catch (error) {
       console.log(
@@ -76,6 +78,8 @@ export const useEngagement = () => {
       });
       if (!!session) {
         getEngagementArticles(id);
+        setIsArticled(true);
+        setIsBookmarked(true);
       }
     } catch (error) {
       console.log(

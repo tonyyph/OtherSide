@@ -35,17 +35,20 @@ import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle
 } from "react-native-reanimated";
-import ArticleDetailScreen from "./article-comment";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import ArticleDetailScreen from "./article-comment";
 
 export default function ArticleBookmarkDetailScreen() {
   const { articleString } = useLocalSearchParams();
   const item = JSON.parse(articleString.toString());
+  const [isLike, setIsLike] = useState(item?.isLike);
+  const [isDislike, setIsDislike] = useState(item?.isDislike);
+  const [likeCount, setLikeCount] = useState(item?.likeCount);
+  const [dislikeCount, setDislikeCount] = useState(item?.dislikeCount);
   const { top } = useSafeAreaInsets();
   const { height } = useWindowDimensions();
   const [defaultImg, setDefaultImg] = useState(item?.imageUrl ?? "");
   const [isBookmarked, setIsBookmarked] = useState(true);
-
   const [content, setContent] = useState("");
   const sheetRef = useRef<BottomSheetModal>(null);
   const keyboard = useAnimatedKeyboard();
@@ -70,6 +73,31 @@ export default function ArticleBookmarkDetailScreen() {
     data
   } = useEngagement();
 
+  const handleLike = () => {
+    if (isDislike) {
+      setLikeCount(likeCount + 1);
+      setDislikeCount(dislikeCount - 1);
+    }
+    if (!isDislike && !isLike) {
+      setLikeCount(likeCount + 1);
+    }
+    setIsLike(true);
+    setIsDislike(false);
+    onReactionLike(item?.id);
+  };
+  const handleDislike = () => {
+    if (isLike) {
+      setDislikeCount(dislikeCount + 1);
+      setLikeCount(likeCount - 1);
+    }
+    if (!isDislike && !isLike) {
+      setDislikeCount(dislikeCount + 1);
+    }
+    setIsDislike(true);
+    setIsLike(false);
+    onReactionDisLike(item?.id);
+  };
+
   async function handleShare({ title }: { title: string }) {
     try {
       await Share.share({
@@ -81,10 +109,8 @@ export default function ArticleBookmarkDetailScreen() {
     }
   }
 
-  const like = data?.likesCount || item.likeCount || 0;
-  const dislike = data?.dislikesCount || item.dislikeCount || 0;
   const commentCount = !!data ? data.comments?.length : item.commentCount;
-  const totalReactionCount = like + dislike;
+
   const onPressComment = () => {
     sheetRef.current?.present();
   };
@@ -160,12 +186,16 @@ export default function ArticleBookmarkDetailScreen() {
                 <View
                   style={{
                     backgroundColor:
-                      item?.side === "Right" ? "#ef4444" : "#3b82f6"
+                      (item?.perspectiveType ?? "left") === "right"
+                        ? "#ef4444"
+                        : "#3b82f6"
                   }}
                   className="rounded-full px-3 py-[2px] self-start top-1 items-center justify-center"
                 >
                   <Text className="!text-sm !text-blue-50 font-semiBold">
-                    {item?.side ?? "Left"}
+                    {(item?.perspectiveType ?? "left") === "left"
+                      ? "Left"
+                      : "Right"}
                   </Text>
                 </View>
                 <Text
@@ -193,16 +223,18 @@ export default function ArticleBookmarkDetailScreen() {
                 className="h-[4px] bg-green-500 rounded-full"
                 style={{
                   flex:
-                    like === 0 && dislike === 0 ? 1 : like / totalReactionCount
+                    likeCount === dislikeCount
+                      ? 1
+                      : likeCount / (likeCount + dislikeCount)
                 }}
               />
               <View
                 className="h-[4px] bg-red-500 rounded-full"
                 style={{
                   flex:
-                    like === 0 && dislike === 0
+                    likeCount === dislikeCount
                       ? 1
-                      : dislike / totalReactionCount
+                      : dislikeCount / (likeCount + dislikeCount)
                 }}
               />
             </View>
@@ -216,34 +248,26 @@ export default function ArticleBookmarkDetailScreen() {
 
               <View className="flex flex-row items-center gap-3">
                 <View className="flex flex-row items-center gap-1">
-                  <TouchableOpacity onPress={() => onReactionLike(item?.id)}>
+                  <TouchableOpacity onPress={handleLike}>
                     <ThumbsUp
-                      fill={
-                        item?.isLike ||
-                        (data?.likesCount ?? 0) - item?.likeCount > 0
-                          ? "#12d85a"
-                          : "none"
-                      }
+                      fill={isLike ? "#12d85a" : "none"}
                       strokeWidth={1}
                       className="size-6 text-green-400"
                     />
                   </TouchableOpacity>
-                  <Text className="text-foreground text-sm">{like}</Text>
+                  <Text className="text-foreground text-sm">{likeCount}</Text>
                 </View>
                 <View className="flex flex-row items-center gap-1">
-                  <TouchableOpacity onPress={() => onReactionDisLike(item?.id)}>
+                  <TouchableOpacity onPress={handleDislike}>
                     <ThumbsDown
-                      fill={
-                        item?.isDislike ||
-                        (data?.dislikesCount ?? 0) - item?.dislikeCount > 0
-                          ? "#ef4444"
-                          : "none"
-                      }
+                      fill={isDislike ? "#ef4444" : "none"}
                       strokeWidth={1}
                       className="size-6 text-red-400"
                     />
                   </TouchableOpacity>
-                  <Text className="text-foreground text-sm">{dislike}</Text>
+                  <Text className="text-foreground text-sm">
+                    {dislikeCount}
+                  </Text>
                 </View>
                 <View className="flex flex-row items-center gap-1">
                   <TouchableOpacity onPress={onPressComment}>
