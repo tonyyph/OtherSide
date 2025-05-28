@@ -5,13 +5,12 @@ import { UserAvatar } from "../common/user-avatar";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
-
-import { userStore } from "@/stores/userStore";
+import { useProfile } from "@/hooks/profile/useProfile";
 import { Link, useRouter } from "expo-router";
 
 export function ProfileCard() {
   const router = useRouter();
-  const userProfile = userStore.getState().userProfile;
+  const { userProfile } = useProfile();
 
   return (
     <View className="mx-6 flex-row items-center justify-center overflow-hidden rounded-lg">

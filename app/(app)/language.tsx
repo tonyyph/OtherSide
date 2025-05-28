@@ -1,12 +1,12 @@
 import { MenuItem } from "@/components/common/menu-item";
+import { useUpdateProfile } from "@/hooks/profile/useUpdateProfile";
 import { useLocale } from "@/locales/provider";
-import { useRouter } from "expo-router";
 import { CheckIcon } from "lucide-react-native";
 import { ScrollView } from "react-native";
 
 export default function LanguageScreen() {
   const { language, setLanguage } = useLocale();
-  const router = useRouter();
+  const { languageState } = useUpdateProfile();
 
   return (
     <ScrollView className="bg-background">
@@ -19,7 +19,7 @@ export default function LanguageScreen() {
         }
         onPress={() => {
           setLanguage("en");
-          router.back();
+          languageState.onChangeText("en");
         }}
       />
       <MenuItem
@@ -31,7 +31,7 @@ export default function LanguageScreen() {
         }
         onPress={() => {
           setLanguage("hi");
-          router.back();
+          languageState.onChangeText("hi");
         }}
       />
       <MenuItem
@@ -43,7 +43,7 @@ export default function LanguageScreen() {
         }
         onPress={() => {
           setLanguage("te");
-          router.back();
+          languageState.onChangeText("te");
         }}
       />
     </ScrollView>

@@ -214,6 +214,8 @@ type DeleteResponse = {
 type UserEngagement = {
   id: number;
   email: string;
+  firstName: string;
+  lastName: string;
 };
 
 type Comments = {

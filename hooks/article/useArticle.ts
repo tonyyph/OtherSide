@@ -98,7 +98,7 @@ export const useArticle = ({
   }, [fetchArticles, filter]);
 
   useEffect(() => {
-    fetchArticles(1, false, filter);
+    isArticled && fetchArticles(1, false, filter);
   }, [isArticled, filter, setIsArticled, fetchArticles]);
 
   return {

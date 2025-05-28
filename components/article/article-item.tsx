@@ -23,7 +23,6 @@ import {
   ImageBackground,
   Keyboard,
   Platform,
-  Share,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -39,9 +38,11 @@ import Tooltip from "react-native-walkthrough-tooltip";
 import { BottomSheet } from "../common/bottom-sheet";
 import { Icon } from "../common/icon";
 import { KeyboardSpacer } from "../common/keyboard-spacer";
-import { toast } from "../common/toast";
 import { Text } from "../ui/text";
 import { useUserArticleStore } from "@/stores/user-article/store";
+import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
+import { ArticleContent } from "./article-content";
 
 export const ArticleItem = ({
   item,
@@ -128,15 +129,18 @@ export const ArticleItem = ({
     onReactionDisLike(item?.id);
   };
 
-  async function handleShare({ title }: { title: string }) {
+  async function handleShare(imageUrl: string) {
     try {
-      handleShareArticle("facebook, twitter, whatsapp", item.id);
-      await Share.share({
-        message: `${title} ${"https://otherside-jet.vercel.app/get-app"} -via OtherSide India`,
-        url: `https://otherside-jet.vercel.app/get-app`
-      });
-    } catch (error: any) {
-      toast.error(error.message);
+      const fileUri = FileSystem.cacheDirectory + "shared-image.jpg";
+      const downloaded = await FileSystem.downloadAsync(imageUrl, fileUri);
+
+      if (await Sharing.isAvailableAsync()) {
+        handleShareArticle("facebook, twitter, whatsapp", item.id);
+        await Sharing.shareAsync(downloaded.uri);
+      } else {
+      }
+    } catch (error) {
+      console.error("Sharing error:", error);
     }
   }
 
@@ -190,9 +194,7 @@ export const ArticleItem = ({
                   className="text-foreground"
                 />
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => handleShare({ title: item.title })}
-              >
+              <TouchableOpacity onPress={() => handleShare(defaultImg)}>
                 <Share2Icon className="text-background size-5" />
               </TouchableOpacity>
             </View>
@@ -291,13 +293,7 @@ export const ArticleItem = ({
               )}
 
               {!!item.content ? (
-                <Text
-                  numberOfLines={20}
-                  ellipsizeMode="tail"
-                  className="flex-1 text-muted-foreground text-lg font-medium"
-                >
-                  {item.content}
-                </Text>
+                <ArticleContent content={item.content} />
               ) : (
                 <Rows4Icon className="size-[200px] text-muted-foreground self-center top-20" />
               )}

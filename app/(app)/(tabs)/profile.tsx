@@ -55,6 +55,7 @@ export default function ProfileScreen() {
   const [loading, setLoading] = useState(true);
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
   const userProfile = userStore.getState().userProfile;
+
   const { setEnabledPushNotifications, enabledPushNotifications } =
     useUserSettingsStore();
   useLayoutEffect(() => {

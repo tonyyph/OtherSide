@@ -1,6 +1,7 @@
 import { deleteAccount, updateUserProfile } from "@/api";
 import { useUserAuthenticateStore } from "@/stores";
 import { authenStore } from "@/stores/authenStore";
+import { useUserArticleStore } from "@/stores/user-article/store";
 import { useUserProfileStore } from "@/stores/user-profile/store";
 import { userStore } from "@/stores/userStore";
 import {
@@ -16,6 +17,8 @@ export const useUpdateProfile = () => {
   const [updateProfileSuccess, setUpdateProfileSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
   const userProfile = userStore.getState().userProfile;
+  const { setIsArticled } = useUserArticleStore();
+
   const { setIsUpdateProfile } = useUserProfileStore();
   const { setIsLoggedIn } = useUserAuthenticateStore();
 
@@ -45,12 +48,18 @@ export const useUpdateProfile = () => {
     validate: validatePassword
   });
 
+  const languageState = useValidateInput({
+    defaultValue: userProfile?.language,
+    validate: validateLetter
+  });
+
   useEffect(() => {
     if (!!userProfile) {
       firstNameState.onChangeText(userProfile?.firstName || "");
       genderState.onChangeText(userProfile?.gender || "");
       emailAddressState.onChangeText(userProfile?.email || "");
       birthDayState.onChangeText(userProfile?.birthday || "");
+      languageState.onChangeText(userProfile?.language);
       hideTimer.current = setTimeout(() => {
         setLoading(false);
       }, 500);
@@ -60,6 +69,12 @@ export const useUpdateProfile = () => {
     };
   }, [userProfile]);
 
+  useEffect(() => {
+    if (languageState.defaultValue !== languageState.value) {
+      onUpdateProfile();
+    }
+  }, [languageState]);
+
   const onUpdateProfile = useMemoFunc(
     actionWithLoading(async () => {
       try {
@@ -67,9 +82,10 @@ export const useUpdateProfile = () => {
           email: emailAddressState.value,
           firstName: firstNameState.value,
           gender: genderState.value,
-          language: "en",
+          language: languageState.value,
           birthday: birthDayState.value
         });
+
         if (session) {
           userStore.setState({
             userProfile: {
@@ -85,6 +101,8 @@ export const useUpdateProfile = () => {
             }
           });
           setIsUpdateProfile(true);
+          languageState.defaultValue !== languageState.value &&
+            setIsArticled(true);
           setUpdateProfileSuccess(true);
         }
       } catch (error) {
@@ -123,6 +141,7 @@ export const useUpdateProfile = () => {
     handleDeleteAccount,
     setUpdateProfileSuccess,
     birthDayState,
-    passwordState
+    passwordState,
+    languageState
   };
 };

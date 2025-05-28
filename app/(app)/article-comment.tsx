@@ -5,19 +5,16 @@ import React, { useEffect } from "react";
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import Animated from "react-native-reanimated";
 
-export default function ArticleDetailScreen({
-  id,
-  commentData
-}: {
+type CommentProps = {
   id: string;
   commentData: Comments[] | undefined;
-}) {
+};
+
+export default function ArticleDetailScreen({ id, commentData }: CommentProps) {
   const { getEngagementArticles, data } = useEngagement();
 
   useEffect(() => {
-    if (!!id) {
-      getEngagementArticles(id);
-    }
+    !!id && getEngagementArticles(id);
   }, [id, getEngagementArticles]);
 
   const comments = commentData ?? data?.comments;
@@ -32,7 +29,7 @@ export default function ArticleDetailScreen({
                 <View className="flex flex-row items-center gap-4">
                   <View className=" flex-1 pb-2">
                     <Text className="text-sm font-medium ita text-white">
-                      {comment?.user?.email}
+                      {comment?.user?.firstName}
                     </Text>
                     <Text>{comment?.text}</Text>
                     <Text className="text-sm text-muted-foreground">
