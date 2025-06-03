@@ -39,6 +39,13 @@ export default function AuxiliaryLayout() {
           }}
         />
         <Stack.Screen
+          name="select-language"
+          options={{
+            presentation: "modal",
+            headerTitle: `Selected your language`
+          }}
+        />
+        <Stack.Screen
           name="sign-up"
           options={{
             presentation: "modal",

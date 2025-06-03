@@ -10,7 +10,7 @@ export const signUpWithEmail = async (data: SignUpRequest) => {
       confirmPassword: data.confirmPassword,
       firstName: data.firstName,
       gender: data.gender,
-      language: "en",
+      language: data.language,
       birthday: data.birthday
     }
   );

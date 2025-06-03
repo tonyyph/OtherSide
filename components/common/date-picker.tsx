@@ -70,7 +70,6 @@ export function DatePicker({
     <>
       <Button
         variant="outline"
-        className="pl-3 pr-6 gap-x-3 top-[2px] justify-start items-center"
         onPress={() => {
           Haptics.selectionAsync();
           Keyboard.dismiss();

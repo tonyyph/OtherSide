@@ -6,6 +6,7 @@ type SignUpRequest = {
   confirmPassword: string;
   firstName: string;
   gender: string;
+  language: string;
   birthday: string;
 };
 

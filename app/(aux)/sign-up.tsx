@@ -7,6 +7,7 @@ import { Text } from "@/components/ui/text";
 import Tooltip from "@/components/ui/tooltip";
 import { useSignUp } from "@/hooks/auth/useSignUp";
 import { formatDateTimeShort } from "@/lib/date";
+import { useLocale } from "@/locales/provider";
 import { useUserAGuidingStore } from "@/stores/user-guiding/store";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Link, router } from "expo-router";
@@ -40,6 +41,7 @@ export default function SignUpScreen() {
   const [secureConfirmPassword, setSecureConfirmPassword] = useState(true);
 
   const { isFirstTimeSignUp, setIsFirstTimeSignUp } = useUserAGuidingStore();
+  const { language } = useLocale();
 
   const {
     onSignUp,
@@ -148,7 +150,7 @@ export default function SignUpScreen() {
                 </Text>
                 <View className="border border-border rounded-lg relative">
                   <TextInput
-                    className="px-10 rounded-lg bg-background h-12 text-white"
+                    className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
                     placeholder={`ex: Tony .D`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
@@ -190,7 +192,7 @@ export default function SignUpScreen() {
                 </View>
               </View>
             </View>
-            <View className="flex flex-row justify-between gap-4 items-center mt-3">
+            <View className="flex flex-row justify-between gap-2 items-center mt-3">
               <View className="flex-1">
                 <Text className="text-sm font-medium text-foreground mb-1">
                   Email Address{" "}
@@ -200,7 +202,7 @@ export default function SignUpScreen() {
                 </Text>
                 <View className="border border-border rounded-lg">
                   <TextInput
-                    className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
+                    className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
                     placeholder={`ex: tonyphan@example.com`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
@@ -214,7 +216,7 @@ export default function SignUpScreen() {
               </View>
               <View className="flex-shrink justify-center">
                 <Text className="text-sm font-medium text-foreground mb-1">
-                  Birth Year{" "}
+                  Birth Year
                 </Text>
                 <View className="rounded-lg">
                   <Controller
@@ -239,6 +241,20 @@ export default function SignUpScreen() {
                     )}
                   />
                 </View>
+              </View>
+
+              <View className="flex-shrink justify-center">
+                <Text className="text-sm font-medium text-foreground mb-1.5">
+                  Language
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    router.push("/select-language");
+                  }}
+                  className="rounded-lg border border-border bg-background h-[42px] items-center justify-center px-4"
+                >
+                  <Text>{language}</Text>
+                </TouchableOpacity>
               </View>
             </View>
 

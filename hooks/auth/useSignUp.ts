@@ -1,5 +1,6 @@
 import { signUpWithEmail } from "@/api";
 import { formatDateTimeShort } from "@/lib/date";
+import { useLocale } from "@/locales/provider";
 import { validateEmail, validateLetter, validatePassword } from "@/utils";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { AxiosError } from "axios";
@@ -10,6 +11,8 @@ import { useMemoFunc, useValidateInput } from "../commons";
 export const useSignUp = () => {
   const [registerSuccess, setRegisterSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { language } = useLocale();
+
   const emailAddressState = useValidateInput({
     defaultValue: "",
     validate: validateEmail
@@ -30,7 +33,6 @@ export const useSignUp = () => {
     defaultValue: "male",
     validate: validateLetter
   });
-
   const birthDayState = useValidateInput({
     defaultValue: formatDateTimeShort(new Date()),
     validate: validateLetter
@@ -80,6 +82,7 @@ export const useSignUp = () => {
           confirmPassword: confirmPasswordState.value,
           firstName: firstNameState.value,
           gender: genderState.value,
+          language: language,
           birthday: isEmpty(birthDayState.value)
             ? birthDayState?.defaultValue
             : birthDayState.value
