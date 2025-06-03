@@ -5,7 +5,7 @@ import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { useAnalytics } from "@/hooks/analytics/useAnalytics";
 import { useArticle } from "@/hooks/article/useArticle";
 import { FileTextIcon } from "lucide-react-native";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,

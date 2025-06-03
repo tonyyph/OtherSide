@@ -11,18 +11,16 @@ import {
 } from "react";
 import { Text } from "react-native";
 import { messages as enMessages } from "./en/messages";
-import { messages as viMessages } from "./vi/messages";
 import { messages as teMessages } from "./te/messages";
 import { messages as hiMessages } from "./hi/messages";
 
 const deviceLanguage = getLocales()[0]?.languageCode ?? "en";
-const defaultLanguage = ["en", "vi", "he", "te"].includes(deviceLanguage)
+const defaultLanguage = ["en", "he", "te"].includes(deviceLanguage)
   ? deviceLanguage
   : "en";
 
 const messages = {
   en: enMessages,
-  vi: viMessages,
   te: teMessages,
   hi: hiMessages
 };
