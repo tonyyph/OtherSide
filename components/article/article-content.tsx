@@ -25,6 +25,7 @@ export const ArticleContent = ({ content }: { content: any }) => {
     <ScrollView
       nestedScrollEnabled
       className="flex-1"
+      showsVerticalScrollIndicator={false}
       scrollEnabled={showReadMore}
     >
       <View

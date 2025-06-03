@@ -38,6 +38,7 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ArticleDetailScreen from "./article-comment";
 import { useUserArticleStore } from "@/stores/user-article/store";
+import { ArticleContent } from "@/components/article/article-content";
 
 export default function ArticleBookmarkDetailScreen() {
   const { articleString } = useLocalSearchParams();
@@ -212,13 +213,7 @@ export default function ArticleBookmarkDetailScreen() {
                 </Text>
               </View>
               {!!item.content ? (
-                <Text
-                  numberOfLines={20}
-                  ellipsizeMode="tail"
-                  className="flex-1 text-muted-foreground text-lg font-medium"
-                >
-                  {item.content}
-                </Text>
+                <ArticleContent content={item.content} />
               ) : (
                 <Rows4Icon className="size-[200px] text-muted-foreground self-center top-20" />
               )}
