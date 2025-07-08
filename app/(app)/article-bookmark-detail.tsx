@@ -205,10 +205,7 @@ export default function ArticleBookmarkDetailScreen() {
                       : "Right"}
                   </Text>
                 </View>
-                <Text
-                  numberOfLines={2}
-                  className="text-foreground font-bold text-xl flex-1"
-                >
+                <Text className="text-foreground font-bold text-xl flex-1">
                   {item.title ?? "Unknown Title"}
                 </Text>
               </View>

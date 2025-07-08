@@ -33,10 +33,7 @@ export const ArticleContent = ({ content }: { content: any }) => {
         className={cn(`overflow-hidden flex-row flex-wrap`)}
         onLayout={handleLayout}
       >
-        <Text
-          numberOfLines={20}
-          className="flex-1 text-muted-foreground text-lg font-medium"
-        >
+        <Text className="flex-1 text-muted-foreground text-lg font-medium">
           {content}
         </Text>
       </View>
