@@ -47,7 +47,7 @@ import { ArticleContent } from "./article-content";
 
 export const ArticleItem = ({
   item,
-  contentHeight = 2.45,
+  contentHeight = 2.15,
   handleBookmark: changeBookmark,
   handleShare: handleShareArticle,
   isShowPerspective,
@@ -196,7 +196,10 @@ export const ArticleItem = ({
                   "https://image5.photobiz.com/1592/14_20171212102313_8219173_large.jpg"
                 );
               }}
-              style={{ height: exactDesign(320) }}
+              style={{
+                height: (Dimensions.get("window").width / 3) * 1.95,
+                width: Dimensions.get("window").width
+              }}
               resizeMode="cover"
             >
               <View className="border p-2 gap-4 border-blue-100 rounded-full opacity-80 bottom-7 right-3 absolute bg-white">
@@ -215,7 +218,7 @@ export const ArticleItem = ({
               <View
                 className="gap-4 flex-1"
                 style={{
-                  maxHeight: height / (isShowPerspective ? contentHeight : 2.2)
+                  maxHeight: height / (isShowPerspective ? contentHeight : 1.95)
                 }}
               >
                 <View className="flex-row justify-between mt-4 gap-x-4">

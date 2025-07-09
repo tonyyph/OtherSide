@@ -1,9 +1,10 @@
+import { ArticleContent } from "@/components/article/article-content";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { Icon } from "@/components/common/icon";
 import { KeyboardSpacer } from "@/components/common/keyboard-spacer";
 import { useEngagement } from "@/hooks/article/useEngagement";
 import { formatDateTime } from "@/lib/date";
-import { exactDesign } from "@/utils";
+import { useUserArticleStore } from "@/stores/user-article/store";
 import { toast } from "@backpackapp-io/react-native-toast";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { router, useLocalSearchParams } from "expo-router";
@@ -37,8 +38,6 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ArticleDetailScreen from "./article-comment";
-import { useUserArticleStore } from "@/stores/user-article/store";
-import { ArticleContent } from "@/components/article/article-content";
 
 export default function ArticleBookmarkDetailScreen() {
   const { articleString } = useLocalSearchParams();
@@ -165,7 +164,10 @@ export default function ArticleBookmarkDetailScreen() {
                 "https://image5.photobiz.com/1592/14_20171212102313_8219173_large.jpg"
               );
             }}
-            style={{ height: exactDesign(320) }}
+            style={{
+              height: (Dimensions.get("window").width / 3) * 1.95,
+              width: Dimensions.get("window").width
+            }}
             resizeMode="cover"
           >
             <View className="border p-2 gap-4 border-blue-100 rounded-full opacity-80 bottom-7 right-3 absolute bg-white">
@@ -186,7 +188,7 @@ export default function ArticleBookmarkDetailScreen() {
             <View
               className="gap-4 flex-1"
               style={{
-                maxHeight: height / 2
+                maxHeight: height / 1.75
               }}
             >
               <View className="flex-row justify-between mt-4 gap-x-4">
