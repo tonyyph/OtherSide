@@ -9,12 +9,14 @@ import { useSignUp } from "@/hooks/auth/useSignUp";
 import { formatDateTimeShort } from "@/lib/date";
 import { useLocale } from "@/locales/provider";
 import { useUserAGuidingStore } from "@/stores/user-guiding/store";
+import { eventBus } from "@/utils/event";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Link, router } from "expo-router";
 import { debounce } from "lodash";
 import LottieView from "lottie-react-native";
 import {
   BadgeCheckIcon,
+  ChevronDownIcon,
   CircleAlertIcon,
   EyeIcon,
   EyeOffIcon,
@@ -30,6 +32,7 @@ import {
   Keyboard,
   Linking,
   ScrollView,
+  StyleSheet,
   TextInput,
   TouchableOpacity,
   View
@@ -39,9 +42,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function SignUpScreen() {
   const [securePassword, setSecurePassword] = useState(true);
   const [secureConfirmPassword, setSecureConfirmPassword] = useState(true);
-
   const { isFirstTimeSignUp, setIsFirstTimeSignUp } = useUserAGuidingStore();
   const { language } = useLocale();
+  const [selectedLanguage, setSelectedLanguage] = useState(false);
 
   const {
     onSignUp,
@@ -65,15 +68,25 @@ export default function SignUpScreen() {
   const onPressSecurePassword = () => {
     setSecurePassword((prev) => !prev);
   };
+
   const onPressSecureConfirmPassword = () => {
     setSecureConfirmPassword((prev) => !prev);
   };
+
+  const onSelectLanguage = () => {
+    eventBus.once("select-language", (selected) => {
+      setSelectedLanguage(selected);
+    });
+
+    router.push("/select-language");
+  };
+
   const { bottom } = useSafeAreaInsets();
 
   if (registerSuccess) {
     return (
       <View
-        className="flex-1 bg-background justify-between gap-8 p-8"
+        className="flex-1 bg-background justify-between gap-6 p-6"
         style={{ paddingBottom: bottom }}
       >
         <BadgeCheckIcon className="absolute top-12 right-0 size-80 text-muted-foreground opacity-35" />
@@ -116,7 +129,7 @@ export default function SignUpScreen() {
       <View className=" flex-1 bg-background gap-3">
         <ScrollView
           className="bg-background"
-          contentContainerClassName="gap-4 px-6 justify-center"
+          contentContainerClassName="gap-4 px-5 justify-center"
           automaticallyAdjustKeyboardInsets
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
@@ -248,12 +261,14 @@ export default function SignUpScreen() {
                   Language
                 </Text>
                 <TouchableOpacity
-                  onPress={() => {
-                    router.push("/select-language");
-                  }}
+                  onPress={onSelectLanguage}
                   className="rounded-lg border border-border bg-background h-[42px] items-center justify-center px-4"
                 >
-                  <Text>{language}</Text>
+                  {selectedLanguage ? (
+                    <Text>{language}</Text>
+                  ) : (
+                    <ChevronDownIcon className="size-5 text-muted-foreground" />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -279,18 +294,7 @@ export default function SignUpScreen() {
  ● Change your password regularly`}
                     >
                       <LottieView
-                        style={{
-                          width: 120,
-                          height: 120,
-                          backgroundColor: "#1A1825",
-                          alignSelf: "center",
-                          padding: 12,
-                          borderRadius: 12,
-                          shadowColor: "#000",
-                          shadowOffset: { width: 0, height: 2 },
-                          shadowOpacity: 0.2,
-                          shadowRadius: 4
-                        }}
+                        style={styles.lottieStyle}
                         source={require("@/assets/json/password-validate.json")}
                         autoPlay
                         loop
@@ -446,3 +450,18 @@ export default function SignUpScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  lottieStyle: {
+    width: 120,
+    height: 120,
+    backgroundColor: "#1A1825",
+    alignSelf: "center",
+    padding: 12,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4
+  }
+});

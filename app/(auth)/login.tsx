@@ -71,7 +71,7 @@ export default function LoginScreen() {
         className={"flex-grow bg-background"}
         keyboardShouldPersistTaps={"handled"}
       >
-        <View className="bg-background gap-2 p-8 justify-center flex-1">
+        <View className="bg-background gap-2 p-6 justify-center flex-1">
           {/* Illustration */}
           <Image
             source={require("@/assets/images/logo-transparent.png")}
@@ -198,7 +198,7 @@ export default function LoginScreen() {
               {/* Don’t have an account yet? Sign Up */}
               <View className="px-4 mt-4 flex-1">
                 <Text className="mx-auto text-center text-muted-foreground text-sm">
-                  Don’t have an account yet?{" "}
+                  Don’t have an account yet?{" \n"}
                   <Link href="/(aux)/sign-up">
                     <Text className="text-primary text-sm font-semiBold">
                       Sign Up

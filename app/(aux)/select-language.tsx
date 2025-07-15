@@ -1,5 +1,6 @@
 import { MenuItem } from "@/components/common/menu-item";
 import { useLocale } from "@/locales/provider";
+import { eventBus } from "@/utils/event";
 import { router } from "expo-router";
 import { CheckIcon } from "lucide-react-native";
 import { ScrollView } from "react-native";
@@ -17,6 +18,7 @@ export default function SelectLanguageScreen() {
           )
         }
         onPress={() => {
+          eventBus.emit("select-language", true);
           setLanguage("en");
           router.back();
         }}
@@ -29,6 +31,7 @@ export default function SelectLanguageScreen() {
           )
         }
         onPress={() => {
+          eventBus.emit("select-language", true);
           setLanguage("hi");
           router.back();
         }}
@@ -41,6 +44,7 @@ export default function SelectLanguageScreen() {
           )
         }
         onPress={() => {
+          eventBus.emit("select-language", true);
           setLanguage("te");
           router.back();
         }}
