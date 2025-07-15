@@ -152,16 +152,6 @@ export default function ProfileScreen() {
                 }
               />
             </Link>
-            {/* <Link href="/appearance" asChild>
-              <MenuItem
-                label={`Appearance`}
-                icon={SwatchBookIcon}
-                disabled
-                rightSection={
-                  <ChevronRightIcon className="h-5 w-5 text-foreground" />
-                }
-              />
-            </Link> */}
             <Link href="/language" asChild>
               <MenuItem
                 label={`Language`}

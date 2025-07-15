@@ -58,13 +58,6 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="appearance"
-          options={{
-            presentation: "modal",
-            headerTitle: `Appearance`
-          }}
-        />
-        <Stack.Screen
           name="profile-edit"
           options={{
             presentation: "modal",
