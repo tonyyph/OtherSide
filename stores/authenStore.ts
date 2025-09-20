@@ -4,7 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { createWithEqualityFn } from "zustand/traditional";
 
 interface AuthenStore {
-  cookie?: { accessToken: string; refreshToken: string };
+  cookie?: { accessToken: string; user: User };
 }
 const defaultValue: AuthenStore = {};
 

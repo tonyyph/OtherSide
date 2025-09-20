@@ -4,6 +4,7 @@ import * as Haptics from "expo-haptics";
 import {
   BookmarkIcon,
   CompassIcon,
+  HammerIcon,
   HouseIcon,
   type LucideIcon,
   UserCircle
@@ -41,7 +42,7 @@ function TabBarItem({
       <Icon
         className={cn(
           "size-6",
-          focused ? "text-primary-foreground" : "text-muted-foreground"
+          focused ? "text-white" : "text-muted-foreground"
         )}
       />
     </Pressable>
@@ -49,9 +50,7 @@ function TabBarItem({
 }
 
 const TAB_BAR_ICONS = {
-  index: HouseIcon,
-  explore: CompassIcon,
-  bookmarks: BookmarkIcon,
+  index: HammerIcon,
   profile: UserCircle
 };
 
@@ -65,10 +64,10 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
 
   return (
     <View className="bg-transparent flex">
-      <Animated.View className="absolute bottom-9 flex-row items-center justify-center gap-3 self-center rounded-2xl border border-border bg-background p-2">
+      <Animated.View className="absolute bottom-4 flex-row items-center justify-center gap-3 self-center rounded-2xl border border-[#e0e0e0] bg-white p-2">
         <Animated.View
           style={[animatedStyle]}
-          className="absolute left-2 h-12 w-12 rounded-xl bg-primary"
+          className="absolute left-2 h-12 w-12 rounded-xl bg-blue-500"
         />
         <View className="flex-row items-center gap-4">
           {state.routes.map((route, index) => {

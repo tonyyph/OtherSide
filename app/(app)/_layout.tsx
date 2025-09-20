@@ -12,12 +12,6 @@ export default function AuthenticatedLayout() {
     return <Redirect href={"/login"} />;
   }
 
-  const isOnBoarding = false;
-
-  if (isOnBoarding) {
-    return <Redirect href={"/onboarding/step-one"} />;
-  }
-
   return (
     <View className="flex-1">
       <Stack
@@ -42,53 +36,7 @@ export default function AuthenticatedLayout() {
             headerShown: false
           }}
         />
-        <Stack.Screen name="article-details" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="article-bookmark-detail"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="article-comment"
-          options={{
-            presentation: "modal",
-            headerTitle: "",
-            headerStyle: {
-              backgroundColor: getColor("--muted")
-            }
-          }}
-        />
-        <Stack.Screen
-          name="profile-edit"
-          options={{
-            presentation: "modal",
-            headerTitle: `Edit profile`
-          }}
-        />
-        <Stack.Screen
-          name="change-password/index"
-          options={{
-            presentation: "modal",
-            headerTitle: `Change Password`
-          }}
-        />
-        <Stack.Screen
-          name="notifications"
-          options={{ headerTitle: `Notifications` }}
-        />
-        <Stack.Screen
-          name="feedback"
-          options={{
-            presentation: "modal",
-            headerTitle: `Feedback`
-          }}
-        />
-        <Stack.Screen
-          name="language"
-          options={{
-            presentation: "modal",
-            headerTitle: `Language`
-          }}
-        />
+        <Stack.Screen name="auction-detail" options={{ headerShown: false }} />
       </Stack>
     </View>
   );

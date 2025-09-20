@@ -51,23 +51,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
-        options={{
-          headerTitle: `Explore`,
-          headerTitleStyle: { marginLeft: 5 },
-          headerTitleAlign: "center"
-        }}
-      />
-
-      <Tabs.Screen
-        name="bookmarks"
-        options={{
-          headerTitle: `Bookmarks`,
-          headerTitleStyle: { marginLeft: 5 },
-          headerTitleAlign: "center"
-        }}
-      />
-      <Tabs.Screen
         name="profile"
         options={{
           headerShown: false,

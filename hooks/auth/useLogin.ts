@@ -28,13 +28,14 @@ export const useLogin = () => {
       const setError = (error: string = "Invalid password") => {
         passwordState.setState((prev) => ({ ...prev, error }));
       };
+
       setLoading(true);
       try {
         const { data: session } = await loginWithUsername({
           email: usernameState.value,
           password: passwordState.value
         });
-        if (session && session.accessToken && session.refreshToken) {
+        if (session && session.accessToken && session.user) {
           setIsLoggedIn(true);
           authenStore.setState({
             cookie: session

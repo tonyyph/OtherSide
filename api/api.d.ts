@@ -29,9 +29,23 @@ type LoginRequest = {
   password: string;
 };
 
+type User = {
+  id: number;
+  createdAt: number;
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+  phoneNumber: string | null;
+  enable2FA: boolean;
+  isActive: boolean;
+  avatar: string | null;
+  lastLoggedInAt: number | null;
+};
+
 type LoginResponse = {
+  user: User;
   accessToken: string;
-  refreshToken: string;
 };
 
 type LogoutResponse = {
@@ -181,10 +195,6 @@ type EngagementRecord = {
 };
 
 type GetEngagementResponse = EngagementRecord[];
-
-type User = {
-  id: number;
-};
 
 type EngagementActionInfo = {
   id: number;

@@ -17,8 +17,12 @@ export const signUpWithEmail = async (data: SignUpRequest) => {
 };
 
 export const loginWithUsername = async (data: LoginRequest) => {
+  console.log(
+    "process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/login",
+    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/login`
+  );
   return await axios.post<LoginResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/auth/sign-in`,
+    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/login`,
     {
       email: data.email,
       password: data.password
@@ -158,6 +162,18 @@ export const getArticles = async (data: GetArticlesRequest) => {
   });
 };
 
+export const getAuctions = async () => {
+  const cookie = authenStore.getState().cookie;
+  const url = `${process.env.EXPO_PUBLIC_API_URL}/api/v1/app/auctions`;
+
+  return await axios.get<any>(url, {
+    headers: {
+      accept: "*/*",
+      Authorization: `Bearer ${cookie?.accessToken}`
+    }
+  });
+};
+
 // Engagement
 
 export const getEngagementArt = async (id: string) => {
@@ -171,6 +187,71 @@ export const getEngagementArt = async (id: string) => {
       }
     }
   );
+};
+
+export const getAuctionsDetail = async (id: string) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.get<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/app/auctions/${id}`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const handleTriggerBid = async (id: string, bidValue: number) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.post<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/app/auctions/${id}/bids`,
+    {
+      amount: bidValue
+    },
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const getListAuctionsBid = async (id: string) => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.get<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/app/auctions/${id}/bids`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const getListAuctionsMe = async () => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.get<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/me/auctions`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
+};
+
+export const getMe = async () => {
+  const cookie = authenStore.getState().cookie;
+  return await axios.get<any>(`${process.env.EXPO_PUBLIC_API_URL}/api/v1/me`, {
+    headers: {
+      accept: "*/*",
+      Authorization: `Bearer ${cookie?.accessToken}`
+    }
+  });
 };
 
 export const getLikes = async () => {

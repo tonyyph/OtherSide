@@ -18,6 +18,7 @@ import {
   Image,
   Keyboard,
   Linking,
+  StatusBar,
   TextInput,
   TouchableOpacity,
   View
@@ -43,7 +44,7 @@ export default function LoginScreen() {
         setRememberMe(true);
       }
     })();
-  }, [usernameState, passwordState]);
+  }, []);
 
   const handleLogin = async () => {
     if (rememberMe) {
@@ -65,29 +66,29 @@ export default function LoginScreen() {
   };
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1 bg-white">
+      <StatusBar barStyle="dark-content" backgroundColor={"#ffffff"} />
+
       <LoadingScreen loading={loading} />
       <KeyboardAwareScrollView
-        className={"flex-grow bg-background"}
+        className={"flex-grow bg-white"}
         keyboardShouldPersistTaps={"handled"}
       >
-        <View className="bg-background gap-2 p-6 justify-center flex-1">
+        <View className="bg-white gap-2 p-6 justify-center flex-1">
           {/* Illustration */}
           <Image
             source={require("@/assets/images/logo-transparent.png")}
-            className="h-[300px] w-[300px] rounded-full opacity-30 absolute top-12 right-0 items-center text-primary"
+            className="h-[300px] w-[300px] rounded-full opacity-20 absolute top-12 right-0"
           />
           {/* Welcome */}
           <View className="z-10">
             <View className="flex flex-col gap-2">
-              <Text className="font-bold text-[40px] text-muted-foreground">
-                Welcome to
+              <Text className="font-bold text-[36px] text-blue-500">
+                AubidNow
               </Text>
-              <Text className="font-bold text-[40px] text-primary">
-                OtherSide
-              </Text>
-              <Text className="text-muted-foreground text-[16px]">
-                Keep up with the newest news, updates, and announcements from us
+              <Text className="text-gray-500 text-[16px]">
+                Discover thousands of items, place your bid, and win with just a
+                few taps.
               </Text>
             </View>
           </View>
@@ -97,29 +98,27 @@ export default function LoginScreen() {
             <View className="flex-1 flex-col gap-3">
               {/* Username Field */}
               <View className="mt-10">
-                <Text className="text-sm font-medium text-foreground mb-1">
+                <Text className="text-sm font-medium text-gray-700 mb-1">
                   Email or Phone Number{" "}
-                  <Text className="font-regular text-red-400 group-active:text-red-400">
-                    *
-                  </Text>
+                  <Text className="font-regular text-red-500">*</Text>
                 </Text>
-                <View className="border-2 border-border rounded-lg relative">
+                <View className="border border-gray-300 rounded-lg relative bg-white">
                   <TextInput
-                    className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
+                    className="pl-10 pr-4 rounded-lg h-12 text-gray-800"
                     placeholder={`Enter your email`}
-                    placeholderTextColor={"gray"}
+                    placeholderTextColor={"#aaa"}
                     autoCapitalize="none"
                     value={usernameState.value}
                     onChangeText={usernameState.onChangeText}
                   />
                   <View className="absolute top-3.5 left-3">
-                    <UserRoundIcon className="size-5 text-muted-foreground" />
+                    <UserRoundIcon color="#888" size={20} />
                   </View>
                 </View>
                 {!!usernameState.error && (
                   <View className=" flex flex-row items-center gap-x-2 mt-1">
-                    <CircleAlertIcon className="size-4 text-red-400" />
-                    <Text className="text-red-400 text-sm font-medium">
+                    <CircleAlertIcon color="#f87171" size={16} />
+                    <Text className="text-red-500 text-sm font-medium">
                       {usernameState.error?.charAt(0).toUpperCase() +
                         usernameState.error?.slice(1)}
                     </Text>
@@ -127,40 +126,37 @@ export default function LoginScreen() {
                 )}
               </View>
               {/* Password Field */}
-              <View className="">
-                <Text className="text-sm font-medium text-foreground mb-1">
-                  Password{" "}
-                  <Text className="font-regular text-red-400 group-active:text-red-400">
-                    *
-                  </Text>
+              <View>
+                <Text className="text-sm font-medium text-gray-700 mb-1">
+                  Password <Text className="font-regular text-red-500">*</Text>
                 </Text>
-                <View className="border-2 border-border rounded-lg relative">
+                <View className="border border-gray-300 rounded-lg relative bg-white">
                   <TextInput
-                    className="px-10 rounded-lg bg-background h-12 text-white"
+                    className="px-10 rounded-lg h-12 text-gray-800"
                     placeholder={`Enter your password`}
-                    placeholderTextColor={"gray"}
+                    placeholderTextColor={"#aaa"}
                     secureTextEntry={securePassword}
                     value={passwordState.value}
                     onChangeText={passwordState.onChangeText}
                   />
                   <View className="absolute top-3.5 left-3">
-                    <KeyIcon className="size-5 text-muted-foreground" />
+                    <KeyIcon color="#888" size={20} />
                   </View>
                   <TouchableOpacity
                     onPress={onPressSecurePassword}
                     className="absolute top-3.5 right-3"
                   >
                     {securePassword ? (
-                      <EyeOffIcon className="size-5 text-muted-foreground" />
+                      <EyeOffIcon color="#888" size={20} />
                     ) : (
-                      <EyeIcon className="size-5 text-muted-foreground" />
+                      <EyeIcon color="#888" size={20} />
                     )}
                   </TouchableOpacity>
                 </View>
                 {!!passwordState.error && (
                   <View className=" flex flex-row items-center gap-x-2 mt-1">
-                    <CircleAlertIcon className="size-4 text-red-400" />
-                    <Text className="text-red-400 text-sm font-medium">
+                    <CircleAlertIcon color="#f87171" size={16} />
+                    <Text className="text-red-500 text-sm font-medium">
                       {passwordState.error?.charAt(0).toUpperCase() +
                         passwordState.error?.slice(1)}
                     </Text>
@@ -175,53 +171,36 @@ export default function LoginScreen() {
                   >
                     {rememberMe ? <CheckBox /> : <UnCheckBox />}
                   </TouchableOpacity>
-                  <Text className="text-sm text-foreground">{`Remember me`}</Text>
+                  <Text className="text-sm text-gray-700">{`Remember me`}</Text>
                 </View>
-                <Link href="/(aux)/forgot-password">
-                  <Text className="text-primary text-sm font-semiBold">
-                    Forgot Password?
-                  </Text>
-                </Link>
               </View>
               {/* Login Button */}
               <Button
                 variant="default"
                 size={"lg"}
-                className="rounded-full mx-2 mt-4"
+                className="rounded-full mx-2 mt-4 bg-blue-500"
                 disabled={!usernameState.value || !passwordState.value}
                 onPress={handleLogin}
               >
-                <Text className="text-background text-base font-medium">
+                <Text className="text-white text-base font-medium">
                   {`Login`}
                 </Text>
               </Button>
-              {/* Don’t have an account yet? Sign Up */}
-              <View className="px-4 mt-4 flex-1">
-                <Text className="mx-auto text-center text-muted-foreground text-sm">
-                  Don’t have an account yet?{" \n"}
-                  <Link href="/(aux)/sign-up">
-                    <Text className="text-primary text-sm font-semiBold">
-                      Sign Up
-                    </Text>
-                  </Link>{" "}
-                  now and start your journey with us!{" "}
-                </Text>
-              </View>
             </View>
           </View>
         </View>
       </KeyboardAwareScrollView>
       {/* Private policy and term of use */}
-      <View className="flex-1 px-8 justify-end bg-background">
+      <View className="flex-1 px-8 pb-6 justify-end bg-white">
         <View className="justify-end">
-          <Text className="mx-auto text-center text-muted-foreground text-xs">
+          <Text className="mx-auto text-center text-gray-500 text-xs">
             By continuing, you acknowledge that you understand and agree to our{" "}
             <Link href="/(aux)/privacy-policy">
-              <Text className="text-primary text-xs">Privacy Policy</Text>
+              <Text className="text-blue-500 text-xs">Privacy Policy</Text>
             </Link>{" "}
             and{" "}
             <Text
-              className="text-primary text-xs"
+              className="text-blue-500 text-xs"
               onPress={() =>
                 Linking.openURL(
                   "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
@@ -241,10 +220,10 @@ export default function LoginScreen() {
                 source={require("@/assets/images/warning.png")}
                 className="w-[64px] h-[64px] self-center mb-4"
               />
-              <Text className="!text-xl !text-white mb-2 font-semiBold text-center">
+              <Text className="!text-xl text-gray-900 mb-2 font-semibold text-center">
                 Invalid email or password
               </Text>
-              <Text className="!text-lg !text-foreground mb-2 mx-4 text-center">
+              <Text className="!text-lg text-gray-600 mb-2 mx-4 text-center">
                 {passwordState.error?.charAt(0).toUpperCase() +
                   passwordState.error?.slice(1) ===
                 "Invalid email or password"
@@ -261,7 +240,7 @@ export default function LoginScreen() {
                 passwordState.setState({ error: "", valid: true });
               }}
             >
-              <Text className="text-background text-base font-medium">
+              <Text className="text-white text-base font-medium">
                 {`Try again`}
               </Text>
             </Button>

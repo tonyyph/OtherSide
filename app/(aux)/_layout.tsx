@@ -39,34 +39,6 @@ export default function AuxiliaryLayout() {
           }}
         />
         <Stack.Screen
-          name="select-language"
-          options={{
-            presentation: "modal",
-            headerTitle: `Selected your language`
-          }}
-        />
-        <Stack.Screen
-          name="sign-up"
-          options={{
-            presentation: "modal",
-            headerTitle: `Sign Up`
-          }}
-        />
-        <Stack.Screen
-          name="forgot-password"
-          options={{
-            presentation: "modal",
-            headerTitle: `Forgot Password`
-          }}
-        />
-        <Stack.Screen
-          name="reset-password"
-          options={{
-            presentation: "modal",
-            headerTitle: `Reset Password`
-          }}
-        />
-        <Stack.Screen
           name="login-error"
           options={{
             presentation: "modal",

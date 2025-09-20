@@ -1,18 +1,13 @@
 {
   "expo": {
-    "name": "OtherSide India",
+    "name": "AubidNow",
     "slug": "otherside-india",
     "version": "1.0.28",
     "orientation": "portrait",
-    "icon": "./assets/images/appstore.png",
+    "icon": "./assets/images/playstore-aubid.png",
     "scheme": "otherside-india",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/images/splash-dark.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#1A1825"
-    },
     "ios": {
       "buildNumber": "1",
       "supportsTablet": true,
@@ -23,7 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/playstore-icon.png",
+        "foregroundImage": "./assets/images/playstore-aubid.png",
         "backgroundColor": "#1A1825"
       },
       "package": "com.cuongphan2.OtherSide",
