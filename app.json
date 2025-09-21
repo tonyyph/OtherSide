@@ -25,7 +25,8 @@
       "permissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -34,6 +35,14 @@
     },
     "plugins": [
       "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#000000",
+          "image": "./assets/images/splash-aubid.png",
+          "imageWidth": 200
+        }
+      ],
       [
         "expo-image-picker",
         {

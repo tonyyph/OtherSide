@@ -1,6 +1,22 @@
 import { authenStore } from "@/stores/authenStore";
+import messaging from "@react-native-firebase/messaging";
 import axios from "axios";
+import { Platform } from "react-native";
 
+async function getFcmToken() {
+  await messaging().registerDeviceForRemoteMessages();
+  if (await messaging().isDeviceRegisteredForRemoteMessages) {
+    const apnsToken = await messaging().getAPNSToken();
+    if ((apnsToken && Platform.OS === "ios") || Platform.OS === "android") {
+      const token = await messaging().getToken();
+      return token;
+    }
+    return null;
+  } else {
+    console.log("Device not registered for remote messages");
+    return null;
+  }
+}
 export const signUpWithEmail = async (data: SignUpRequest) => {
   return await axios.post<SignUpResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/users`,
@@ -17,10 +33,10 @@ export const signUpWithEmail = async (data: SignUpRequest) => {
 };
 
 export const loginWithUsername = async (data: LoginRequest) => {
-  console.log(
-    "process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/login",
-    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/login`
-  );
+  const fcmToken = await getFcmToken();
+
+  console.log("🚀 💯 loginWithUsername 💯 fcmToken:", fcmToken);
+
   return await axios.post<LoginResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/login`,
     {

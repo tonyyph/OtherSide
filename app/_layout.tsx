@@ -3,7 +3,6 @@ import { ToastRoot } from "@/components/common/toast";
 import { LocaleProvider } from "@/locales/provider";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
-import { PortalHost } from "@rn-primitives/portal";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import { Stack } from "expo-router";
@@ -18,7 +17,9 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Svg from "react-native-svg";
+import "@react-native-firebase/app";
 import "../global.css";
+import NotificationListener from "@/utils/NotificationListener";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -110,8 +111,8 @@ export default function RootLayout() {
                         }}
                       />
                     </Stack>
+                    <NotificationListener />
                     <ToastRoot />
-                    <PortalHost />
                   </BottomSheetModalProvider>
                 </KeyboardProvider>
               </GestureHandlerRootView>
