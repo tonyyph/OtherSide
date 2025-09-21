@@ -42,12 +42,6 @@
           "image": "./assets/images/splash-aubid.png",
           "imageWidth": 200
         }
-      ],
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "Allow $(PRODUCT_NAME) accesses your photos for upload profile image"
-        }
       ]
     ],
     "experiments": {

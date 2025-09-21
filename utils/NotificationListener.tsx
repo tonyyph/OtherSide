@@ -1,26 +1,17 @@
 import messaging from "@react-native-firebase/messaging";
-import { useCallback, useEffect } from "react";
-import { Alert, Linking, PermissionsAndroid, Platform } from "react-native";
+import { useEffect } from "react";
+import { Alert, PermissionsAndroid, Platform } from "react-native";
 
 const NotificationListener = () => {
   // Request permission (iOS requires this)
   async function requestUserPermission() {
-    const authStatus = await messaging().requestPermission();
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-    if (enabled) {
-      console.log("Notification permission granted.");
-    } else {
-      console.log("Notification permission denied.");
-    }
+    await messaging().requestPermission();
   }
 
   async function requestNotificationPermission() {
     if (Platform.OS === "android" && Platform.Version >= 33) {
       try {
-        const granted = await PermissionsAndroid.request(
+        await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
           {
             title: "Notification Permission",
@@ -29,12 +20,6 @@ const NotificationListener = () => {
             buttonNegative: "Deny"
           }
         );
-
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log("Notification permission granted");
-        } else {
-          console.log("Notification permission denied");
-        }
       } catch (err) {
         console.warn("Permission error:", err);
       }

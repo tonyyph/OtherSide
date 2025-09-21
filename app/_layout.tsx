@@ -1,6 +1,4 @@
 import { CustomPaletteWrapper } from "@/components/common/custom-palette-wrapper";
-import { ToastRoot } from "@/components/common/toast";
-import { LocaleProvider } from "@/locales/provider";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
@@ -96,30 +94,27 @@ export default function RootLayout() {
         disabled: false
       }}
     >
-      <LocaleProvider>
-        <ThemeProvider value={DarkTheme}>
-          <CustomPaletteWrapper>
-            <SafeAreaProvider>
-              <GestureHandlerRootView>
-                <KeyboardProvider>
-                  <BottomSheetModalProvider>
-                    <Stack screenOptions={{ headerShown: false }}>
-                      <Stack.Screen
-                        name="(aux)"
-                        options={{
-                          presentation: "modal"
-                        }}
-                      />
-                    </Stack>
-                    <NotificationListener />
-                    <ToastRoot />
-                  </BottomSheetModalProvider>
-                </KeyboardProvider>
-              </GestureHandlerRootView>
-            </SafeAreaProvider>
-          </CustomPaletteWrapper>
-        </ThemeProvider>
-      </LocaleProvider>
+      <ThemeProvider value={DarkTheme}>
+        <CustomPaletteWrapper>
+          <SafeAreaProvider>
+            <GestureHandlerRootView>
+              <KeyboardProvider>
+                <BottomSheetModalProvider>
+                  <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen
+                      name="(aux)"
+                      options={{
+                        presentation: "modal"
+                      }}
+                    />
+                  </Stack>
+                  <NotificationListener />
+                </BottomSheetModalProvider>
+              </KeyboardProvider>
+            </GestureHandlerRootView>
+          </SafeAreaProvider>
+        </CustomPaletteWrapper>
+      </ThemeProvider>
     </PostHogProvider>
   );
 }

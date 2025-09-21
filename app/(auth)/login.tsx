@@ -2,10 +2,9 @@ import { BottomSheet } from "@/components/common/bottom-sheet";
 import { CheckBox, UnCheckBox } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import { LoadingScreen } from "@/components/ui/loading";
-import { Text } from "@/components/ui/text";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { Link } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   CircleAlertIcon,
   EyeIcon,
@@ -17,14 +16,13 @@ import { useEffect, useRef, useState } from "react";
 import {
   Image,
   Keyboard,
-  Linking,
   StatusBar,
+  Text,
   TextInput,
   TouchableOpacity,
   View
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen() {
   const [securePassword, setSecurePassword] = useState(true);
@@ -190,28 +188,6 @@ export default function LoginScreen() {
           </View>
         </View>
       </KeyboardAwareScrollView>
-      {/* Private policy and term of use */}
-      <View className="flex-1 px-8 pb-6 justify-end bg-white">
-        <View className="justify-end">
-          <Text className="mx-auto text-center text-gray-500 text-xs">
-            By continuing, you acknowledge that you understand and agree to our{" "}
-            <Link href="/(aux)/privacy-policy">
-              <Text className="text-blue-500 text-xs">Privacy Policy</Text>
-            </Link>{" "}
-            and{" "}
-            <Text
-              className="text-blue-500 text-xs"
-              onPress={() =>
-                Linking.openURL(
-                  "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-                )
-              }
-            >
-              Terms of Use
-            </Text>
-          </Text>
-        </View>
-      </View>
       <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
         <BottomSheetView>
           <View className="p-4">

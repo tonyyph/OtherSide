@@ -31,20 +31,7 @@ export default function AuxiliaryLayout() {
             headerTitle: `Categories`
           }}
         />
-        <Stack.Screen
-          name="privacy-policy"
-          options={{
-            presentation: "modal",
-            headerTitle: `Privacy Policy`
-          }}
-        />
-        <Stack.Screen
-          name="login-error"
-          options={{
-            presentation: "modal",
-            headerTitle: `Login Error`
-          }}
-        />
+
         <Stack.Screen
           name="terms-of-service"
           options={{
