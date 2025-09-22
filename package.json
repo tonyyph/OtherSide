@@ -14,7 +14,8 @@
     "test": "jest --watchAll",
     "lint": "expo lint",
     "ota-update": "eas update --clear-cache --channel development",
-    "build-ios": "eas build -p ios --auto-submit"
+    "build-ios": "eas build -p ios --auto-submit",
+    "build:android-production-eas": "eas build --platform android --profile production"
   },
   "jest": {
     "preset": "jest-expo"
