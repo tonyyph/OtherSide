@@ -10,6 +10,9 @@
       "ios": {
         "simulator": true
       },
+      "android": {
+        "buildType": "apk"
+      },
       "channel": "development-simulator",
       "node": "20.18.1",
       "env": {
@@ -32,6 +35,9 @@
     },
     "preview": {
       "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
       "channel": "preview",
       "node": "20.18.1",
       "env": {
@@ -44,6 +50,7 @@
     "production": {
       "autoIncrement": true,
       "android": {
+        "buildType": "apk",
         "image": "latest"
       },
       "ios": {
