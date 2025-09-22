@@ -18,23 +18,20 @@ async function getFcmToken() {
   }
 }
 export const signUpWithEmail = async (data: SignUpRequest) => {
-  return await axios.post<SignUpResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/users`,
-    {
-      email: data.email,
-      password: data.password,
-      confirmPassword: data.confirmPassword,
-      firstName: data.firstName,
-      gender: data.gender,
-      language: data.language,
-      birthday: data.birthday
-    }
-  );
+  return await axios.post<SignUpResponse>(`http://18.140.67.55:8080/users`, {
+    email: data.email,
+    password: data.password,
+    confirmPassword: data.confirmPassword,
+    firstName: data.firstName,
+    gender: data.gender,
+    language: data.language,
+    birthday: data.birthday
+  });
 };
 
 export const loginWithUsername = async (data: LoginRequest) => {
   return await axios.post<LoginResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/login`,
+    `http://18.140.67.55:8080/api/v1/auth/login`,
     {
       email: data.email,
       password: data.password
@@ -51,7 +48,7 @@ export const loginWithUsername = async (data: LoginRequest) => {
 export const logout = async () => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<LogoutResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/auth/logout`,
+    `http://18.140.67.55:8080/auth/logout`,
     {},
     {
       headers: {
@@ -64,7 +61,7 @@ export const logout = async () => {
 
 export const forgotPassword = async (data: ForgotPasswordRequest) => {
   return await axios.post<ForgotPasswordResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/auth/forgot-password`,
+    `http://18.140.67.55:8080/auth/forgot-password`,
     {
       email: data.email
     }
@@ -73,7 +70,7 @@ export const forgotPassword = async (data: ForgotPasswordRequest) => {
 
 export const resetPassword = async (data: ResetPasswordRequest) => {
   return await axios.post<ResetPasswordResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/auth/reset-password`,
+    `http://18.140.67.55:8080/auth/reset-password`,
     {
       token: data.token,
       newPassword: data.newPassword
@@ -83,7 +80,7 @@ export const resetPassword = async (data: ResetPasswordRequest) => {
 
 export const refreshToken = async (data: RefreshTokenRequest) => {
   return await axios.post<RefreshTokenResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/auth/refresh-token`,
+    `http://18.140.67.55:8080/auth/refresh-token`,
     {
       refreshToken: data.refreshToken
     }
@@ -92,25 +89,22 @@ export const refreshToken = async (data: RefreshTokenRequest) => {
 
 export const deleteAccount = async (password: string) => {
   const cookie = authenStore.getState().cookie;
-  return await axios.delete<DeleteResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/me`,
-    {
-      headers: {
-        accept: "*/*",
-        Authorization: `Bearer ${cookie?.accessToken}`
-      },
-      data: {
-        password: password
-      }
+  return await axios.delete<DeleteResponse>(`http://18.140.67.55:8080/me`, {
+    headers: {
+      accept: "*/*",
+      Authorization: `Bearer ${cookie?.accessToken}`
+    },
+    data: {
+      password: password
     }
-  );
+  });
 };
 
 export const changePassword = async (data: ChangePasswordRequest) => {
   const cookie = authenStore.getState().cookie;
 
   return await axios.put<ChangePasswordResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/me/change-password`,
+    `http://18.140.67.55:8080/me/change-password`,
     {
       currentPassword: data.currentPassword,
       newPassword: data.newPassword
@@ -126,7 +120,7 @@ export const changePassword = async (data: ChangePasswordRequest) => {
 
 export const getMeUserToken = async () => {
   const cookie = authenStore.getState().cookie;
-  const url = `${process.env.EXPO_PUBLIC_API_URL}/api/v1/me/user_token`;
+  const url = `http://18.140.67.55:8080/api/v1/me/user_token`;
 
   return await axios.get<any>(url, {
     headers: {
@@ -138,7 +132,7 @@ export const getMeUserToken = async () => {
 
 export const postUserToken = async () => {
   const cookie = authenStore.getState().cookie;
-  const url = `${process.env.EXPO_PUBLIC_API_URL}/api/v1/me/user_token`;
+  const url = `http://18.140.67.55:8080/api/v1/me/user_token`;
   const token = await getFcmToken();
 
   return await axios.post<any>(
@@ -157,7 +151,7 @@ export const postUserToken = async () => {
 
 export const getAuctions = async () => {
   const cookie = authenStore.getState().cookie;
-  const url = `${process.env.EXPO_PUBLIC_API_URL}/api/v1/app/auctions`;
+  const url = `http://18.140.67.55:8080/api/v1/app/auctions`;
 
   return await axios.get<any>(url, {
     headers: {
@@ -172,7 +166,7 @@ export const getAuctions = async () => {
 export const getEngagementArt = async (id: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<ArticleEngagementResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/article/${id}`,
+    `http://18.140.67.55:8080/engagement/article/${id}`,
     {
       headers: {
         accept: "*/*",
@@ -185,7 +179,7 @@ export const getEngagementArt = async (id: string) => {
 export const getAuctionsDetail = async (id: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<any>(
-    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/app/auctions/${id}`,
+    `http://18.140.67.55:8080/api/v1/app/auctions/${id}`,
     {
       headers: {
         accept: "*/*",
@@ -198,7 +192,7 @@ export const getAuctionsDetail = async (id: string) => {
 export const handleTriggerBid = async (id: string, bidValue: number) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<any>(
-    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/app/auctions/${id}/bids`,
+    `http://18.140.67.55:8080/api/v1/app/auctions/${id}/bids`,
     {
       amount: bidValue
     },
@@ -214,7 +208,7 @@ export const handleTriggerBid = async (id: string, bidValue: number) => {
 export const getListAuctionsBid = async (id: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<any>(
-    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/app/auctions/${id}/bids`,
+    `http://18.140.67.55:8080/api/v1/app/auctions/${id}/bids`,
     {
       headers: {
         accept: "*/*",
@@ -226,20 +220,17 @@ export const getListAuctionsBid = async (id: string) => {
 
 export const getListAuctionsMe = async () => {
   const cookie = authenStore.getState().cookie;
-  return await axios.get<any>(
-    `${process.env.EXPO_PUBLIC_API_URL}/api/v1/me/auctions`,
-    {
-      headers: {
-        accept: "*/*",
-        Authorization: `Bearer ${cookie?.accessToken}`
-      }
+  return await axios.get<any>(`http://18.140.67.55:8080/api/v1/me/auctions`, {
+    headers: {
+      accept: "*/*",
+      Authorization: `Bearer ${cookie?.accessToken}`
     }
-  );
+  });
 };
 
 export const getMe = async () => {
   const cookie = authenStore.getState().cookie;
-  return await axios.get<any>(`${process.env.EXPO_PUBLIC_API_URL}/api/v1/me`, {
+  return await axios.get<any>(`http://18.140.67.55:8080/api/v1/me`, {
     headers: {
       accept: "*/*",
       Authorization: `Bearer ${cookie?.accessToken}`
@@ -250,7 +241,7 @@ export const getMe = async () => {
 export const getLikes = async () => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<GetEngagementResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/likes`,
+    `http://18.140.67.55:8080/engagement/likes`,
     {
       headers: {
         accept: "*/*",
@@ -263,7 +254,7 @@ export const getLikes = async () => {
 export const getDisLikes = async () => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<GetEngagementResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/dislikes`,
+    `http://18.140.67.55:8080/engagement/dislikes`,
     {
       headers: {
         accept: "*/*",
@@ -276,7 +267,7 @@ export const getDisLikes = async () => {
 export const getComments = async () => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<GetEngagementResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/comments`,
+    `http://18.140.67.55:8080/engagement/comments`,
     {
       headers: {
         accept: "*/*",
@@ -289,7 +280,7 @@ export const getComments = async () => {
 export const getBookmarks = async () => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<GetEngagementResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/bookmarks`,
+    `http://18.140.67.55:8080/engagement/bookmarks`,
     {
       headers: {
         accept: "*/*",
@@ -302,7 +293,7 @@ export const getBookmarks = async () => {
 export const createLikes = async (artId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<PostEngagementActionResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/like/${artId}`,
+    `http://18.140.67.55:8080/engagement/like/${artId}`,
     {},
     {
       headers: {
@@ -316,7 +307,7 @@ export const createLikes = async (artId: string) => {
 export const createDisLikes = async (artId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<PostEngagementActionResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/dislike/${artId}`,
+    `http://18.140.67.55:8080/engagement/dislike/${artId}`,
     {},
     {
       headers: {
@@ -330,7 +321,7 @@ export const createDisLikes = async (artId: string) => {
 export const createBookmarks = async (artId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<PostEngagementActionResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/bookmark/${artId}`,
+    `http://18.140.67.55:8080/engagement/bookmark/${artId}`,
     {},
     {
       headers: {
@@ -344,7 +335,7 @@ export const createBookmarks = async (artId: string) => {
 export const createComments = async (data: any) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<PostEngagementActionResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/comment/${data.artId}`,
+    `http://18.140.67.55:8080/engagement/comment/${data.artId}`,
     {
       text: data?.text
     },
@@ -360,7 +351,7 @@ export const createComments = async (data: any) => {
 export const deleteLikes = async (likeId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/like/${likeId}`,
+    `http://18.140.67.55:8080/engagement/like/${likeId}`,
     {
       headers: {
         accept: "*/*",
@@ -373,7 +364,7 @@ export const deleteLikes = async (likeId: string) => {
 export const deleteDisLikes = async (dislikeId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/dislike/${dislikeId}`,
+    `http://18.140.67.55:8080/engagement/dislike/${dislikeId}`,
     {
       headers: {
         accept: "*/*",
@@ -386,7 +377,7 @@ export const deleteDisLikes = async (dislikeId: string) => {
 export const deleteBookmarks = async (bookmarkId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/bookmark/${bookmarkId}`,
+    `http://18.140.67.55:8080/engagement/bookmark/${bookmarkId}`,
     {
       headers: {
         accept: "*/*",
@@ -399,7 +390,7 @@ export const deleteBookmarks = async (bookmarkId: string) => {
 export const deleteComments = async (commentId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/engagement/comment/${commentId}`,
+    `http://18.140.67.55:8080/engagement/comment/${commentId}`,
     {
       headers: {
         accept: "*/*",
@@ -412,7 +403,7 @@ export const deleteComments = async (commentId: string) => {
 export const getCategories = async () => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<GetCategoriesResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/categories`,
+    `http://18.140.67.55:8080/categories`,
     {
       headers: {
         accept: "*/*",
@@ -425,7 +416,7 @@ export const getCategories = async () => {
 export const saveCategories = async (id: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<DeleteResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/categories/${id}/save`,
+    `http://18.140.67.55:8080/categories/${id}/save`,
     {},
     {
       headers: {
@@ -439,7 +430,7 @@ export const saveCategories = async (id: string) => {
 export const unSaveCategories = async (id: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/categories/${id}/unsave`,
+    `http://18.140.67.55:8080/categories/${id}/unsave`,
     {
       headers: {
         accept: "*/*",
@@ -453,7 +444,7 @@ export const unSaveCategories = async (id: string) => {
 export const analyticsView = async (req: AnalyticsViewRequest) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<ArticleInteraction>(
-    `${process.env.EXPO_PUBLIC_API_URL}/article-analytics/view`,
+    `http://18.140.67.55:8080/article-analytics/view`,
     {
       articleId: req.articleId,
       deviceInfo: {
@@ -474,7 +465,7 @@ export const analyticsView = async (req: AnalyticsViewRequest) => {
 export const analyticsTimeSpent = async (req: AnalyticsViewRequest) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<ArticleInteraction>(
-    `${process.env.EXPO_PUBLIC_API_URL}/article-analytics/time-spent`,
+    `http://18.140.67.55:8080/article-analytics/time-spent`,
     {
       articleId: req.articleId,
       timeSpentSeconds: req.timeSpentSeconds ?? 0,
@@ -496,7 +487,7 @@ export const analyticsTimeSpent = async (req: AnalyticsViewRequest) => {
 export const analyticsScrollDepth = async (req: AnalyticsViewRequest) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<ArticleInteraction>(
-    `${process.env.EXPO_PUBLIC_API_URL}/article-analytics/scroll-depth`,
+    `http://18.140.67.55:8080/article-analytics/scroll-depth`,
     {
       articleId: req.articleId,
       scrollPercentage: req.scrollPercentage ?? 0,
@@ -518,7 +509,7 @@ export const analyticsScrollDepth = async (req: AnalyticsViewRequest) => {
 export const analyticsShare = async (req: AnalyticsViewRequest) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<ArticleInteraction>(
-    `${process.env.EXPO_PUBLIC_API_URL}/article-analytics/share`,
+    `http://18.140.67.55:8080/article-analytics/share`,
     {
       articleId: req.articleId,
       platform: req.platform ?? "",
