@@ -1,6 +1,7 @@
 import { useAuction } from "@/hooks/useAuction";
+import { useAuctionStore } from "@/stores/auctionStore";
 import { router, useFocusEffect } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -19,29 +20,27 @@ import {
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
-function AuctionCard({ item, onOpenBid }: any) {
-  const lastBidAmount = item.lastBid ? item.lastBid.amount : null;
+const AuctionCard = React.memo(function AuctionCard({ item, onOpenBid }: any) {
+  const lastBidAmount = item.lastBid?.amount ?? null;
   const isEnded = item.status !== "active";
 
   return (
     <TouchableOpacity
       activeOpacity={1}
-      onPress={() => {
+      onPress={() =>
         router.push({
           pathname: "/auction-detail",
           params: { auctionId: item?.id }
-        });
-      }}
+        })
+      }
       style={styles.card}
     >
-      {/* Image */}
       <Image
         source={{ uri: item.product.image.fileUrl }}
         style={styles.cardImage}
         resizeMode="cover"
       />
 
-      {/* Info */}
       <View style={styles.cardBody}>
         <Text style={styles.cardTitle} numberOfLines={1}>
           {item.product.name}
@@ -55,11 +54,10 @@ function AuctionCard({ item, onOpenBid }: any) {
 
         <Text style={styles.price}>${item.minPrice}</Text>
 
-        {/* Button */}
         <TouchableOpacity
           style={[
             styles.bidButton,
-            { backgroundColor: isEnded ? "#ccc" : "#3b82f6" }
+            { backgroundColor: isEnded ? "#67C090" : "#3b82f6" }
           ]}
           disabled={isEnded}
           onPress={() => onOpenBid(item)}
@@ -71,48 +69,65 @@ function AuctionCard({ item, onOpenBid }: any) {
       </View>
     </TouchableOpacity>
   );
-}
+});
 
 export default function HomeScreen() {
-  const { auctions, handleOnBid, loading, fetchAuctions } = useAuction({});
+  const { handleOnBid, loading, fetchAuctions } = useAuction();
+  const { auctionData } = useAuctionStore();
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState("Price");
   const [refreshing, setRefreshing] = useState(false);
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchAuctions(1);
-    }, [])
+  // filter modal state
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "ended">(
+    "all"
   );
-
-  // // auto refresh every 30s
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     fetchAuctions(1);
-  //   }, 30000);
-
-  //   return () => clearInterval(interval);
-  // }, [fetchAuctions]);
 
   // modal bid
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedAuction, setSelectedAuction] = useState<any>(null);
   const [bidValue, setBidValue] = useState("");
 
-  const filteredAuctions = auctions
-    .filter((item: any) =>
+  useFocusEffect(
+    useCallback(() => {
+      fetchAuctions(1);
+    }, [fetchAuctions])
+  );
+
+  const filteredAuctions = useMemo(() => {
+    let list = auctionData.filter((item: any) =>
       item.product.name.toLowerCase().includes(search.toLowerCase())
-    )
-    .sort((a: any, b: any) => {
-      return b?.lastBid?.createdAt - a?.lastBid?.createdAt;
-    });
+    );
+
+    if (statusFilter !== "all") {
+      list = list.filter((item: any) =>
+        statusFilter === "active"
+          ? item.status === "active"
+          : item.status !== "active"
+      );
+    }
+
+    if (minPrice) {
+      list = list.filter((item: any) => item.minPrice >= Number(minPrice));
+    }
+
+    if (maxPrice) {
+      list = list.filter((item: any) => item.minPrice <= Number(maxPrice));
+    }
+
+    list = [...list].sort(
+      (a: any, b: any) => b?.lastBid?.createdAt - a?.lastBid?.createdAt
+    );
+
+    return list;
+  }, [auctionData, search, minPrice, maxPrice, statusFilter]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 1500);
-  }, []);
+    fetchAuctions(1).finally(() => setRefreshing(false));
+  }, [fetchAuctions]);
 
   const handleOpenBid = (auction: any) => {
     setSelectedAuction(auction);
@@ -126,6 +141,17 @@ export default function HomeScreen() {
     setBidValue("");
   };
 
+  const handleApplyFilter = () => {
+    setFilterVisible(false);
+  };
+
+  const handleResetFilter = () => {
+    setMinPrice("");
+    setMaxPrice("");
+    setStatusFilter("all");
+    setFilterVisible(false);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={"#FFFFFF"} />
@@ -133,9 +159,22 @@ export default function HomeScreen() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={{ flex: 1 }}>
             {/* Header */}
-            <View style={styles.header}>
-              <Text style={styles.headerTitle}>AubidNow</Text>
-              <Text style={styles.headerSubtitle}>Find your best deals</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#FFFFFF"
+              }}
+            >
+              <Image
+                source={require("../../../assets/images/splash-aubid.png")}
+                style={{ width: 80, height: 80, marginTop: 12 }}
+              />
+              {/* <View style={styles.header}>
+                <Text style={styles.headerTitle}>AubidNow</Text>
+                <Text style={styles.headerSubtitle}>Find your best deals</Text>
+              </View> */}
             </View>
 
             {/* Search + Filter */}
@@ -150,7 +189,10 @@ export default function HomeScreen() {
                   onChangeText={setSearch}
                 />
               </View>
-              <TouchableOpacity style={styles.filterButton}>
+              <TouchableOpacity
+                style={styles.filterButton}
+                onPress={() => setFilterVisible(true)}
+              >
                 <Text style={styles.filterIcon}>⚙️</Text>
               </TouchableOpacity>
             </View>
@@ -185,13 +227,108 @@ export default function HomeScreen() {
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={(item) => String(item.id)}
               contentContainerStyle={styles.listContent}
               showsVerticalScrollIndicator={false}
               ListFooterComponent={<View style={{ height: 60 }} />}
               numColumns={2}
               columnWrapperStyle={{ justifyContent: "space-between" }}
             />
+
+            {/* Filter Modal */}
+            <Modal
+              visible={filterVisible}
+              transparent
+              animationType="fade"
+              onRequestClose={() => setFilterVisible(false)}
+            >
+              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.modalOverlay}>
+                  <View style={styles.modalContent}>
+                    <Text style={styles.modalTitle}>Advanced Filters</Text>
+
+                    {/* Price range */}
+                    <View style={{ flexDirection: "row", marginBottom: 12 }}>
+                      <TextInput
+                        style={[styles.modalInput, { flex: 1, marginRight: 6 }]}
+                        placeholder="Min price"
+                        placeholderTextColor="#aaa"
+                        keyboardType="numeric"
+                        value={minPrice}
+                        onChangeText={setMinPrice}
+                      />
+                      <TextInput
+                        style={[styles.modalInput, { flex: 1, marginLeft: 6 }]}
+                        placeholder="Max price"
+                        placeholderTextColor="#aaa"
+                        keyboardType="numeric"
+                        value={maxPrice}
+                        onChangeText={setMaxPrice}
+                      />
+                    </View>
+
+                    {/* Status filter */}
+                    <View style={{ flexDirection: "row", marginBottom: 16 }}>
+                      {["all", "active", "ended"].map((status) => (
+                        <TouchableOpacity
+                          key={status}
+                          style={[
+                            styles.modalButton,
+                            {
+                              flex: 1,
+                              backgroundColor:
+                                statusFilter === status ? "#3b82f6" : "#eee"
+                            }
+                          ]}
+                          onPress={() =>
+                            setStatusFilter(
+                              status as "all" | "active" | "ended"
+                            )
+                          }
+                        >
+                          <Text
+                            style={[
+                              styles.modalButtonText,
+                              {
+                                color: statusFilter === status ? "#fff" : "#333"
+                              }
+                            ]}
+                          >
+                            {status.toUpperCase()}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+
+                    {/* Actions */}
+                    <View style={styles.modalActions}>
+                      <TouchableOpacity
+                        style={[
+                          styles.modalButton,
+                          { backgroundColor: "#eee" }
+                        ]}
+                        onPress={handleResetFilter}
+                      >
+                        <Text
+                          style={[styles.modalButtonText, { color: "#333" }]}
+                        >
+                          Reset
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={[
+                          styles.modalButton,
+                          { backgroundColor: "#3b82f6" }
+                        ]}
+                        onPress={handleApplyFilter}
+                      >
+                        <Text style={styles.modalButtonText}>Apply</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            </Modal>
 
             {/* Modal for bid */}
             <Modal
@@ -269,7 +406,8 @@ const styles = StyleSheet.create({
   headerSubtitle: { fontSize: 13, color: "#666", marginTop: 4 },
   searchRow: {
     flexDirection: "row",
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
     alignItems: "center",
     backgroundColor: "#FFFFFF"
   },

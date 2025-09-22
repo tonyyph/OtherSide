@@ -33,10 +33,6 @@ export const signUpWithEmail = async (data: SignUpRequest) => {
 };
 
 export const loginWithUsername = async (data: LoginRequest) => {
-  const fcmToken = await getFcmToken();
-
-  console.log("🚀 💯 loginWithUsername 💯 fcmToken:", fcmToken);
-
   return await axios.post<LoginResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/login`,
     {
@@ -94,41 +90,6 @@ export const refreshToken = async (data: RefreshTokenRequest) => {
   );
 };
 
-export const getUserProfile = async () => {
-  const cookie = authenStore.getState().cookie;
-
-  return await axios.get<GetProfileResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/me`,
-    {
-      headers: {
-        accept: "*/*",
-        Authorization: `Bearer ${cookie?.accessToken}`
-      }
-    }
-  );
-};
-
-export const updateUserProfile = async (data: UpdateProfileRequest) => {
-  const cookie = authenStore.getState().cookie;
-
-  return await axios.put<UpdateProfileResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/me`,
-    {
-      email: data.email,
-      firstName: data.firstName,
-      gender: data.gender,
-      language: data?.language,
-      birthday: data?.birthday
-    },
-    {
-      headers: {
-        accept: "*/*",
-        Authorization: `Bearer ${cookie?.accessToken}`
-      }
-    }
-  );
-};
-
 export const deleteAccount = async (password: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
@@ -163,19 +124,35 @@ export const changePassword = async (data: ChangePasswordRequest) => {
   );
 };
 
-export const getArticles = async (data: GetArticlesRequest) => {
+export const getMeUserToken = async () => {
   const cookie = authenStore.getState().cookie;
-  const url =
-    data?.filter !== "all"
-      ? `${process.env.EXPO_PUBLIC_API_URL}/articles?limit=${data?.limit}&skip=${data?.skip}&statuses=${data?.filter}&random=${data?.random}`
-      : `${process.env.EXPO_PUBLIC_API_URL}/articles?limit=${data?.limit}&skip=${data?.skip}&random=${data?.random}`;
+  const url = `${process.env.EXPO_PUBLIC_API_URL}/api/v1/me/user_token`;
 
-  return await axios.get<GetArticlesResponse>(url, {
+  return await axios.get<any>(url, {
     headers: {
       accept: "*/*",
       Authorization: `Bearer ${cookie?.accessToken}`
     }
   });
+};
+
+export const postUserToken = async () => {
+  const cookie = authenStore.getState().cookie;
+  const url = `${process.env.EXPO_PUBLIC_API_URL}/api/v1/me/user_token`;
+  const token = await getFcmToken();
+
+  return await axios.post<any>(
+    url,
+    {
+      token: token
+    },
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
+    }
+  );
 };
 
 export const getAuctions = async () => {

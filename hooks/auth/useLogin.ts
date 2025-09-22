@@ -1,4 +1,4 @@
-import { loginWithUsername } from "@/api";
+import { loginWithUsername, postUserToken } from "@/api";
 import { useUserAuthenticateStore } from "@/stores";
 import { authenStore } from "@/stores/authenStore";
 import { validatePassword, validateUsername } from "@/utils";
@@ -40,6 +40,7 @@ export const useLogin = () => {
           authenStore.setState({
             cookie: session
           });
+          await postUserToken();
         }
       } catch (error) {
         setError(

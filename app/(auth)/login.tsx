@@ -73,11 +73,6 @@ export default function LoginScreen() {
         keyboardShouldPersistTaps={"handled"}
       >
         <View className="bg-white gap-2 p-6 justify-center flex-1">
-          {/* Illustration */}
-          <Image
-            source={require("@/assets/images/logo-transparent.png")}
-            className="h-[300px] w-[300px] rounded-full opacity-20 absolute top-12 right-0"
-          />
           {/* Welcome */}
           <View className="z-10">
             <View className="flex flex-col gap-2">

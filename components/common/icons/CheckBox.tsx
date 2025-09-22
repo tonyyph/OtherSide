@@ -1,7 +1,6 @@
+import { memoFC } from "@/utils";
 import { View } from "react-native";
 import Svg, { Path, SvgProps } from "react-native-svg";
-import { memoFC } from "@/utils";
-import { useColorPalette } from "@/hooks/use-color-palette";
 
 export const CheckBox = memoFC(
   ({ size = 28, style, ...props }: SvgProps & IconProps = {}) => {

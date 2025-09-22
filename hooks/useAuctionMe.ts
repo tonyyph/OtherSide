@@ -21,8 +21,6 @@ export const useAuctionMe = () => {
     }
   });
 
-  console.log("data", data);
-
   return {
     getAuctionsDetails,
     loading,

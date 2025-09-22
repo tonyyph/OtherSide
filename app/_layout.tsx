@@ -17,7 +17,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Svg from "react-native-svg";
 import "@react-native-firebase/app";
 import "../global.css";
-import NotificationListener from "@/utils/NotificationListener";
+import { useFCMListener } from "@/hooks/useFCMListener";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -45,6 +45,7 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
+  useFCMListener();
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
     "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
@@ -108,7 +109,6 @@ export default function RootLayout() {
                       }}
                     />
                   </Stack>
-                  <NotificationListener />
                 </BottomSheetModalProvider>
               </KeyboardProvider>
             </GestureHandlerRootView>

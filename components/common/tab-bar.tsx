@@ -1,14 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import * as Haptics from "expo-haptics";
-import {
-  BookmarkIcon,
-  CompassIcon,
-  HammerIcon,
-  HouseIcon,
-  type LucideIcon,
-  UserCircle
-} from "lucide-react-native";
+import { GavelIcon, type LucideIcon, UserCircle } from "lucide-react-native";
 import { rem } from "nativewind";
 import { Pressable, type PressableProps, View } from "react-native";
 import Animated, {
@@ -50,7 +43,7 @@ function TabBarItem({
 }
 
 const TAB_BAR_ICONS = {
-  index: HammerIcon,
+  index: GavelIcon,
   profile: UserCircle
 };
 

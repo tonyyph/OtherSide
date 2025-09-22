@@ -1,3 +1,7 @@
+import { getListAuctionsMe, getMe } from "@/api";
+import { useLogout } from "@/hooks/auth/useLogout";
+import { useFocusEffect } from "@react-navigation/native";
+import { LogOut } from "lucide-react-native";
 import { useCallback, useState } from "react";
 import {
   ActivityIndicator,
@@ -10,11 +14,6 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import LottieView from "lottie-react-native";
-import { getListAuctionsMe, getMe } from "@/api";
-import { LogOut } from "lucide-react-native";
-import { useLogout } from "@/hooks/auth/useLogout";
-import { useFocusEffect } from "@react-navigation/native";
 
 interface Auction {
   id: number;
@@ -117,14 +116,6 @@ export default function ProfileScreen() {
           );
         }}
         ListFooterComponent={() => <View style={{ height: 80 }} />}
-        ListEmptyComponent={
-          <LottieView
-            style={{ width: 120, height: 120, alignSelf: "center" }}
-            source={require("@/assets/json/empty_category.json")}
-            autoPlay
-            loop
-          />
-        }
       />
     </SafeAreaView>
   );
