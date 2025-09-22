@@ -18,20 +18,23 @@ async function getFcmToken() {
   }
 }
 export const signUpWithEmail = async (data: SignUpRequest) => {
-  return await axios.post<SignUpResponse>(`http://18.140.67.55:8080/users`, {
-    email: data.email,
-    password: data.password,
-    confirmPassword: data.confirmPassword,
-    firstName: data.firstName,
-    gender: data.gender,
-    language: data.language,
-    birthday: data.birthday
-  });
+  return await axios.post<SignUpResponse>(
+    `https://auction-api.reliasoftware.com/users`,
+    {
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+      firstName: data.firstName,
+      gender: data.gender,
+      language: data.language,
+      birthday: data.birthday
+    }
+  );
 };
 
 export const loginWithUsername = async (data: LoginRequest) => {
   return await axios.post<LoginResponse>(
-    `http://18.140.67.55:8080/api/v1/auth/login`,
+    `https://auction-api.reliasoftware.com/api/v1/auth/login`,
     {
       email: data.email,
       password: data.password
@@ -48,7 +51,7 @@ export const loginWithUsername = async (data: LoginRequest) => {
 export const logout = async () => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<LogoutResponse>(
-    `http://18.140.67.55:8080/auth/logout`,
+    `https://auction-api.reliasoftware.com/auth/logout`,
     {},
     {
       headers: {
@@ -61,7 +64,7 @@ export const logout = async () => {
 
 export const forgotPassword = async (data: ForgotPasswordRequest) => {
   return await axios.post<ForgotPasswordResponse>(
-    `http://18.140.67.55:8080/auth/forgot-password`,
+    `https://auction-api.reliasoftware.com/auth/forgot-password`,
     {
       email: data.email
     }
@@ -70,7 +73,7 @@ export const forgotPassword = async (data: ForgotPasswordRequest) => {
 
 export const resetPassword = async (data: ResetPasswordRequest) => {
   return await axios.post<ResetPasswordResponse>(
-    `http://18.140.67.55:8080/auth/reset-password`,
+    `https://auction-api.reliasoftware.com/auth/reset-password`,
     {
       token: data.token,
       newPassword: data.newPassword
@@ -80,7 +83,7 @@ export const resetPassword = async (data: ResetPasswordRequest) => {
 
 export const refreshToken = async (data: RefreshTokenRequest) => {
   return await axios.post<RefreshTokenResponse>(
-    `http://18.140.67.55:8080/auth/refresh-token`,
+    `https://auction-api.reliasoftware.com/auth/refresh-token`,
     {
       refreshToken: data.refreshToken
     }
@@ -89,22 +92,25 @@ export const refreshToken = async (data: RefreshTokenRequest) => {
 
 export const deleteAccount = async (password: string) => {
   const cookie = authenStore.getState().cookie;
-  return await axios.delete<DeleteResponse>(`http://18.140.67.55:8080/me`, {
-    headers: {
-      accept: "*/*",
-      Authorization: `Bearer ${cookie?.accessToken}`
-    },
-    data: {
-      password: password
+  return await axios.delete<DeleteResponse>(
+    `https://auction-api.reliasoftware.com/me`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      },
+      data: {
+        password: password
+      }
     }
-  });
+  );
 };
 
 export const changePassword = async (data: ChangePasswordRequest) => {
   const cookie = authenStore.getState().cookie;
 
   return await axios.put<ChangePasswordResponse>(
-    `http://18.140.67.55:8080/me/change-password`,
+    `https://auction-api.reliasoftware.com/me/change-password`,
     {
       currentPassword: data.currentPassword,
       newPassword: data.newPassword
@@ -120,7 +126,7 @@ export const changePassword = async (data: ChangePasswordRequest) => {
 
 export const getMeUserToken = async () => {
   const cookie = authenStore.getState().cookie;
-  const url = `http://18.140.67.55:8080/api/v1/me/user_token`;
+  const url = `https://auction-api.reliasoftware.com/api/v1/me/user_token`;
 
   return await axios.get<any>(url, {
     headers: {
@@ -132,7 +138,7 @@ export const getMeUserToken = async () => {
 
 export const postUserToken = async () => {
   const cookie = authenStore.getState().cookie;
-  const url = `http://18.140.67.55:8080/api/v1/me/user_token`;
+  const url = `https://auction-api.reliasoftware.com/api/v1/me/user_token`;
   const token = await getFcmToken();
 
   return await axios.post<any>(
@@ -151,7 +157,7 @@ export const postUserToken = async () => {
 
 export const getAuctions = async () => {
   const cookie = authenStore.getState().cookie;
-  const url = `http://18.140.67.55:8080/api/v1/app/auctions`;
+  const url = `https://auction-api.reliasoftware.com/api/v1/app/auctions`;
 
   return await axios.get<any>(url, {
     headers: {
@@ -166,7 +172,7 @@ export const getAuctions = async () => {
 export const getEngagementArt = async (id: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<ArticleEngagementResponse>(
-    `http://18.140.67.55:8080/engagement/article/${id}`,
+    `https://auction-api.reliasoftware.com/engagement/article/${id}`,
     {
       headers: {
         accept: "*/*",
@@ -179,7 +185,7 @@ export const getEngagementArt = async (id: string) => {
 export const getAuctionsDetail = async (id: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<any>(
-    `http://18.140.67.55:8080/api/v1/app/auctions/${id}`,
+    `https://auction-api.reliasoftware.com/api/v1/app/auctions/${id}`,
     {
       headers: {
         accept: "*/*",
@@ -192,7 +198,7 @@ export const getAuctionsDetail = async (id: string) => {
 export const handleTriggerBid = async (id: string, bidValue: number) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<any>(
-    `http://18.140.67.55:8080/api/v1/app/auctions/${id}/bids`,
+    `https://auction-api.reliasoftware.com/api/v1/app/auctions/${id}/bids`,
     {
       amount: bidValue
     },
@@ -208,7 +214,7 @@ export const handleTriggerBid = async (id: string, bidValue: number) => {
 export const getListAuctionsBid = async (id: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<any>(
-    `http://18.140.67.55:8080/api/v1/app/auctions/${id}/bids`,
+    `https://auction-api.reliasoftware.com/api/v1/app/auctions/${id}/bids`,
     {
       headers: {
         accept: "*/*",
@@ -220,28 +226,34 @@ export const getListAuctionsBid = async (id: string) => {
 
 export const getListAuctionsMe = async () => {
   const cookie = authenStore.getState().cookie;
-  return await axios.get<any>(`http://18.140.67.55:8080/api/v1/me/auctions`, {
-    headers: {
-      accept: "*/*",
-      Authorization: `Bearer ${cookie?.accessToken}`
+  return await axios.get<any>(
+    `https://auction-api.reliasoftware.com/api/v1/me/auctions`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
     }
-  });
+  );
 };
 
 export const getMe = async () => {
   const cookie = authenStore.getState().cookie;
-  return await axios.get<any>(`http://18.140.67.55:8080/api/v1/me`, {
-    headers: {
-      accept: "*/*",
-      Authorization: `Bearer ${cookie?.accessToken}`
+  return await axios.get<any>(
+    `https://auction-api.reliasoftware.com/api/v1/me`,
+    {
+      headers: {
+        accept: "*/*",
+        Authorization: `Bearer ${cookie?.accessToken}`
+      }
     }
-  });
+  );
 };
 
 export const getLikes = async () => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<GetEngagementResponse>(
-    `http://18.140.67.55:8080/engagement/likes`,
+    `https://auction-api.reliasoftware.com/engagement/likes`,
     {
       headers: {
         accept: "*/*",
@@ -254,7 +266,7 @@ export const getLikes = async () => {
 export const getDisLikes = async () => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<GetEngagementResponse>(
-    `http://18.140.67.55:8080/engagement/dislikes`,
+    `https://auction-api.reliasoftware.com/engagement/dislikes`,
     {
       headers: {
         accept: "*/*",
@@ -267,7 +279,7 @@ export const getDisLikes = async () => {
 export const getComments = async () => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<GetEngagementResponse>(
-    `http://18.140.67.55:8080/engagement/comments`,
+    `https://auction-api.reliasoftware.com/engagement/comments`,
     {
       headers: {
         accept: "*/*",
@@ -280,7 +292,7 @@ export const getComments = async () => {
 export const getBookmarks = async () => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<GetEngagementResponse>(
-    `http://18.140.67.55:8080/engagement/bookmarks`,
+    `https://auction-api.reliasoftware.com/engagement/bookmarks`,
     {
       headers: {
         accept: "*/*",
@@ -293,7 +305,7 @@ export const getBookmarks = async () => {
 export const createLikes = async (artId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<PostEngagementActionResponse>(
-    `http://18.140.67.55:8080/engagement/like/${artId}`,
+    `https://auction-api.reliasoftware.com/engagement/like/${artId}`,
     {},
     {
       headers: {
@@ -307,7 +319,7 @@ export const createLikes = async (artId: string) => {
 export const createDisLikes = async (artId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<PostEngagementActionResponse>(
-    `http://18.140.67.55:8080/engagement/dislike/${artId}`,
+    `https://auction-api.reliasoftware.com/engagement/dislike/${artId}`,
     {},
     {
       headers: {
@@ -321,7 +333,7 @@ export const createDisLikes = async (artId: string) => {
 export const createBookmarks = async (artId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<PostEngagementActionResponse>(
-    `http://18.140.67.55:8080/engagement/bookmark/${artId}`,
+    `https://auction-api.reliasoftware.com/engagement/bookmark/${artId}`,
     {},
     {
       headers: {
@@ -335,7 +347,7 @@ export const createBookmarks = async (artId: string) => {
 export const createComments = async (data: any) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<PostEngagementActionResponse>(
-    `http://18.140.67.55:8080/engagement/comment/${data.artId}`,
+    `https://auction-api.reliasoftware.com/engagement/comment/${data.artId}`,
     {
       text: data?.text
     },
@@ -351,7 +363,7 @@ export const createComments = async (data: any) => {
 export const deleteLikes = async (likeId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
-    `http://18.140.67.55:8080/engagement/like/${likeId}`,
+    `https://auction-api.reliasoftware.com/engagement/like/${likeId}`,
     {
       headers: {
         accept: "*/*",
@@ -364,7 +376,7 @@ export const deleteLikes = async (likeId: string) => {
 export const deleteDisLikes = async (dislikeId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
-    `http://18.140.67.55:8080/engagement/dislike/${dislikeId}`,
+    `https://auction-api.reliasoftware.com/engagement/dislike/${dislikeId}`,
     {
       headers: {
         accept: "*/*",
@@ -377,7 +389,7 @@ export const deleteDisLikes = async (dislikeId: string) => {
 export const deleteBookmarks = async (bookmarkId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
-    `http://18.140.67.55:8080/engagement/bookmark/${bookmarkId}`,
+    `https://auction-api.reliasoftware.com/engagement/bookmark/${bookmarkId}`,
     {
       headers: {
         accept: "*/*",
@@ -390,7 +402,7 @@ export const deleteBookmarks = async (bookmarkId: string) => {
 export const deleteComments = async (commentId: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
-    `http://18.140.67.55:8080/engagement/comment/${commentId}`,
+    `https://auction-api.reliasoftware.com/engagement/comment/${commentId}`,
     {
       headers: {
         accept: "*/*",
@@ -403,7 +415,7 @@ export const deleteComments = async (commentId: string) => {
 export const getCategories = async () => {
   const cookie = authenStore.getState().cookie;
   return await axios.get<GetCategoriesResponse>(
-    `http://18.140.67.55:8080/categories`,
+    `https://auction-api.reliasoftware.com/categories`,
     {
       headers: {
         accept: "*/*",
@@ -416,7 +428,7 @@ export const getCategories = async () => {
 export const saveCategories = async (id: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<DeleteResponse>(
-    `http://18.140.67.55:8080/categories/${id}/save`,
+    `https://auction-api.reliasoftware.com/categories/${id}/save`,
     {},
     {
       headers: {
@@ -430,7 +442,7 @@ export const saveCategories = async (id: string) => {
 export const unSaveCategories = async (id: string) => {
   const cookie = authenStore.getState().cookie;
   return await axios.delete<DeleteResponse>(
-    `http://18.140.67.55:8080/categories/${id}/unsave`,
+    `https://auction-api.reliasoftware.com/categories/${id}/unsave`,
     {
       headers: {
         accept: "*/*",
@@ -444,7 +456,7 @@ export const unSaveCategories = async (id: string) => {
 export const analyticsView = async (req: AnalyticsViewRequest) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<ArticleInteraction>(
-    `http://18.140.67.55:8080/article-analytics/view`,
+    `https://auction-api.reliasoftware.com/article-analytics/view`,
     {
       articleId: req.articleId,
       deviceInfo: {
@@ -465,7 +477,7 @@ export const analyticsView = async (req: AnalyticsViewRequest) => {
 export const analyticsTimeSpent = async (req: AnalyticsViewRequest) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<ArticleInteraction>(
-    `http://18.140.67.55:8080/article-analytics/time-spent`,
+    `https://auction-api.reliasoftware.com/article-analytics/time-spent`,
     {
       articleId: req.articleId,
       timeSpentSeconds: req.timeSpentSeconds ?? 0,
@@ -487,7 +499,7 @@ export const analyticsTimeSpent = async (req: AnalyticsViewRequest) => {
 export const analyticsScrollDepth = async (req: AnalyticsViewRequest) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<ArticleInteraction>(
-    `http://18.140.67.55:8080/article-analytics/scroll-depth`,
+    `https://auction-api.reliasoftware.com/article-analytics/scroll-depth`,
     {
       articleId: req.articleId,
       scrollPercentage: req.scrollPercentage ?? 0,
@@ -509,7 +521,7 @@ export const analyticsScrollDepth = async (req: AnalyticsViewRequest) => {
 export const analyticsShare = async (req: AnalyticsViewRequest) => {
   const cookie = authenStore.getState().cookie;
   return await axios.post<ArticleInteraction>(
-    `http://18.140.67.55:8080/article-analytics/share`,
+    `https://auction-api.reliasoftware.com/article-analytics/share`,
     {
       articleId: req.articleId,
       platform: req.platform ?? "",
